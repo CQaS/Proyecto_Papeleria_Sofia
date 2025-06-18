@@ -13,3 +13,4 @@ npx prisma studio (abre una iterface grafica en el navegador para ver la DB)
 
 frontend:
 npx create-next-app nombreApp
+npm run dev
