@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { IntWithAggregatesFilterObjectSchema } from './IntWithAggregatesFilter.schema';
 import { StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFilter.schema';
+import { StringNullableWithAggregatesFilterObjectSchema } from './StringNullableWithAggregatesFilter.schema';
 import { BoolWithAggregatesFilterObjectSchema } from './BoolWithAggregatesFilter.schema';
 import { DateTimeWithAggregatesFilterObjectSchema } from './DateTimeWithAggregatesFilter.schema';
 
@@ -37,10 +38,26 @@ const Schema: z.ZodType<Prisma.ConsultaScalarWhereWithAggregatesInput> = z
     mensaje: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
+    respuesta: z
+      .union([
+        z.lazy(() => StringNullableWithAggregatesFilterObjectSchema),
+        z.string(),
+      ])
+      .optional()
+      .nullable(),
     leido: z
       .union([z.lazy(() => BoolWithAggregatesFilterObjectSchema), z.boolean()])
       .optional(),
+    resuelto: z
+      .union([z.lazy(() => BoolWithAggregatesFilterObjectSchema), z.boolean()])
+      .optional(),
     creadoEn: z
+      .union([
+        z.lazy(() => DateTimeWithAggregatesFilterObjectSchema),
+        z.coerce.date(),
+      ])
+      .optional(),
+    actualizadoEn: z
       .union([
         z.lazy(() => DateTimeWithAggregatesFilterObjectSchema),
         z.coerce.date(),

@@ -8,8 +8,11 @@ const Schema: z.ZodType<Prisma.ConsultaMinOrderByAggregateInput> = z
     id: z.lazy(() => SortOrderSchema).optional(),
     usuarioId: z.lazy(() => SortOrderSchema).optional(),
     mensaje: z.lazy(() => SortOrderSchema).optional(),
+    respuesta: z.lazy(() => SortOrderSchema).optional(),
     leido: z.lazy(() => SortOrderSchema).optional(),
+    resuelto: z.lazy(() => SortOrderSchema).optional(),
     creadoEn: z.lazy(() => SortOrderSchema).optional(),
+    actualizadoEn: z.lazy(() => SortOrderSchema).optional(),
   })
   .strict();
 

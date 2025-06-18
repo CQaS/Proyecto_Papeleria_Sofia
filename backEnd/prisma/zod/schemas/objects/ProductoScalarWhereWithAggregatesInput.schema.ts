@@ -4,6 +4,8 @@ import { StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFi
 import { StringNullableWithAggregatesFilterObjectSchema } from './StringNullableWithAggregatesFilter.schema';
 import { FloatWithAggregatesFilterObjectSchema } from './FloatWithAggregatesFilter.schema';
 import { DateTimeWithAggregatesFilterObjectSchema } from './DateTimeWithAggregatesFilter.schema';
+import { EnumEstadoProductoWithAggregatesFilterObjectSchema } from './EnumEstadoProductoWithAggregatesFilter.schema';
+import { EstadoProductoSchema } from '../enums/EstadoProducto.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -35,6 +37,9 @@ const Schema: z.ZodType<Prisma.ProductoScalarWhereWithAggregatesInput> = z
     nombre: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
+    slug: z
+      .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
+      .optional(),
     descripcion: z
       .union([
         z.lazy(() => StringNullableWithAggregatesFilterObjectSchema),
@@ -44,6 +49,9 @@ const Schema: z.ZodType<Prisma.ProductoScalarWhereWithAggregatesInput> = z
       .nullable(),
     precio: z
       .union([z.lazy(() => FloatWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
+    stock: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
       .optional(),
     imagenUrl: z
       .union([
@@ -58,8 +66,17 @@ const Schema: z.ZodType<Prisma.ProductoScalarWhereWithAggregatesInput> = z
         z.coerce.date(),
       ])
       .optional(),
+    actualizadoEn: z
+      .union([
+        z.lazy(() => DateTimeWithAggregatesFilterObjectSchema),
+        z.coerce.date(),
+      ])
+      .optional(),
     estado: z
-      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .union([
+        z.lazy(() => EnumEstadoProductoWithAggregatesFilterObjectSchema),
+        z.lazy(() => EstadoProductoSchema),
+      ])
       .optional(),
   })
   .strict();

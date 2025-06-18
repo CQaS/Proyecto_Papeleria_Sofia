@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
+import { RolUsuarioSchema } from '../enums/RolUsuario.schema';
+import { EnumRolUsuarioFieldUpdateOperationsInputObjectSchema } from './EnumRolUsuarioFieldUpdateOperationsInput.schema';
+import { DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
+import { NullableDateTimeFieldUpdateOperationsInputObjectSchema } from './NullableDateTimeFieldUpdateOperationsInput.schema';
 import { PedidoUpdateManyWithoutUsuarioNestedInputObjectSchema } from './PedidoUpdateManyWithoutUsuarioNestedInput.schema';
 import { ConsultaUpdateManyWithoutUsuarioNestedInputObjectSchema } from './ConsultaUpdateManyWithoutUsuarioNestedInput.schema';
 
@@ -14,6 +18,13 @@ const Schema: z.ZodType<Prisma.UsuarioUpdateInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    apellido: z
+      .union([
+        z.string(),
+        z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
     email: z
       .union([
         z.string(),
@@ -29,10 +40,50 @@ const Schema: z.ZodType<Prisma.UsuarioUpdateInput> = z
       .nullable(),
     rol: z
       .union([
-        z.string(),
-        z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+        z.lazy(() => RolUsuarioSchema),
+        z.lazy(() => EnumRolUsuarioFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    telefono: z
+      .union([
+        z.string(),
+        z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
+    direccion: z
+      .union([
+        z.string(),
+        z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
+    creadoEn: z
+      .union([
+        z.coerce.date(),
+        z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
+    actualizadoEn: z
+      .union([
+        z.coerce.date(),
+        z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
+    resetPasswordToken: z
+      .union([
+        z.string(),
+        z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
+    resetPasswordExpires: z
+      .union([
+        z.coerce.date(),
+        z.lazy(() => NullableDateTimeFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
     pedidos: z
       .lazy(() => PedidoUpdateManyWithoutUsuarioNestedInputObjectSchema)
       .optional(),

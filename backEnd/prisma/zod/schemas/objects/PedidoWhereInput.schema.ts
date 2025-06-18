@@ -2,6 +2,9 @@ import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
 import { StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
+import { EnumEstadoPedidoFilterObjectSchema } from './EnumEstadoPedidoFilter.schema';
+import { EstadoPedidoSchema } from '../enums/EstadoPedido.schema';
+import { FloatFilterObjectSchema } from './FloatFilter.schema';
 import { DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
 import { UsuarioRelationFilterObjectSchema } from './UsuarioRelationFilter.schema';
 import { UsuarioWhereInputObjectSchema } from './UsuarioWhereInput.schema';
@@ -38,9 +41,26 @@ const Schema: z.ZodType<Prisma.PedidoWhereInput> = z
       .optional()
       .nullable(),
     estado: z
-      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
+      .union([
+        z.lazy(() => EnumEstadoPedidoFilterObjectSchema),
+        z.lazy(() => EstadoPedidoSchema),
+      ])
       .optional(),
+    total: z
+      .union([z.lazy(() => FloatFilterObjectSchema), z.number()])
+      .optional(),
+    direccionEnvio: z
+      .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])
+      .optional()
+      .nullable(),
+    notasInternas: z
+      .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])
+      .optional()
+      .nullable(),
     creadoEn: z
+      .union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()])
+      .optional(),
+    actualizadoEn: z
       .union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()])
       .optional(),
     usuario: z

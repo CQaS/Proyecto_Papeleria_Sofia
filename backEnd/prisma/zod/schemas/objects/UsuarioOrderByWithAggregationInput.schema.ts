@@ -13,6 +13,12 @@ const Schema: z.ZodType<Prisma.UsuarioOrderByWithAggregationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
     nombre: z.lazy(() => SortOrderSchema).optional(),
+    apellido: z
+      .union([
+        z.lazy(() => SortOrderSchema),
+        z.lazy(() => SortOrderInputObjectSchema),
+      ])
+      .optional(),
     email: z.lazy(() => SortOrderSchema).optional(),
     password: z
       .union([
@@ -21,6 +27,32 @@ const Schema: z.ZodType<Prisma.UsuarioOrderByWithAggregationInput> = z
       ])
       .optional(),
     rol: z.lazy(() => SortOrderSchema).optional(),
+    telefono: z
+      .union([
+        z.lazy(() => SortOrderSchema),
+        z.lazy(() => SortOrderInputObjectSchema),
+      ])
+      .optional(),
+    direccion: z
+      .union([
+        z.lazy(() => SortOrderSchema),
+        z.lazy(() => SortOrderInputObjectSchema),
+      ])
+      .optional(),
+    creadoEn: z.lazy(() => SortOrderSchema).optional(),
+    actualizadoEn: z.lazy(() => SortOrderSchema).optional(),
+    resetPasswordToken: z
+      .union([
+        z.lazy(() => SortOrderSchema),
+        z.lazy(() => SortOrderInputObjectSchema),
+      ])
+      .optional(),
+    resetPasswordExpires: z
+      .union([
+        z.lazy(() => SortOrderSchema),
+        z.lazy(() => SortOrderInputObjectSchema),
+      ])
+      .optional(),
     _count: z
       .lazy(() => UsuarioCountOrderByAggregateInputObjectSchema)
       .optional(),

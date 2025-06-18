@@ -6,5 +6,9 @@ export const PedidoScalarFieldEnumSchema = z.enum([
   'archivoUrl',
   'detalles',
   'estado',
+  'total',
+  'direccionEnvio',
+  'notasInternas',
   'creadoEn',
+  'actualizadoEn',
 ]);

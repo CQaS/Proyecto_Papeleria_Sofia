@@ -2,8 +2,9 @@ import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
 import { StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
-import { BoolFilterObjectSchema } from './BoolFilter.schema';
 import { DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
+import { DateTimeNullableFilterObjectSchema } from './DateTimeNullableFilter.schema';
+import { BoolFilterObjectSchema } from './BoolFilter.schema';
 import { PromoProductoListRelationFilterObjectSchema } from './PromoProductoListRelationFilter.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -30,6 +31,10 @@ const Schema: z.ZodType<Prisma.PromocionWhereInput> = z
     titulo: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
+    codigo: z
+      .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])
+      .optional()
+      .nullable(),
     descripcion: z
       .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])
       .optional()
@@ -38,10 +43,23 @@ const Schema: z.ZodType<Prisma.PromocionWhereInput> = z
       .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])
       .optional()
       .nullable(),
+    fechaInicio: z
+      .union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()])
+      .optional(),
+    fechaFin: z
+      .union([
+        z.lazy(() => DateTimeNullableFilterObjectSchema),
+        z.coerce.date(),
+      ])
+      .optional()
+      .nullable(),
     activa: z
       .union([z.lazy(() => BoolFilterObjectSchema), z.boolean()])
       .optional(),
     creadaEn: z
+      .union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()])
+      .optional(),
+    actualizadaEn: z
       .union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()])
       .optional(),
     productos: z

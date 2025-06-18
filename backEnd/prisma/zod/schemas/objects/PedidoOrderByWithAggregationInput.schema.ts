@@ -21,7 +21,21 @@ const Schema: z.ZodType<Prisma.PedidoOrderByWithAggregationInput> = z
       ])
       .optional(),
     estado: z.lazy(() => SortOrderSchema).optional(),
+    total: z.lazy(() => SortOrderSchema).optional(),
+    direccionEnvio: z
+      .union([
+        z.lazy(() => SortOrderSchema),
+        z.lazy(() => SortOrderInputObjectSchema),
+      ])
+      .optional(),
+    notasInternas: z
+      .union([
+        z.lazy(() => SortOrderSchema),
+        z.lazy(() => SortOrderInputObjectSchema),
+      ])
+      .optional(),
     creadoEn: z.lazy(() => SortOrderSchema).optional(),
+    actualizadoEn: z.lazy(() => SortOrderSchema).optional(),
     _count: z
       .lazy(() => PedidoCountOrderByAggregateInputObjectSchema)
       .optional(),

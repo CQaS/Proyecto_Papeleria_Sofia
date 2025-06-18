@@ -1,6 +1,9 @@
 import { z } from 'zod';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
+import { EstadoPedidoSchema } from '../enums/EstadoPedido.schema';
+import { EnumEstadoPedidoFieldUpdateOperationsInputObjectSchema } from './EnumEstadoPedidoFieldUpdateOperationsInput.schema';
+import { FloatFieldUpdateOperationsInputObjectSchema } from './FloatFieldUpdateOperationsInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
 import { UsuarioUpdateOneRequiredWithoutPedidosNestedInputObjectSchema } from './UsuarioUpdateOneRequiredWithoutPedidosNestedInput.schema';
 
@@ -23,11 +26,37 @@ const Schema: z.ZodType<Prisma.PedidoUpdateInput> = z
       .nullable(),
     estado: z
       .union([
-        z.string(),
-        z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+        z.lazy(() => EstadoPedidoSchema),
+        z.lazy(() => EnumEstadoPedidoFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    total: z
+      .union([
+        z.number(),
+        z.lazy(() => FloatFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
+    direccionEnvio: z
+      .union([
+        z.string(),
+        z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
+    notasInternas: z
+      .union([
+        z.string(),
+        z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
     creadoEn: z
+      .union([
+        z.coerce.date(),
+        z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
+    actualizadoEn: z
       .union([
         z.coerce.date(),
         z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),

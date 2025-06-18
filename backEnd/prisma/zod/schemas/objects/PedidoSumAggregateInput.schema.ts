@@ -6,6 +6,7 @@ const Schema: z.ZodType<Prisma.PedidoSumAggregateInputType> = z
   .object({
     id: z.literal(true).optional(),
     usuarioId: z.literal(true).optional(),
+    total: z.literal(true).optional(),
   })
   .strict();
 

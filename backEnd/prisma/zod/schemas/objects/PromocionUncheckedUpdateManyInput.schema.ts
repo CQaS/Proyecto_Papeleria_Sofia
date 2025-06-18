@@ -2,8 +2,9 @@ import { z } from 'zod';
 import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
-import { BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
+import { NullableDateTimeFieldUpdateOperationsInputObjectSchema } from './NullableDateTimeFieldUpdateOperationsInput.schema';
+import { BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -21,6 +22,13 @@ const Schema: z.ZodType<Prisma.PromocionUncheckedUpdateManyInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    codigo: z
+      .union([
+        z.string(),
+        z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
     descripcion: z
       .union([
         z.string(),
@@ -35,6 +43,19 @@ const Schema: z.ZodType<Prisma.PromocionUncheckedUpdateManyInput> = z
       ])
       .optional()
       .nullable(),
+    fechaInicio: z
+      .union([
+        z.coerce.date(),
+        z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
+    fechaFin: z
+      .union([
+        z.coerce.date(),
+        z.lazy(() => NullableDateTimeFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
     activa: z
       .union([
         z.boolean(),
@@ -42,6 +63,12 @@ const Schema: z.ZodType<Prisma.PromocionUncheckedUpdateManyInput> = z
       ])
       .optional(),
     creadaEn: z
+      .union([
+        z.coerce.date(),
+        z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
+    actualizadaEn: z
       .union([
         z.coerce.date(),
         z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),

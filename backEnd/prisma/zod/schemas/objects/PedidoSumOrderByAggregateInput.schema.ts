@@ -7,6 +7,7 @@ const Schema: z.ZodType<Prisma.PedidoSumOrderByAggregateInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
     usuarioId: z.lazy(() => SortOrderSchema).optional(),
+    total: z.lazy(() => SortOrderSchema).optional(),
   })
   .strict();
 

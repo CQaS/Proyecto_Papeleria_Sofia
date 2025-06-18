@@ -13,6 +13,7 @@ const Schema: z.ZodType<Prisma.ProductoOrderByWithAggregationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
     nombre: z.lazy(() => SortOrderSchema).optional(),
+    slug: z.lazy(() => SortOrderSchema).optional(),
     descripcion: z
       .union([
         z.lazy(() => SortOrderSchema),
@@ -20,6 +21,7 @@ const Schema: z.ZodType<Prisma.ProductoOrderByWithAggregationInput> = z
       ])
       .optional(),
     precio: z.lazy(() => SortOrderSchema).optional(),
+    stock: z.lazy(() => SortOrderSchema).optional(),
     imagenUrl: z
       .union([
         z.lazy(() => SortOrderSchema),
@@ -27,6 +29,7 @@ const Schema: z.ZodType<Prisma.ProductoOrderByWithAggregationInput> = z
       ])
       .optional(),
     creadoEn: z.lazy(() => SortOrderSchema).optional(),
+    actualizadoEn: z.lazy(() => SortOrderSchema).optional(),
     estado: z.lazy(() => SortOrderSchema).optional(),
     _count: z
       .lazy(() => ProductoCountOrderByAggregateInputObjectSchema)

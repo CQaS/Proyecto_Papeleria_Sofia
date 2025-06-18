@@ -10,7 +10,11 @@ const Schema: z.ZodType<Prisma.PedidoMinOrderByAggregateInput> = z
     archivoUrl: z.lazy(() => SortOrderSchema).optional(),
     detalles: z.lazy(() => SortOrderSchema).optional(),
     estado: z.lazy(() => SortOrderSchema).optional(),
+    total: z.lazy(() => SortOrderSchema).optional(),
+    direccionEnvio: z.lazy(() => SortOrderSchema).optional(),
+    notasInternas: z.lazy(() => SortOrderSchema).optional(),
     creadoEn: z.lazy(() => SortOrderSchema).optional(),
+    actualizadoEn: z.lazy(() => SortOrderSchema).optional(),
   })
   .strict();
 

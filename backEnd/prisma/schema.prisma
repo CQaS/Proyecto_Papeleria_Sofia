@@ -13,63 +13,116 @@ generator zod {
   output   = "./zod"
 }
 
+// Define un enum personalizado para los roles de usuario para mayor seguridad de tipo y validación.
+enum RolUsuario {
+  ADMIN
+  CLIENTE
+  EMPLEADO // Agregado para posibles roles futuros como personal de logística o soporte
+}
+
+// Define un enum personalizado para los estados de pedido para mayor consistencia.
+enum EstadoPedido {
+  PENDIENTE
+  EN_PROCESO
+  LISTO_PARA_RETIRO // Más descriptivo que "listo"
+  EN_CAMINO // Si tienes entregas a domicilio
+  ENTREGADO
+  CANCELADO // Importante para la gestión de pedidos
+}
+
+// Define un enum personalizado para los estados de los productos.
+enum EstadoProducto {
+  ACTIVO
+  INACTIVO // Para productos que están temporalmente no disponibles
+  ARCHIVADO // Para productos que ya no se ofrecen pero se mantienen por motivos históricos
+}
+
 model Usuario {
-  id       Int     @id @default(autoincrement())
-  nombre   String
-  email    String  @unique
-  password String?  // Solo requerido para Admins
-  rol      String  // "admin" o "cliente"
-  pedidos  Pedido[]
-  consultas Consulta[]
+  id               Int        @id @default(autoincrement())
+  nombre           String
+  apellido         String?    // Agregado para una información de usuario más completa
+  email            String     @unique
+  password         String?     
+  rol              RolUsuario @default(CLIENTE) // Usa el enum aquí con un valor por defecto.
+  telefono         String?    // Agregado para información de contacto
+  direccion        String?    // Agregado para envío o facturación
+  creadoEn         DateTime   @default(now())
+  actualizadoEn    DateTime   @updatedAt @default(now())// Se actualiza automáticamente en cada modificación del registro.
+
+  pedidos          Pedido[]
+  consultas        Consulta[]
+  // Token de recuperación de contraseña
+  resetPasswordToken String?
+  resetPasswordExpires DateTime?
 }
 
 model Producto {
-  id          Int      @id @default(autoincrement())
-  nombre      String
-  descripcion String?
-  precio      Float
-  imagenUrl   String?
-  creadoEn    DateTime @default(now())
-  estado      Int      @default(1)
-  promos      PromoProducto[]
+  id              Int            @id @default(autoincrement())
+  nombre          String
+  slug            String         @unique // Agregado para URLs amigables con SEO e identificación única
+  descripcion     String?
+  precio          Float
+  stock           Int            @default(0) // Fundamental para la gestión de inventario
+  imagenUrl       String?
+  creadoEn        DateTime       @default(now())
+  actualizadoEn   DateTime       @updatedAt
+  estado          EstadoProducto @default(ACTIVO) // Usa el enum para el estado del producto.
+
+  promos          PromoProducto[]
 }
 
 model Promocion {
-  id          Int      @id @default(autoincrement())
-  titulo      String
-  descripcion String?
-  imagenUrl   String?
-  activa      Boolean  @default(true)
-  productos   PromoProducto[]
-  creadaEn    DateTime @default(now())
+  id              Int            @id @default(autoincrement())
+  titulo          String
+  codigo          String?        @unique // Agregado para códigos promocionales (ej: DESCUENTO20)
+  descripcion     String?
+  imagenUrl       String?
+  fechaInicio     DateTime       @default(now())
+  fechaFin        DateTime?      // Fecha de finalización opcional para promociones por tiempo limitado
+  activa          Boolean        @default(true)
+  creadaEn        DateTime       @default(now())
+  actualizadaEn   DateTime       @updatedAt
+
+  productos       PromoProducto[]
 }
 
+// Esta es una tabla intermedia para relaciones muchos a muchos,
+// a menudo llamada "tabla de unión" o "tabla pivote".
 model PromoProducto {
-  id           Int         @id @default(autoincrement())
-  productoId   Int
-  promocionId  Int
-  producto     Producto    @relation(fields: [productoId], references: [id])
-  promocion    Promocion   @relation(fields: [promocionId], references: [id])
+  id          Int      @id @default(autoincrement())
+  productoId  Int
+  promocionId Int
+
+  producto    Producto  @relation(fields: [productoId], references: [id])
+  promocion   Promocion @relation(fields: [promocionId], references: [id])
+
+  @@unique([productoId, promocionId]) // Garantiza que un producto solo esté una vez en una promoción.
 }
 
 model Pedido {
-  id            Int      @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   usuarioId     Int
-  archivoUrl    String   // PDF cargado
-  detalles      String?
-  estado        String   @default("pendiente") // "pendiente", "en_proceso", "listo", "entregado"
-  creadoEn      DateTime @default(now())
+  archivoUrl    String
+  detalles      String?      // Notas generales o instrucciones específicas para el pedido.
+  estado        EstadoPedido @default(PENDIENTE) // Usa el enum para el estado del pedido.
+  total         Float        @default(0.0) // Agregado para almacenar el costo total del pedido.
+  direccionEnvio String?     // Si es diferente de la dirección predeterminada del usuario
+  notasInternas String?      // Para uso interno de administradores/empleados
+  creadoEn      DateTime     @default(now())
+  actualizadoEn DateTime     @updatedAt
 
-  usuario       Usuario  @relation(fields: [usuarioId], references: [id])
+  usuario       Usuario      @relation(fields: [usuarioId], references: [id])
 }
 
 model Consulta {
-  id         Int      @id @default(autoincrement())
-  usuarioId  Int
-  mensaje    String
-  leido      Boolean  @default(false)
-  creadoEn   DateTime @default(now())
+  id            Int        @id @default(autoincrement())
+  usuarioId     Int
+  mensaje       String
+  respuesta     String?    // Para almacenar la respuesta de un administrador
+  leido         Boolean    @default(false)
+  resuelto      Boolean    @default(false) // Para rastrear si la consulta ha sido resuelta
+  creadoEn      DateTime   @default(now())
+  actualizadoEn DateTime   @updatedAt
 
-  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
+  usuario       Usuario    @relation(fields: [usuarioId], references: [id])
 }
-

@@ -7,8 +7,11 @@ const Schema: z.ZodType<Prisma.ConsultaMinAggregateInputType> = z
     id: z.literal(true).optional(),
     usuarioId: z.literal(true).optional(),
     mensaje: z.literal(true).optional(),
+    respuesta: z.literal(true).optional(),
     leido: z.literal(true).optional(),
+    resuelto: z.literal(true).optional(),
     creadoEn: z.literal(true).optional(),
+    actualizadoEn: z.literal(true).optional(),
   })
   .strict();
 

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
+import { StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
 import { BoolFilterObjectSchema } from './BoolFilter.schema';
 import { DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
 
@@ -31,10 +32,20 @@ const Schema: z.ZodType<Prisma.ConsultaScalarWhereInput> = z
     mensaje: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
+    respuesta: z
+      .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])
+      .optional()
+      .nullable(),
     leido: z
       .union([z.lazy(() => BoolFilterObjectSchema), z.boolean()])
       .optional(),
+    resuelto: z
+      .union([z.lazy(() => BoolFilterObjectSchema), z.boolean()])
+      .optional(),
     creadoEn: z
+      .union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()])
+      .optional(),
+    actualizadoEn: z
       .union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()])
       .optional(),
   })
