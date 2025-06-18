@@ -1,0 +1,15 @@
+Backend:
+npm init -y
+npm i prisma -D
+npm i prisma-zod-generator -D
+
+(genera el schema.prisma basico)
+npx prisma init --datasource-provider mysql
+
+(luego de escribir los modelos en schema.prisma)
+npx prisma generate
+npx prisma migrate dev --name init (inicializa o crea la DB por primera vez)
+npx prisma studio (abre una iterface grafica en el navegador para ver la DB)
+
+frontend:
+npx create-next-app nombreApp

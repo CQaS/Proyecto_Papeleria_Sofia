@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator zod {
+  provider = "prisma-zod-generator"
+  output   = "./zod"
+}
+
+model Usuario {
+  id        Int        @id @default(autoincrement())
+  nombre    String
+  email     String     @unique
+  password  String? // Solo requerido para Admins
+  rol       String // "admin" o "cliente"
+  pedidos   Pedido[]
+  consultas Consulta[]
+}
+
+model Producto {
+  id          Int             @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  precio      Float
+  imagenUrl   String?
+  creadoEn    DateTime        @default(now())
+  estado      Int             @default(1)
+  promos      PromoProducto[]
+}
+
+model Promocion {
+  id          Int             @id @default(autoincrement())
+  titulo      String
+  descripcion String?
+  imagenUrl   String?
+  activa      Boolean         @default(true)
+  productos   PromoProducto[]
+  creadaEn    DateTime        @default(now())
+}
+
+model PromoProducto {
+  id          Int       @id @default(autoincrement())
+  productoId  Int
+  promocionId Int
+  producto    Producto  @relation(fields: [productoId], references: [id])
+  promocion   Promocion @relation(fields: [promocionId], references: [id])
+}
+
+model Pedido {
+  id         Int      @id @default(autoincrement())
+  usuarioId  Int
+  archivoUrl String // PDF cargado
+  detalles   String?
+  estado     String   @default("pendiente") // "pendiente", "en_proceso", "listo", "entregado"
+  creadoEn   DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+}
+
+model Consulta {
+  id        Int      @id @default(autoincrement())
+  usuarioId Int
+  mensaje   String
+  leido     Boolean  @default(false)
+  creadoEn  DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+}
