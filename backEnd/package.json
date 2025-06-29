@@ -14,8 +14,7 @@
   "description": "",
   "devDependencies": {
     "nodemon": "^3.1.10",
-    "prisma": "^6.10.0",
-    "prisma-zod-generator": "^0.8.13"
+    "prisma": "^6.10.0"
   },
   "dependencies": {
     "@prisma/client": "^6.10.0",
@@ -27,6 +26,7 @@
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
     "morgan": "^1.10.0",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zod": "^3.25.67"
   }
 }

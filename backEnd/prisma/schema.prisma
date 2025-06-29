@@ -8,11 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator zod {
-  provider = "prisma-zod-generator"
-  output   = "./zod"
-}
-
 // Define un enum personalizado para los roles de usuario para mayor seguridad de tipo y validación.
 enum RolUsuario {
   ADMIN
