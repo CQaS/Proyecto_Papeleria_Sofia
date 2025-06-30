@@ -10,4 +10,9 @@ export const Usuario = z.object({
     rol: z.enum(["ADMIN", "CLIENTE", "EMPLEADO"]).optional(),
     telefono: z.string().optional(),
     direccion: z.string().optional(),
+    estado: z.enum(["ACTIVO", "INACTIVO", "PENDIENTE", "BLOQUEADO"]).default("ACTIVO"),
+    creadoEn: z.date().optional(),
+    actualizadoEn: z.date().optional(),
+    resetPasswordToken: z.string().optional(),
+    resetPasswordExpires: z.date().optional(),
 })

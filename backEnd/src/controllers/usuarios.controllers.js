@@ -1,19 +1,28 @@
 import QUERY_USUARIOS from "../querys/querys.usuarios.js"
 const {
     listarUsuarios,
-    UsuarioCrear
+    UsuarioPorId,
+    UsuarioCrear,
+    UsuarioActualizar,
+    UsuarioEliminar
 } = QUERY_USUARIOS
 
 export const usuarios_lista = async (req, res) => {
     try {
         const _listar_U = await listarUsuarios()
         console.log(_listar_U)
-        res.json(_listar_U)
+        res.status(200).json({
+            success: true,
+            message: "Usuarios listados exitosamente",
+            data: _listar_U
+        })
 
-    } catch (err) {
-        console.error(err)
-        return res.status(500).json({
-            Error: 'Algo fallo'
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
         })
 
     }
@@ -21,29 +30,140 @@ export const usuarios_lista = async (req, res) => {
 
 export const usuarios_crear = async (req, res) => {
     try {
-        const usuario = await UsuarioCrear(req.body);
+        const usuario = await UsuarioCrear(req.body)
 
         res.status(201).json({
-            mensaje: "Usuario creado exitosamente",
-            usuario,
-        });
+            success: true,
+            message: "Usuario creado exitosamente",
+            data: usuario
+        })
+
     } catch (error) {
-        console.error(error);
+        console.error(error)
 
         if (error.name === "ZodError") {
             return res.status(400).json({
+                success: false,
+                message: "Error de validación de datos",
                 error: error.errors
-            });
+            })
         }
 
         if (error.code === "P2002" && error.meta?.target?.includes("email")) {
             return res.status(409).json({
-                error: "El email ya está registrado"
-            });
+                success: false,
+                message: "El email ya está registrado. Por favor, intenta con otro.",
+                error: "Conflicto de recurso: email duplicado"
+            })
         }
 
         res.status(500).json({
-            error: "Error inesperado"
-        });
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
     }
-};
+}
+
+export const usuarios_actualizar = async (req, res) => {
+    const {
+        id
+    } = req.params
+
+    try {
+        const usuarioActualizado = await UsuarioActualizar(id, req.body)
+
+        res.status(200).json({
+            success: true,
+            message: "Usuario actualizado exitosamente",
+            data: usuarioActualizado,
+        })
+
+    } catch (error) {
+        if (error.name === "ZodError") {
+            return res.status(400).json({
+                success: false,
+                message: "Error de validación de datos",
+                error: error.errors,
+            })
+        }
+
+        if (error.code === "P2025") {
+            return res.status(404).json({
+                success: false,
+                message: "Usuario no encontrado",
+            })
+        }
+
+        console.error("Error al actualizar usuario:", error)
+        res.status(500).json({
+            success: false,
+            message: "Error inesperado al actualizar el usuario",
+            error: error.message,
+        })
+    }
+}
+
+export const usuarios_eliminar = async (req, res) => {
+    const {
+        id
+    } = req.params
+
+    try {
+        const usuario = await UsuarioEliminar(id)
+
+        res.status(200).json({
+            success: true,
+            message: "Usuario eliminado",
+            data: usuario,
+        })
+        
+    } catch (error) {
+        if (error.code === "P2025") {
+            return res.status(404).json({
+                success: false,
+                message: "Usuario no encontrado",
+            })
+        }
+
+        console.error("Error al eliminar usuario:", error)
+        res.status(500).json({
+            success: false,
+            message: "Error inesperado al eliminar el usuario",
+            error: error.message,
+        })
+    }
+}
+
+export const usuarios_PorId = async (req, res) => {
+    const {
+        id
+    } = req.params
+
+    try {
+        const usuario = await UsuarioPorId(id)
+
+        if (!usuario) {
+            return res.status(404).json({
+                success: false,
+                message: "Usuario no encontrado",
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Usuario encontrado",
+            data: usuario,
+        })
+
+    } catch (error) {
+        console.error("Error al buscar usuario:", error)
+        res.status(500).json({
+            success: false,
+            message: "Error inesperado al buscar el usuario",
+            error: error.message,
+        })
+    }
+}
+  
+  
