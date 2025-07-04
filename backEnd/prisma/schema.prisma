@@ -46,14 +46,13 @@ model Usuario {
   email            String     @unique @db.VarChar(100)
   password         String?    @db.VarChar(255)
   rol              RolUsuario @default(CLIENTE) // Usa el enum aquí con un valor por defecto.
-  telefono         String?    @db.VarChar(20)
+  telefono         String?    @unique @db.VarChar(20)
   direccion        String?    @db.VarChar(255)
   estado           EstadoUsuario @default(ACTIVO)
   creadoEn         DateTime   @default(now())
   actualizadoEn    DateTime   @updatedAt @default(now())// Se actualiza automáticamente en cada modificación del registro.
 
   pedidos          Pedido[]
-  consultas        Consulta[]
   // Token de recuperación de contraseña
   resetPasswordToken String?
   resetPasswordExpires DateTime?
@@ -120,13 +119,13 @@ model Pedido {
 
 model Consulta {
   id            Int        @id @default(autoincrement())
-  usuarioId     Int
+  nombre        String     @db.VarChar(100)
+  email         String     @db.VarChar(100)
+  telefono      String     @db.VarChar(20)
   mensaje       String     @db.Text
   respuesta     String?    @db.Text // Para almacenar la respuesta de un administrador
   leido         Boolean    @default(false)
   resuelto      Boolean    @default(false) // Para rastrear si la consulta ha sido resuelta
   creadoEn      DateTime   @default(now())
   actualizadoEn DateTime   @updatedAt
-
-  usuario       Usuario    @relation(fields: [usuarioId], references: [id])
 }

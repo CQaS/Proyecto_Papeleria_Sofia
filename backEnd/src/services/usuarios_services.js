@@ -20,7 +20,7 @@ const listarUsuarios = () => {
     })
 }
 
-const UsuarioPorId = (id)=> {
+const UsuarioPorId = (id) => {
     return prisma.usuario.findUnique({
         where: {
             id: Number(id)
@@ -59,12 +59,12 @@ const UsuarioEliminar = (id) => {
             id: Number(id)
         },
         data: {
-            estado: 'INACTIVO' 
+            estado: 'INACTIVO'
         },
     });
 }
 
-const QUERY_USUARIOS = {
+const USUARIOS_SERVICES = {
     listarUsuarios,
     UsuarioPorId,
     UsuarioCrear,
@@ -72,4 +72,4 @@ const QUERY_USUARIOS = {
     UsuarioEliminar
 }
 
-export default QUERY_USUARIOS
+export default USUARIOS_SERVICES

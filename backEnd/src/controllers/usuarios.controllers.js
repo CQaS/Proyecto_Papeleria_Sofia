@@ -1,11 +1,11 @@
-import QUERY_USUARIOS from "../querys/querys.usuarios.js"
+import USUARIOS_SERVICES from "../services/usuarios_services.js"
 const {
     listarUsuarios,
     UsuarioPorId,
     UsuarioCrear,
     UsuarioActualizar,
     UsuarioEliminar
-} = QUERY_USUARIOS
+} = USUARIOS_SERVICES
 
 export const usuarios_lista = async (req, res) => {
     try {

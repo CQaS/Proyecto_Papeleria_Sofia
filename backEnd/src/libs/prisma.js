@@ -2,8 +2,11 @@ import {
     PrismaClient
 } from "@prisma/client"
 import {
-    Usuario
+    UsuarioSchema
 } from "../schemas/usuario.schema.js"
+import {
+    ConsultaSchema
+} from "../schemas/consulta.schema.js"
 import bcrypt from "bcryptjs"
 
 const prisma = new PrismaClient().$extends({
@@ -13,7 +16,7 @@ const prisma = new PrismaClient().$extends({
                 args,
                 query
             }) {
-                args.data = Usuario.parse(args.data)
+                args.data = UsuarioSchema.parse(args.data)
 
                 if (args.data.password) {
                     const salt = await bcrypt.genSalt(10)
@@ -27,7 +30,7 @@ const prisma = new PrismaClient().$extends({
                 args,
                 query
             }) {
-                args.data = Usuario.partial().parse(args.data)
+                args.data = UsuarioSchema.partial().parse(args.data)
 
                 if (args.data.password) {
                     const salt = await bcrypt.genSalt(10)
@@ -51,6 +54,23 @@ const prisma = new PrismaClient().$extends({
             }) {
                 // Se podría usar para borrado lógico en lote
                 return query(args)
+            },
+        },
+        consulta: {
+            create({
+                args,
+                query
+            }) {
+                args.data = ConsultaSchema.parse(args.data);
+                return query(args);
+            },
+            update({
+                args,
+                query
+            }) {
+                // Para update podés usar partial si es un update flexible
+                args.data = ConsultaSchema.partial().parse(args.data);
+                return query(args);
             },
         },
     },

@@ -2,7 +2,7 @@ import {
     z
 } from "zod"
 
-export const Usuario = z.object({
+export const UsuarioSchema = z.object({
     nombre: z.string().min(1),
     apellido: z.string().optional(),
     email: z.string().email(),
