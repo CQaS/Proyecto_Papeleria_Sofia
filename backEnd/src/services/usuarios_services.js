@@ -38,6 +38,30 @@ const UsuarioPorId = (id) => {
     })
 }
 
+const UsuarioPorEmailTelefono = (email, telefono) => {
+    return prisma.usuario.findFirst({
+        where: {
+            OR: [{
+                    email
+                },
+                {
+                    telefono
+                }
+            ]
+        },
+        select: {
+            id: true,
+            nombre: true,
+            apellido: true,
+            email: true,
+            rol: true,
+            telefono: true,
+            direccion: true,
+            creadoEn: true,
+        },
+    })
+}
+
 const UsuarioCrear = (data) => {
     return prisma.usuario.create({
         data
@@ -67,6 +91,7 @@ const UsuarioEliminar = (id) => {
 const USUARIOS_SERVICES = {
     listarUsuarios,
     UsuarioPorId,
+    UsuarioPorEmailTelefono,
     UsuarioCrear,
     UsuarioActualizar,
     UsuarioEliminar

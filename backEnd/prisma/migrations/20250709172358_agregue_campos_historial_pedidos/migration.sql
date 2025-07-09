@@ -1,0 +1,15 @@
+-- AlterTable
+ALTER TABLE `usuario` MODIFY `rol` ENUM('ADMIN', 'EMPLEADO', 'CLIENTE') NOT NULL DEFAULT 'CLIENTE';
+
+-- CreateTable
+CREATE TABLE `HistorialEstadoPedido` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `pedidoId` INTEGER NOT NULL,
+    `estado` ENUM('PENDIENTE', 'EN_PROCESO', 'LISTO_PARA_RETIRO', 'EN_CAMINO', 'ENTREGADO', 'CANCELADO') NOT NULL,
+    `fecha` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `HistorialEstadoPedido` ADD CONSTRAINT `HistorialEstadoPedido_pedidoId_fkey` FOREIGN KEY (`pedidoId`) REFERENCES `Pedido`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

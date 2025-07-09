@@ -7,6 +7,12 @@ import {
 import {
     ConsultaSchema
 } from "../schemas/consulta.schema.js"
+import {
+    PedidoSchema
+} from "../schemas/pedido.schema.js"
+import {
+    PedidoEstadoActualizarSchema
+} from "../schemas/pedidoEstadoActualizar.schema.js"
 import bcrypt from "bcryptjs"
 
 const prisma = new PrismaClient().$extends({
@@ -61,16 +67,32 @@ const prisma = new PrismaClient().$extends({
                 args,
                 query
             }) {
-                args.data = ConsultaSchema.parse(args.data);
-                return query(args);
+                args.data = ConsultaSchema.parse(args.data)
+                return query(args)
             },
             update({
                 args,
                 query
             }) {
                 // Para update podés usar partial si es un update flexible
-                args.data = ConsultaSchema.partial().parse(args.data);
-                return query(args);
+                args.data = ConsultaSchema.partial().parse(args.data)
+                return query(args)
+            },
+        },
+        pedido: {
+            create({
+                args,
+                query
+            }) {
+                args.data = PedidoSchema.parse(args.data)
+                return query(args)
+            },
+            update({
+                args,
+                query
+            }) {
+                args.data = PedidoEstadoActualizarSchema.parse(args.data)
+                return query(args)
             },
         },
     },

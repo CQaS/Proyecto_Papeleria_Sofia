@@ -1,0 +1,8 @@
+export const transicionesValidas = {
+    PENDIENTE: ["EN_PROCESO", "CANCELADO"],
+    EN_PROCESO: ["LISTO_PARA_RETIRO", "EN_CAMINO", "CANCELADO"],
+    LISTO_PARA_RETIRO: ["ENTREGADO", "CANCELADO"],
+    EN_CAMINO: ["ENTREGADO", "CANCELADO"],
+    ENTREGADO: [],
+    CANCELADO: []
+}
