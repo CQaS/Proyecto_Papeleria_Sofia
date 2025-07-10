@@ -124,6 +124,7 @@ model HistorialEstadoPedido {
   pedidoId  Int
   estado    EstadoPedido
   fecha     DateTime  @default(now())
+  cambiadoPor String? // Puede ser el ID del usuario que cambió el estado, o un nombre descriptivo
 
   pedido    Pedido    @relation(fields: [pedidoId], references: [id])
 }

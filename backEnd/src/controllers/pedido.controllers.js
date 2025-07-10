@@ -4,6 +4,12 @@
      transicionesValidas
  } from "../helpers/estadoPedidos.js"
 
+ /** * Controlador para listar todos los pedidos.
+  * @param {Object} req - La solicitud HTTP.
+  * @param {Object} res - La respuesta HTTP.
+  * @returns {Promise<void>} Respuesta con la lista de pedidos o un error.
+  */
+
  export const pedido_lista = async (req, res) => {
      try {
          const _listar_P = await PEDIDOS_SERVICES.listarPedidos()
@@ -24,6 +30,12 @@
 
      }
  }
+
+ /** * Controlador para crear un nuevo pedido.
+  * @param {Object} req - La solicitud HTTP.
+  * @param {Object} res - La respuesta HTTP.
+  * @returns {Promise<void>} Respuesta con el pedido creado o un error.
+  */
 
  export const pedido_crear = async (req, res) => {
      try {
@@ -57,6 +69,12 @@
      }
  }
 
+ /** * Actualiza el estado de un pedido.
+  * @param {Object} req - La solicitud HTTP.
+  * @param {Object} res - La respuesta HTTP.
+  * @returns {Promise<void>} Respuesta con el estado actualizado del pedido o un error.
+  */
+
  export const pedido_actualizar_estado = async (req, res) => {
      const id = parseInt(req.params.id)
      const nuevoEstado = req.body.estado
@@ -82,6 +100,9 @@
      }
 
      const pedidoActualizado = await PEDIDOS_SERVICES.actualizarEstadoPedido(id, nuevoEstado)
+
+     const historialCreado = await PEDIDOS_SERVICES.crearHistorialEstadoPedido(id, nuevoEstado)
+     console.log('Historial de estado creado: ', historialCreado)
 
      res.status(200).json({
          success: true,

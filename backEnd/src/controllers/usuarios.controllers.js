@@ -7,6 +7,12 @@ const {
     UsuarioEliminar
 } = USUARIOS_SERVICES
 
+/** * Controlador para listar todos los usuarios.
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Promise<void>} Respuesta con la lista de usuarios o un error.
+ */
+
 export const usuarios_lista = async (req, res) => {
     try {
         const _listar_U = await listarUsuarios()
@@ -27,6 +33,12 @@ export const usuarios_lista = async (req, res) => {
 
     }
 }
+
+/** * Controlador para crear un nuevo usuario.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con el usuario creado o un error.
+ */
 
 export const usuarios_crear = async (req, res) => {
     try {
@@ -64,6 +76,12 @@ export const usuarios_crear = async (req, res) => {
         })
     }
 }
+
+/** * Controlador para actualizar un usuario.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con el usuario actualizado o un error.
+ */
 
 export const usuarios_actualizar = async (req, res) => {
     const {
@@ -104,6 +122,12 @@ export const usuarios_actualizar = async (req, res) => {
     }
 }
 
+/** * Controlador para eliminar un usuario.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con el usuario eliminado o un error.
+ */
+
 export const usuarios_eliminar = async (req, res) => {
     const {
         id
@@ -134,6 +158,12 @@ export const usuarios_eliminar = async (req, res) => {
         })
     }
 }
+
+/** * Controlador para buscar un usuario por ID.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con el usuario encontrado o un error.
+ */
 
 export const usuarios_PorId = async (req, res) => {
     const {

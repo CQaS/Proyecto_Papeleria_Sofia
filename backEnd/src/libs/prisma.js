@@ -1,18 +1,7 @@
 import {
     PrismaClient
 } from "@prisma/client"
-import {
-    UsuarioSchema
-} from "../schemas/usuario.schema.js"
-import {
-    ConsultaSchema
-} from "../schemas/consulta.schema.js"
-import {
-    PedidoSchema
-} from "../schemas/pedido.schema.js"
-import {
-    PedidoEstadoActualizarSchema
-} from "../schemas/pedidoEstadoActualizar.schema.js"
+import * as Schemas from "../schemas/index.schema.js"
 import bcrypt from "bcryptjs"
 
 const prisma = new PrismaClient().$extends({
@@ -22,7 +11,7 @@ const prisma = new PrismaClient().$extends({
                 args,
                 query
             }) {
-                args.data = UsuarioSchema.parse(args.data)
+                args.data = Schemas.UsuarioSchema.parse(args.data)
 
                 if (args.data.password) {
                     const salt = await bcrypt.genSalt(10)
@@ -36,7 +25,7 @@ const prisma = new PrismaClient().$extends({
                 args,
                 query
             }) {
-                args.data = UsuarioSchema.partial().parse(args.data)
+                args.data = Schemas.UsuarioSchema.partial().parse(args.data)
 
                 if (args.data.password) {
                     const salt = await bcrypt.genSalt(10)
@@ -63,38 +52,62 @@ const prisma = new PrismaClient().$extends({
             },
         },
         consulta: {
-            create({
+            async create({
                 args,
                 query
             }) {
-                args.data = ConsultaSchema.parse(args.data)
+                args.data = Schemas.ConsultaSchema.parse(args.data)
                 return query(args)
             },
-            update({
+            async update({
                 args,
                 query
             }) {
                 // Para update podés usar partial si es un update flexible
-                args.data = ConsultaSchema.partial().parse(args.data)
+                args.data = Schemas.ConsultaSchema.partial().parse(args.data)
                 return query(args)
             },
         },
         pedido: {
-            create({
+            async create({
                 args,
                 query
             }) {
-                args.data = PedidoSchema.parse(args.data)
+                args.data = Schemas.PedidoSchema.parse(args.data)
                 return query(args)
             },
-            update({
+            async update({
                 args,
                 query
             }) {
-                args.data = PedidoEstadoActualizarSchema.parse(args.data)
+                args.data = Schemas.PedidoEstadoActualizarSchema.parse(args.data)
                 return query(args)
             },
         },
+        historialPedidoEstado: {
+            async create({
+                args,
+                query
+            }) {
+                return query(args)
+            }
+        },
+        producto: {
+            async create({
+                args,
+                query
+            }) {
+                args.data = Schemas.ProductoSchema.parse(args.data)
+                return query(args)
+            },
+            async update({
+                args,
+                query
+            }) {
+                args.data = Schemas.ProductoSchema.partial().parse(args.data)
+                return query(args)
+            }
+        }
     },
 })
 

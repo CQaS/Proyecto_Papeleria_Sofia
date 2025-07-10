@@ -2,6 +2,10 @@ import {
     prisma
 } from "../libs/prisma.js";
 
+/** * Servicio para listar todos los usuarios.
+ * @returns {Promise<Array>} Lista de usuarios.
+ */
+
 const listarUsuarios = () => {
     return prisma.usuario.findMany({
         select: {
@@ -20,6 +24,11 @@ const listarUsuarios = () => {
     })
 }
 
+/** * Servicio para obtener un usuario por su ID.
+ * @param {number} id - ID del usuario a buscar.
+ * @returns {Promise<Object>} Usuario encontrado o null si no existe.
+ */
+
 const UsuarioPorId = (id) => {
     return prisma.usuario.findUnique({
         where: {
@@ -37,6 +46,12 @@ const UsuarioPorId = (id) => {
         },
     })
 }
+
+/** * Servicio para buscar un usuario por email o telefono.
+ * @param {string} email - Email del usuario a buscar.
+ * @param {string} telefono - Telefono del usuario a buscar.
+ * @returns {Promise<Object>} Usuario encontrado o null si no existe.
+ */
 
 const UsuarioPorEmailTelefono = (email, telefono) => {
     return prisma.usuario.findFirst({
@@ -62,11 +77,22 @@ const UsuarioPorEmailTelefono = (email, telefono) => {
     })
 }
 
+/** * Servicio para crear un nuevo usuario.
+ * @param {Object} data - Datos del usuario a crear.
+ * @returns {Promise<Object>} Usuario creado.
+ */
+
 const UsuarioCrear = (data) => {
     return prisma.usuario.create({
         data
     })
 }
+
+/** * Servicio para actualizar un usuario.
+ * @param {number} id - ID del usuario a actualizar.
+ * @param {Object} data - Nuevos datos del usuario.
+ * @returns {Promise<Object>} Usuario actualizado.
+ */
 
 const UsuarioActualizar = (id, data) => {
     return prisma.usuario.update({
@@ -76,6 +102,11 @@ const UsuarioActualizar = (id, data) => {
         data
     })
 }
+
+/** * Servicio para eliminar un usuario (cambiar su estado a inactivo).
+ * @param {number} id - ID del usuario a eliminar.
+ * @returns {Promise<Object>} Usuario eliminado.
+ */
 
 const UsuarioEliminar = (id) => {
     return prisma.usuario.update({

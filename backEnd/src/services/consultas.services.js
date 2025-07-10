@@ -2,6 +2,10 @@ import {
     prisma
 } from "../libs/prisma.js"
 
+/** * Servicio para listar todas las consultas.
+ * @returns {Promise<Array>} Lista de consultas.
+ */
+
 const listarConsultas = () => {
     return prisma.consulta.findMany({
         select: {
@@ -20,6 +24,11 @@ const listarConsultas = () => {
         },
     })
 }
+
+/** * Servicio para crear una nueva consulta.
+ * @param {Object} data - Datos de la consulta a crear.
+ * @returns {Promise<Object>} Consulta creada.
+ */
 
 const crearConsulta = (data) => {
     return prisma.consulta.create({
