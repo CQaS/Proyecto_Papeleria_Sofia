@@ -8,6 +8,7 @@ package-lock.json
 .pnpm-debug.log*
 .vscode
 img
+public/imgs
 
 # Optional npm cache directory
 .npm
