@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(bodyParser.json())
+app.use("/imgs", express.static("public/imgs")) // Servir imágenes estáticas
 
 routes.forEach(({
     path,

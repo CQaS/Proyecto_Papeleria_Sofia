@@ -36,9 +36,19 @@ const crearProducto = (data) => {
     })
 }
 
+const multiplesImagenesDeProducto = (urlsImagenes, id_producto) => {
+    return prisma.imagenProducto.createMany({
+        data: urlsImagenes.map((url) => ({
+            url,
+            productoId: id_producto
+        }))
+    });
+}
+
 const PRODUCTOS_SERVICES = {
     listarProductos,
-    crearProducto
+    crearProducto,
+    multiplesImagenesDeProducto
 }
 
 export default PRODUCTOS_SERVICES

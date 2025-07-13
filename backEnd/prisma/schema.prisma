@@ -66,12 +66,19 @@ model Producto {
   categoria       String?        @db.VarChar(100) // Agregado para categorizar
   precio          Float
   stock           Int            @default(0) // Fundamental para la gestión de inventario
-  imagenUrl       String?
   creadoEn        DateTime       @default(now())
   actualizadoEn   DateTime       @updatedAt
   estado          EstadoProducto @default(ACTIVO) // Usa el enum para el estado del producto.
 
+  imagenes        ImagenProducto[]
   promos          PromoProducto[]
+}
+
+model ImagenProducto {
+  id         Int       @id @default(autoincrement())
+  url        String    @db.VarChar(255)
+  producto   Producto  @relation(fields: [productoId], references: [id])
+  productoId Int
 }
 
 model Promocion {
