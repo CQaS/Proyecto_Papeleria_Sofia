@@ -6,8 +6,8 @@ import {
  * @returns {Promise<Array>} Lista de consultas.
  */
 
-const listarConsultas = () => {
-    return prisma.consulta.findMany({
+const listarConsultas = async () => {
+    return await prisma.consulta.findMany({
         select: {
             id: true,
             nombre: true,
@@ -30,8 +30,8 @@ const listarConsultas = () => {
  * @returns {Promise<Object>} Consulta creada.
  */
 
-const crearConsulta = (data) => {
-    return prisma.consulta.create({
+const crearConsulta = async (data) => {
+    return await prisma.consulta.create({
         data
     })
 }

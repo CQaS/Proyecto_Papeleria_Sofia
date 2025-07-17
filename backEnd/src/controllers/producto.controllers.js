@@ -1,9 +1,7 @@
-import fs from "fs/promises"
-import path from "path"
 import PRODUCTOS_SERVICES from "../services/producto.services.js"
 import {
     procesarImagenes
-} from "../middlewares/multer_IMG.js"
+} from "../middlewares/multer_IMGs.js"
 import {
     generarSlug
 } from "../libs/generarSlug.js"

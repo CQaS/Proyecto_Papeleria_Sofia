@@ -6,21 +6,29 @@ import {
  * @returns {Promise<Array>} Lista de productos.
  */
 
-const listarProductos = () => {
-    return prisma.producto.findMany({
+const listarProductos = async () => {
+    return await prisma.producto.findMany({
         select: {
             id: true,
             nombre: true,
             descripcion: true,
             precio: true,
             categoria: true,
-            imagenUrl: true,
             creadoEn: true,
+            imagenes: {
+                where: {
+                    esPrincipal: true
+                },
+                select: {
+                    url: true,
+                }
+            },
         },
         orderBy: {
             creadoEn: "desc",
         },
     })
+
 }
 
 
@@ -30,16 +38,17 @@ const listarProductos = () => {
  * @returns {Promise<Object>} Producto creado.
  */
 
-const crearProducto = (data) => {
-    return prisma.producto.create({
+const crearProducto = async (data) => {
+    return await prisma.producto.create({
         data
     })
 }
 
-const multiplesImagenesDeProducto = (urlsImagenes, id_producto) => {
-    return prisma.imagenProducto.createMany({
-        data: urlsImagenes.map((url) => ({
+const multiplesImagenesDeProducto = async (urlsImagenes, id_producto) => {
+    return await prisma.imagenProducto.createMany({
+        data: urlsImagenes.map((url, i) => ({
             url,
+            esPrincipal: i === 0, // La primera imagen es la principal
             productoId: id_producto
         }))
     });

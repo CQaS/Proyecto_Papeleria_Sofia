@@ -3,7 +3,7 @@ import {
 } from "express"
 import {
     subirIMG
-} from "../middlewares/multer_IMG.js"
+} from "../middlewares/multer_IMGs.js"
 import {
     producto_lista,
     producto_crear

@@ -107,8 +107,25 @@ const prisma = new PrismaClient().$extends({
                 args.data = Schemas.ProductoSchema.partial().parse(args.data)
                 return query(args)
             }
+        },
+        promocion: {
+            async create({
+
+                args,
+                query
+            }) {
+                args.data = Schemas.PromocionSchema.parse(args.data)
+                return query(args)
+            },
+            async update({
+                args,
+                query
+            }) {
+                args.data = Schemas.PromocionSchema.partial().parse(args.data)
+                return query(args)
+            }
         }
-    },
+    }
 })
 
 export {

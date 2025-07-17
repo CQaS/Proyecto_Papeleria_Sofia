@@ -2,6 +2,7 @@ import routesUsuarios from './usuario.routes.js'
 import routesConsulta from './consulta.routes.js'
 import routesPedido from './pedido.routes.js'
 import routesProducto from './producto.routes.js'
+import routesPromocion from './promocion.routes.js'
 
 /** * Rutas principales del sistema.
  * @module router/index
@@ -20,4 +21,7 @@ export default [{
 }, {
     path: '/producto',
     router: routesProducto
+}, {
+    path: '/promocion',
+    router: routesPromocion
 }]

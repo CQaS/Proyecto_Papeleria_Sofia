@@ -77,6 +77,7 @@ model Producto {
 model ImagenProducto {
   id         Int       @id @default(autoincrement())
   url        String    @db.VarChar(255)
+  esPrincipal Boolean  @default(false)
   producto   Producto  @relation(fields: [productoId], references: [id])
   productoId Int
 }
@@ -86,14 +87,14 @@ model Promocion {
   titulo          String         @db.VarChar(100) // Título descriptivo de la promoción
   codigo          String?        @unique // Agregado para códigos promocionales (ej: DESCUENTO20)
   descripcion     String?        @db.Text
-  imagenUrl       String?
+  imagenes      ImagenPromocion[] // Una promoción puede tener múltiples imágenes
   fechaInicio     DateTime       @default(now())
   fechaFin        DateTime?      // Fecha de finalización opcional para promociones por tiempo limitado
   activa          Boolean        @default(true)
   creadaEn        DateTime       @default(now())
   actualizadaEn   DateTime       @updatedAt
 
-  productos       PromoProducto[]
+  productos       PromoProducto[] // Una promoción puede estar asociada a múltiples productos.
 }
 
 // Esta es una tabla intermedia para relaciones muchos a muchos,
@@ -107,6 +108,13 @@ model PromoProducto {
   promocion   Promocion @relation(fields: [promocionId], references: [id])
 
   @@unique([productoId, promocionId]) // Garantiza que un producto solo esté una vez en una promoción.
+}
+
+model ImagenPromocion {
+  id            Int         @id @default(autoincrement())
+  url           String      @db.VarChar(255)
+  promocionId   Int
+  promocion     Promocion   @relation(fields: [promocionId], references: [id])
 }
 
 model Pedido {

@@ -6,8 +6,8 @@ import {
  * @returns {Promise<Array>} Lista de pedidos pendientes.
  */
 
-const listarPedidos = () => {
-    return prisma.pedido.findMany({
+const listarPedidos = async () => {
+    return await prisma.pedido.findMany({
         where: {
             estado: "PENDIENTE",
         },
@@ -32,8 +32,8 @@ const listarPedidos = () => {
  * @returns {Promise<Object>} Pedido encontrado o null si no existe.
  */
 
-const listarPedidoPorId = (id) => {
-    return prisma.pedido.findUnique({
+const listarPedidoPorId = async (id) => {
+    return await prisma.pedido.findUnique({
         where: {
             id: id,
         }
@@ -46,8 +46,8 @@ const listarPedidoPorId = (id) => {
  * @returns {Promise<Object>} Pedido creado.
  */
 
-const crearPedido = (pedido, ID_Usuario_delPedido) => {
-    return prisma.pedido.create({
+const crearPedido = async (pedido, ID_Usuario_delPedido) => {
+    return await prisma.pedido.create({
         data: {
             archivoUrl: pedido.archivoUrl,
             detalles: pedido.detalles,
@@ -64,8 +64,8 @@ const crearPedido = (pedido, ID_Usuario_delPedido) => {
  * @returns {Promise<Object>} Pedido actualizado.
  */
 
-const actualizarEstadoPedido = (id, nuevoEstado) => {
-    return prisma.pedido.update({
+const actualizarEstadoPedido = async (id, nuevoEstado) => {
+    return await prisma.pedido.update({
         where: {
             id: id,
         },
@@ -81,8 +81,8 @@ const actualizarEstadoPedido = (id, nuevoEstado) => {
  * @returns {Promise<Object>} Historial de estado creado.
  */
 
-const crearHistorialEstadoPedido = (pedidoId, estado) => {
-    return prisma.historialPedidoEstado.create({
+const crearHistorialEstadoPedido = async (pedidoId, estado) => {
+    return await prisma.historialPedidoEstado.create({
         data: {
             pedidoId: pedidoId,
             estado: estado,

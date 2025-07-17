@@ -6,8 +6,8 @@ import {
  * @returns {Promise<Array>} Lista de usuarios.
  */
 
-const listarUsuarios = () => {
-    return prisma.usuario.findMany({
+const listarUsuarios = async () => {
+    return await prisma.usuario.findMany({
         select: {
             id: true,
             nombre: true,
@@ -29,8 +29,8 @@ const listarUsuarios = () => {
  * @returns {Promise<Object>} Usuario encontrado o null si no existe.
  */
 
-const UsuarioPorId = (id) => {
-    return prisma.usuario.findUnique({
+const UsuarioPorId = async (id) => {
+    return await prisma.usuario.findUnique({
         where: {
             id: Number(id)
         },
@@ -53,8 +53,8 @@ const UsuarioPorId = (id) => {
  * @returns {Promise<Object>} Usuario encontrado o null si no existe.
  */
 
-const UsuarioPorEmailTelefono = (email, telefono) => {
-    return prisma.usuario.findFirst({
+const UsuarioPorEmailTelefono = async (email, telefono) => {
+    return await prisma.usuario.findFirst({
         where: {
             OR: [{
                     email
@@ -82,8 +82,8 @@ const UsuarioPorEmailTelefono = (email, telefono) => {
  * @returns {Promise<Object>} Usuario creado.
  */
 
-const UsuarioCrear = (data) => {
-    return prisma.usuario.create({
+const UsuarioCrear = async (data) => {
+    return await prisma.usuario.create({
         data
     })
 }
@@ -94,8 +94,8 @@ const UsuarioCrear = (data) => {
  * @returns {Promise<Object>} Usuario actualizado.
  */
 
-const UsuarioActualizar = (id, data) => {
-    return prisma.usuario.update({
+const UsuarioActualizar = async (id, data) => {
+    return await prisma.usuario.update({
         where: {
             id: Number(id)
         },
@@ -108,8 +108,8 @@ const UsuarioActualizar = (id, data) => {
  * @returns {Promise<Object>} Usuario eliminado.
  */
 
-const UsuarioEliminar = (id) => {
-    return prisma.usuario.update({
+const UsuarioEliminar = async (id) => {
+    return await prisma.usuario.update({
         where: {
             id: Number(id)
         },
