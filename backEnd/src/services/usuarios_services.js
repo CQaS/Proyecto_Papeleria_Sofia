@@ -73,6 +73,8 @@ const UsuarioPorEmailTelefono = async (email, telefono) => {
             telefono: true,
             direccion: true,
             creadoEn: true,
+            password: true,
+            estado: true,
         },
     })
 }
