@@ -4,7 +4,7 @@ import {
 } from "../middlewares/multer_IMGs.js"
 import {
     generarSlug
-} from "../libs/generarSlug.js"
+} from "../helpers/generarSlug.js"
 
 /** * Controlador para listar todos los productos.
  * @param {Object} req - La solicitud HTTP.
@@ -20,6 +20,43 @@ export const producto_lista = async (req, res) => {
             success: true,
             message: "Productos listados exitosamente",
             data: _listar_P
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+
+    }
+}
+
+/** * Controlador para obtener un producto por su ID.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con el producto encontrado o un error.
+ */
+
+export const producto_id = async (req, res) => {
+    try {
+        const {
+            id
+        } = req.params
+        const producto = await PRODUCTOS_SERVICES.obtenerProductoPorId(id)
+
+        if (!producto) {
+            return res.status(404).json({
+                success: false,
+                message: "Producto no encontrado"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Producto obtenido exitosamente",
+            data: producto
         })
 
     } catch (error) {
@@ -84,5 +121,84 @@ export const producto_crear = async (req, res) => {
                 "Error de validación de datos" : "Ocurrió un error inesperado en el servidor.",
             error: isZodError ? error.errors : error.message,
         })
+    }
+}
+
+/** * Controlador para actualizar un producto por su ID.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con el producto actualizado o un error.
+ */
+
+export const producto_actualizar = async (req, res) => {
+    try {
+        const {
+            id
+        } = req.params
+        const datosActualizados = req.body
+
+        const productoActualizado = await PRODUCTOS_SERVICES.actualizarProducto(id, datosActualizados)
+
+        if (!productoActualizado) {
+            return res.status(404).json({
+                success: false,
+                message: "Producto no encontrado"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Producto actualizado exitosamente",
+            data: productoActualizado
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+
+    }
+}
+
+/** * Controlador para eliminar un producto por su ID.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con el producto eliminado o un error.
+ */
+
+export const producto_eliminar = async (req, res) => {
+    try {
+        const {
+            id
+        } = req.params
+
+        const productoEliminado = await PRODUCTOS_SERVICES.actualizarProducto(id, {
+            estado: 'INACTIVO'
+        })
+
+        if (!productoEliminado) {
+            return res.status(404).json({
+                success: false,
+                message: "Producto no encontrado"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Producto eliminado exitosamente",
+            data: productoEliminado
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+
     }
 }

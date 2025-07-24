@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:5000/api/consulta
+@token = Bearer TU_TOKEN_JWT_AQUI
+
+###
+
+###  1. Listar todas las consultas (requiere auth)
+GET {{baseUrl}}/admin/consulta_lista
+//Authorization: {{token}}
+
+###
+
+###  2. Crear nueva consulta (público, sin auth)
+POST {{baseUrl}}/consulta_crear
+Content-Type: application/json
+
+{
+  "nombre": "Lucía Martínez",
+  "email": "lucia@example.com",
+  "telefono": "23456789",
+  "mensaje": "Hola, quería consultar si hacen impresiones en papel fotográfico y cuánto tarda la entrega. Saludos.-"
+}
+
+###
+
+###  3. Marcar consulta como leída (requiere auth)
+PUT {{baseUrl}}/admin/consulta_leida/4
+//Authorization: {{token}}
+
+###
+
+###  4. Marcar consulta como resuelta (requiere auth)
+PUT {{baseUrl}}/admin/consulta_resuelta/4
+Authorization: {{token}}
+
+###
+
+###  5. Responder una consulta (requiere auth)
+PUT {{baseUrl}}/admin/consulta_respuesta/4
+//Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "respuesta": "Sí, hacemos impresiones en papel fotográfico. Están listas en 24hs. ¡Saludos!"
+}

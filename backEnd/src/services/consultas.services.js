@@ -36,9 +36,64 @@ const crearConsulta = async (data) => {
     })
 }
 
+/** * Servicio para marcar una consulta como leída.
+ * @param {number} id - ID de la consulta a marcar como leída.
+ * @returns {Promise<Object>} Consulta actualizada.
+ */
+
+const marcarConsultaLeida = async (id) => {
+    console.log("Actualizando consulta ID:", id)
+    return await prisma.consulta.update({
+        where: {
+            id: id
+        },
+        data: {
+            leido: true
+        }
+    })
+}
+
+/** * Servicio para marcar una consulta como resuelta.
+ * @param {number} id - ID de la consulta a marcar como resuelta.
+ * @returns {Promise<Object>} Consulta actualizada.
+ */
+
+const marcarConsultaResuelta = async (id) => {
+    console.log("Actualizando consulta ID:", id)
+    return await prisma.consulta.update({
+        where: {
+            id: id
+        },
+        data: {
+            resuelto: true
+        }
+    })
+}
+
+/** * Servicio para responder una consulta.
+ * @param {number} id - ID de la consulta a responder.
+ * @param {string} respuesta - Respuesta a la consulta.
+ * @returns {Promise<Object>} Consulta actualizada.
+ */
+
+const responderConsulta = async (id, respuesta) => {
+    return await prisma.consulta.update({
+        where: {
+            id: id
+        },
+        data: {
+            respuesta: respuesta,
+            resuelto: true
+        }
+    })
+}
+
 const CONSULTAS_SERVICES = {
     listarConsultas,
-    crearConsulta
+    crearConsulta,
+    marcarConsultaLeida,
+    marcarConsultaResuelta,
+    responderConsulta
 }
 
 export default CONSULTAS_SERVICES

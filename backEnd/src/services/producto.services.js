@@ -31,7 +31,19 @@ const listarProductos = async () => {
 
 }
 
+/** * Servicio para obtener un producto por su ID.
+ * @param {string} id - ID del producto.
+ * @returns {Promise<Object|null>} Producto encontrado o null.
+ */
 
+const obtenerProductoPorId = async (id) => {
+    return await prisma.producto.findUnique({
+        where: { id },
+        include: {
+            imagenes: true
+        }
+    })
+}
 
 /** * Servicio para crear un nuevo producto.
  * @param {Object} data - Datos del producto a crear.
@@ -54,10 +66,19 @@ const multiplesImagenesDeProducto = async (urlsImagenes, id_producto) => {
     });
 }
 
+const actualizarProducto = async (id, data) => {
+    return await prisma.producto.update({
+        where: { id },
+        data
+    })
+}
+
 const PRODUCTOS_SERVICES = {
     listarProductos,
+    obtenerProductoPorId,
     crearProducto,
-    multiplesImagenesDeProducto
+    multiplesImagenesDeProducto,
+    actualizarProducto
 }
 
 export default PRODUCTOS_SERVICES

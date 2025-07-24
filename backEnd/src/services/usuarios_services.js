@@ -16,6 +16,7 @@ const listarUsuarios = async () => {
             rol: true,
             telefono: true,
             direccion: true,
+            estado: true,
             creadoEn: true,
         },
         orderBy: {
@@ -42,6 +43,7 @@ const UsuarioPorId = async (id) => {
             rol: true,
             telefono: true,
             direccion: true,
+            estado: true,
             creadoEn: true,
         },
     })

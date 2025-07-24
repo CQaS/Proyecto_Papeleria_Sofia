@@ -1,0 +1,48 @@
+@baseUrl = http://localhost:5000/api/usuario
+@token = Bearer TU_TOKEN_JWT_AQUI
+
+###
+
+###  1. Listar todos los usuarios (requiere auth)
+GET {{baseUrl}}/admin/usuarios_lista
+//Authorization: {{token}}
+
+###
+
+###  2. Obtener un usuario por ID
+GET {{baseUrl}}/admin/usuarios_unico/12
+//Authorization: {{token}}
+
+###
+
+###  3. Crear nuevo usuario
+POST {{baseUrl}}/admin/usuarios_crear
+//Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Carla",
+  "apellido": "Lopez",
+  "email": "carla.lopez@example.com",
+  "telefono": "1144556677",
+  "direccion": "Calle Falsa 123",
+  "rol": "CLIENTE"
+}
+
+###
+
+###  4. Actualizar usuario por ID
+PUT {{baseUrl}}/admin/usuarios_actualizar/12
+//Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Carla Editada",
+  "telefono": "1199287766"
+}
+
+###
+
+###  5. Eliminar usuario por ID
+DELETE {{baseUrl}}/admin/usuarios_eliminar/12
+//Authorization: {{token}}

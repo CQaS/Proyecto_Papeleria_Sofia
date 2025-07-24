@@ -91,12 +91,32 @@ const crearHistorialEstadoPedido = async (pedidoId, estado) => {
     })
 }
 
+/** * Servicio para agregar notas internas a un pedido.
+ * @param {string} id - ID del pedido al que se le agregarán las notas.
+ * @param {string} notas - Notas internas a agregar.
+ * @returns {Promise<Object>} Pedido actualizado con las notas agregadas.
+ */
+
+const agregarNotasInternas = async (id, notas) => {
+    return await prisma.pedido.update({
+        where: {
+            id: id
+        },
+        data: {
+            notasInternas: {
+                push: notas
+            }
+        }
+    })
+}
+
 const PEDIDOS_SERVICES = {
     listarPedidos,
     listarPedidoPorId,
     crearPedido,
     actualizarEstadoPedido,
-    crearHistorialEstadoPedido
+    crearHistorialEstadoPedido,
+    agregarNotasInternas
 }
 
 export default PEDIDOS_SERVICES
