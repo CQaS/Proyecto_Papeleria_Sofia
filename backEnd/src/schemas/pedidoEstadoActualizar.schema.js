@@ -11,5 +11,10 @@ export const PedidoEstadoActualizarSchema = z.object({
         "EN_CAMINO",
         "ENTREGADO",
         "CANCELADO"
-    ])
+    ]),
+    notasInternas: z
+        .string()
+        .min(5, "Las notas internas deben tener al menos 5 caracteres")
+        .max(500)
+        .optional()
 })

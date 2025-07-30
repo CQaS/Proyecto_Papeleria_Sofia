@@ -19,5 +19,13 @@ export const PedidoSchema = z.object({
         .min(5, "La dirección de envío es obligatoria")
         .max(255)
         .optional(),
+    estado: z.enum([
+        "PENDIENTE",
+        "EN_PROCESO",
+        "LISTO_PARA_RETIRO",
+        "EN_CAMINO",
+        "ENTREGADO",
+        "CANCELADO"
+    ]).optional(),
     usuarioId: z.number()
 })

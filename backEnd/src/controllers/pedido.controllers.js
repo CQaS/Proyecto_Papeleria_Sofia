@@ -31,7 +31,7 @@
      }
  }
 
-    /** * Controlador para obtener el estado de un pedido por ID.
+ /** * Controlador para obtener el estado de un pedido por ID.
   * @param {Object} req - La solicitud HTTP.
   * @param {Object} res - La respuesta HTTP.
   * @returns {Promise<void>} Respuesta con el estado del pedido o un error.
@@ -110,81 +110,89 @@
   */
 
  export const pedido_actualizar_estado = async (req, res) => {
-     const id = parseInt(req.params.id)
-     const nuevoEstado = req.body.estado
+     try {
+         const id = parseInt(req.params.id)
+         const nuevoEstado = req.body.estado
 
-     const elPedido = await PEDIDOS_SERVICES.listarPedidoPorId(id)
+         const elPedido = await PEDIDOS_SERVICES.listarPedidoPorId(id)
 
-     if (!elPedido) {
-         return res.status(404).json({
+         if (!elPedido) {
+             return res.status(404).json({
+                 success: false,
+                 message: `Pedido n:${id} no encontrado`
+             })
+         }
+
+         const estadoActual = elPedido.estado
+
+         const posibles = transicionesValidas[estadoActual]
+
+         if (!posibles.includes(nuevoEstado)) {
+             return res.status(400).json({
+                 success: false,
+                 message: `No se puede cambiar de ${estadoActual} a ${nuevoEstado}`
+             })
+         }
+
+         const pedidoActualizado = await PEDIDOS_SERVICES.actualizarEstadoPedido(id, nuevoEstado)
+
+         res.status(200).json({
+             success: true,
+             message: "Estado del pedido actualizado exitosamente",
+             data: pedidoActualizado
+         })
+
+     } catch (error) {
+         console.error(error)
+         res.status(500).json({
              success: false,
-             message: `Pedido n:${id} no encontrado`
+             message: "Ocurrió un error inesperado en el servidor.",
+             error: error.message || "Error interno del servidor"
          })
      }
-
-     const estadoActual = elPedido.estado
-
-     const posibles = transicionesValidas[estadoActual]
-
-     if (!posibles.includes(nuevoEstado)) {
-         return res.status(400).json({
-             success: false,
-             message: `No se puede cambiar de ${estadoActual} a ${nuevoEstado}`
-         })
-     }
-
-     const pedidoActualizado = await PEDIDOS_SERVICES.actualizarEstadoPedido(id, nuevoEstado)
-
-     const historialCreado = await PEDIDOS_SERVICES.crearHistorialEstadoPedido(id, nuevoEstado)
-     console.log('Historial de estado creado: ', historialCreado)
-
-     res.status(200).json({
-         success: true,
-         message: "Estado del pedido actualizado exitosamente",
-         data: pedidoActualizado
-     })
  }
 
-    /** * Controlador para agregar notas internas a un pedido.
-    * @param {Object} req - La solicitud HTTP.
-    * @param {Object} res - La respuesta HTTP.
-    * @returns {Promise<void>} Respuesta con las notas agregadas o un error.
-    */
+ /** * Controlador para agregar notas internas a un pedido.
+  * @param {Object} req - La solicitud HTTP.
+  * @param {Object} res - La respuesta HTTP.
+  * @returns {Promise<void>} Respuesta con las notas agregadas o un error.
+  */
 
-    export const notasInternas = async (req, res) => {
-        try {
-            const { id, notas } = req.body;
+ export const notasInternas = async (req, res) => {
+     try {
+         const id = parseInt(req.params.id)
+         const notas = req.body;
 
-            if (!id || !notas) {
-                return res.status(400).json({
-                    success: false,
-                    message: "ID del pedido y notas son requeridos"
-                });
-            }
+         if (!id || !notas) {
+             return res.status(400).json({
+                 success: false,
+                 message: "ID del pedido y notas son requeridos"
+             });
+         }
 
-            const pedido = await PEDIDOS_SERVICES.listarPedidoPorId(id);
+         const pedido = await PEDIDOS_SERVICES.listarPedidoPorId(id);
 
-            if (!pedido) {
-                return res.status(404).json({
-                    success: false,
-                    message: `Pedido n:${id} no encontrado`
-                });
-            }
+         if (!pedido) {
+             return res.status(404).json({
+                 success: false,
+                 message: `Pedido n:${id} no encontrado`
+             });
+         }
 
-            const updatedPedido = await PEDIDOS_SERVICES.agregarNotasInternas(id, notas);
+         const updatedPedido = await PEDIDOS_SERVICES.agregarNotasInternas(id, notas);
 
-            res.status(200).json({
-                success: true,
-                message: "Notas internas agregadas exitosamente",
-                data: updatedPedido
-            });
+         res.status(200).json({
+             success: true,
+             message: "Notas internas agregadas exitosamente",
+             data: updatedPedido
+         });
 
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({
-                success: false,
-                message: "Ocurrió un error inesperado en el servidor.",
-                error: error.message || "Error interno del servidor"
-            });
-        }
-    }
+     } catch (error) {
+         console.error(error);
+         res.status(500).json({
+             success: false,
+             message: "Ocurrió un error inesperado en el servidor.",
+             error: error.message || "Error interno del servidor"
+         });
+     }
+ }

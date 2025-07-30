@@ -13,6 +13,8 @@ const listarProductos = async () => {
             nombre: true,
             descripcion: true,
             precio: true,
+            stock: true,
+            slug: true,
             categoria: true,
             creadoEn: true,
             imagenes: {
@@ -60,7 +62,7 @@ const multiplesImagenesDeProducto = async (urlsImagenes, id_producto) => {
     return await prisma.imagenProducto.createMany({
         data: urlsImagenes.map((url, i) => ({
             url,
-            esPrincipal: i === 0, // La primera imagen es la principal
+            esPrincipal: i === 0, // La ultima imagen es la principal
             productoId: id_producto
         }))
     });

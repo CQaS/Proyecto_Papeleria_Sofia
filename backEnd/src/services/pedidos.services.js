@@ -75,38 +75,18 @@ const actualizarEstadoPedido = async (id, nuevoEstado) => {
     })
 }
 
-/** * Servicio para crear un historial de estado de pedido.
- * @param {string} pedidoId - ID del pedido al que se le cambia el estado.
- * @param {string} estado - Nuevo estado del pedido.
- * @returns {Promise<Object>} Historial de estado creado.
- */
-
-const crearHistorialEstadoPedido = async (pedidoId, estado) => {
-    return await prisma.historialPedidoEstado.create({
-        data: {
-            pedidoId: pedidoId,
-            estado: estado,
-            cambiadoPor: "Sistema"
-        }
-    })
-}
-
 /** * Servicio para agregar notas internas a un pedido.
  * @param {string} id - ID del pedido al que se le agregarán las notas.
  * @param {string} notas - Notas internas a agregar.
  * @returns {Promise<Object>} Pedido actualizado con las notas agregadas.
  */
 
-const agregarNotasInternas = async (id, notas) => {
+const agregarNotasInternas = async (id, data) => {
     return await prisma.pedido.update({
         where: {
             id: id
         },
-        data: {
-            notasInternas: {
-                push: notas
-            }
-        }
+        data
     })
 }
 
@@ -115,7 +95,6 @@ const PEDIDOS_SERVICES = {
     listarPedidoPorId,
     crearPedido,
     actualizarEstadoPedido,
-    crearHistorialEstadoPedido,
     agregarNotasInternas
 }
 

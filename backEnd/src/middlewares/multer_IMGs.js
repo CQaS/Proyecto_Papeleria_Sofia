@@ -26,12 +26,15 @@ export const subirIMG = multer({
     limits: limites,
 }).array("imagen", 5)
 
-export const procesarImagenes = async (files, req) => {
+export const procesarImagenes = async (files, slug, req) => {
     const urls = []
 
     for (const file of files) {
+        
         const nombreLimpio = file.originalname.replace(/\s+/g, "_").toLowerCase()
-        const uniqueName = Date.now() + "-" + nombreLimpio.replace(/\.(jpeg|jpg|png|webp)$/i, ".webp")
+        const timestamp = Date.now()
+        const nombreSinExtension = nombreLimpio.replace(/\.(jpeg|jpg|png|webp)$/i, "")
+        const uniqueName = `${timestamp}-${nombreSinExtension}-${slug}.webp`
 
         const rutaPrincipal = `public/imgs/${uniqueName}`
         const rutaMiniatura = `public/imgs/thumbs/${uniqueName}`

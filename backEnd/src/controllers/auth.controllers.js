@@ -23,7 +23,7 @@ export const login = async (req, res) => {
 
     console.log("Usuario encontrado:", usuario)
 
-    if (!usuario || usuario.estado !== "ACTIVO") {
+    if (!usuario || usuario.estado !== "ACTIVO" || usuario.rol !== "ADMIN") {
       return res.status(401).json({
         success: false,
         message: "Credenciales inválidas o usuario inactivo",

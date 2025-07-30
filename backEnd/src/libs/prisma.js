@@ -80,17 +80,36 @@ const prisma = new PrismaClient().$extends({
                 args,
                 query
             }) {
-                args.data = Schemas.PedidoEstadoActualizarSchema.parse(args.data)
-                return query(args)
+                args.data = Schemas.PedidoEstadoActualizarSchema.partial().parse(args.data)
+
+                const pedidoActual = await prisma.pedido.findUnique({
+                    where: {
+                        id: args.where.id
+                    },
+                    select: {
+                        estado: true
+                    }
+                })
+
+                const pedidoActualizado = await query(args)
+
+                if (
+                    args.data.estado &&
+                    args.data.estado !== pedidoActual.estado
+                ) {
+                    // Registrar en historial
+                    await prisma.historialEstadoPedido.create({
+                        data: {
+                            pedidoId: args.where.id,
+                            estadoAnterior: pedidoActual.estado,
+                            estadoNuevo: args.data.estado,
+                            cambiadoPor: "SISTEMA", // o el ID de admin, si lo tenés
+                        }
+                    })
+                }
+
+                return pedidoActualizado
             },
-        },
-        historialPedidoEstado: {
-            async create({
-                args,
-                query
-            }) {
-                return query(args)
-            }
         },
         producto: {
             async create({

@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:5000/api/producto
+@token = Bearer TU_TOKEN_JWT_AQUI
+
+###
+
+###  1. Listar productos públicos (sin auth)
+GET {{baseUrl}}/producto_lista
+
+###
+
+###  2. Obtener un producto por ID (sin auth)
+GET {{baseUrl}}/producto_id/16
+
+###
+
+###  3. Eliminar producto por ID (requiere auth)
+DELETE {{baseUrl}}/admin/producto_eliminar/8
+//Authorization: {{token}}
+
+###
+# ⚠️ NOTA:
+# Los siguientes endpoints requieren imágenes (multipart/form-data):
+# - POST /admin/producto_crear
+# - PUT /admin/producto_actualizar/:id
+# Usá los formularios HTML que ya tenés para probarlos.

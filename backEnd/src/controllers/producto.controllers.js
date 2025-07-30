@@ -1,3 +1,14 @@
+import fs from 'fs/promises'
+import {
+    fileURLToPath
+} from 'url'
+import path from 'path'
+const __filename = fileURLToPath(
+    import.meta.url)
+const __dirname = path.dirname(__filename)
+import {
+    prisma
+} from "../libs/prisma.js"
 import PRODUCTOS_SERVICES from "../services/producto.services.js"
 import {
     procesarImagenes
@@ -44,12 +55,12 @@ export const producto_id = async (req, res) => {
         const {
             id
         } = req.params
-        const producto = await PRODUCTOS_SERVICES.obtenerProductoPorId(id)
+        const producto = await PRODUCTOS_SERVICES.obtenerProductoPorId(parseInt(id))
 
         if (!producto) {
             return res.status(404).json({
                 success: false,
-                message: "Producto no encontrado"
+                message: `Producto ${id} no encontrado`
             })
         }
 
@@ -95,7 +106,7 @@ export const producto_crear = async (req, res) => {
             slug: generarSlug(req.body.nombre)
         })
 
-        const imagenUrls = await procesarImagenes(imagenes, req)
+        const imagenUrls = await procesarImagenes(imagenes, _crear_P.slug, req)
 
         const imagenesCreacion = await PRODUCTOS_SERVICES.multiplesImagenesDeProducto(imagenUrls, _crear_P.id)
 
@@ -114,7 +125,7 @@ export const producto_crear = async (req, res) => {
 
         console.error(error)
 
-        const isZodError = error.name === "ZodError";
+        const isZodError = error.name === "ZodError"
         return res.status(isZodError ? 400 : 500).json({
             success: false,
             message: isZodError ?
@@ -135,15 +146,67 @@ export const producto_actualizar = async (req, res) => {
         const {
             id
         } = req.params
-        const datosActualizados = req.body
 
-        const productoActualizado = await PRODUCTOS_SERVICES.actualizarProducto(id, datosActualizados)
+        const productoExistente = await PRODUCTOS_SERVICES.obtenerProductoPorId(parseInt(id))
 
-        if (!productoActualizado) {
+        if (!productoExistente) {
             return res.status(404).json({
                 success: false,
-                message: "Producto no encontrado"
+                message: `Producto ID:${id} no encontrado`
             })
+        }
+
+        const productoActualizado = await PRODUCTOS_SERVICES.actualizarProducto(parseInt(id), {
+            ...req.body,
+            precio: parseFloat(req.body.precio),
+            stock: parseInt(req.body.stock),
+            slug: generarSlug(req.body.nombre)
+        })
+
+        if (req.files && req.files.length > 0) {
+
+            const imagenes = req.files
+
+            const imagenesAnteriores = await prisma.imagenProducto.findMany({
+                where: {
+                    productoId: productoActualizado.id
+                }
+            })
+
+            console.log("Imagenes Anteriores:", imagenesAnteriores)
+
+            for (const imagen of imagenesAnteriores) {
+                const nombreArchivo = path.basename(imagen.url) // extrae solo el nombre del archivo
+
+                const rutaOriginal = path.join(process.cwd(), 'public', 'imgs', nombreArchivo)
+                const rutaThumb = path.join(process.cwd(), 'public', 'imgs', 'thumbs', nombreArchivo)
+
+                try {
+                    await fs.unlink(rutaOriginal)
+                    console.log('Eliminada original:', nombreArchivo)
+                } catch (err) {
+                    console.warn('No se pudo eliminar original:', err.message)
+                }
+
+                try {
+                    await fs.unlink(rutaThumb)
+                    console.log('Eliminada thumbnail:', nombreArchivo)
+                } catch (err) {
+                    console.warn('No se pudo eliminar thumbnail:', err.message)
+                }
+            }
+
+            await prisma.imagenProducto.deleteMany({
+                where: {
+                    productoId: productoActualizado.id
+                }
+            })
+
+            const imagenUrls = await procesarImagenes(imagenes, productoActualizado.slug, req)
+
+            const imagenesCreacion = await PRODUCTOS_SERVICES.multiplesImagenesDeProducto(imagenUrls, productoActualizado.id)
+
+            console.log("Imagenes del Producto actualizadas exitosamente", productoActualizado, imagenesCreacion)
         }
 
         res.status(200).json({
@@ -175,20 +238,22 @@ export const producto_eliminar = async (req, res) => {
             id
         } = req.params
 
-        const productoEliminado = await PRODUCTOS_SERVICES.actualizarProducto(id, {
-            estado: 'INACTIVO'
-        })
+        const productoExistente = await PRODUCTOS_SERVICES.obtenerProductoPorId(parseInt(id))
 
-        if (!productoEliminado) {
+        if (!productoExistente) {
             return res.status(404).json({
                 success: false,
-                message: "Producto no encontrado"
+                message: `Producto ID:${id} no encontrado`
             })
         }
 
+        const productoEliminado = await PRODUCTOS_SERVICES.actualizarProducto(parseInt(id), {
+            estado: productoExistente.estado === "ACTIVO" ? "INACTIVO" : "ACTIVO"
+        })
+
         res.status(200).json({
             success: true,
-            message: "Producto eliminado exitosamente",
+            message: productoExistente.estado === "ACTIVO" ? "Producto eliminado exitosamente" : "Producto restaurado exitosamente",
             data: productoEliminado
         })
 

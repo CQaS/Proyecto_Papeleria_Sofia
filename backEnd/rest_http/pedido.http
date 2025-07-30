@@ -1,0 +1,58 @@
+@baseUrl = http://localhost:5000/api/pedido
+@token = Bearer TU_TOKEN_JWT_AQUI
+
+###
+
+### 🔍 1. Listar todos los pedidos (requiere admin)
+GET {{baseUrl}}/admin/pedido_lista
+//Authorization: {{token}}
+
+###
+
+### 📦 2. Consultar estado de un pedido (público)
+GET {{baseUrl}}/pedido_estado/1
+
+###
+
+### 🆕 3. Crear nuevo pedido (público, cliente no registrado o sí)
+POST {{baseUrl}}/pedido_crear
+Content-Type: application/json
+
+{
+  "usuario": {
+    "nombre": "Carlos Pérez",
+    "apellido": "Pérez",
+    "email": "carlos@example.com",
+    "telefono": "1122334455",
+    "direccion": "Av. Laprida 101"
+  },
+  "pedido": {
+    "archivoUrl": "https://tuweb.com/archivos/pedido2.pdf",
+    "detalles": "Impresión Blanco y Negro, doble faz",
+    "total": 25500,
+    "direccionEnvio": "Av. Laprida 101"
+  }
+}
+
+###
+
+### 📝 4. Agregar o actualizar notas internas (admin)
+PUT {{baseUrl}}/admin/pedido_notasInternas/2
+//Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "notasInternas": "Cliente aun no paga!",
+  "estado": "EN_PROCESO"
+}
+
+###
+
+### 🔄 5. Cambiar el estado del pedido (admin)
+PUT {{baseUrl}}/admin/pedido_estado/2
+//Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "estado": "EN_PROCESO"
+}

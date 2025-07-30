@@ -8,14 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Define un enum personalizado para los roles de usuario para mayor seguridad de tipo y validación.
 enum RolUsuario {
   ADMIN
   EMPLEADO 
   CLIENTE
 }
 
-// Define un enum personalizado para los estados de pedido para mayor consistencia.
 enum EstadoPedido {
   PENDIENTE
   EN_PROCESO
@@ -25,7 +23,6 @@ enum EstadoPedido {
   CANCELADO // Importante para la gestión de pedidos
 }
 
-// Define un enum personalizado para los estados de los productos.
 enum EstadoProducto {
   ACTIVO
   INACTIVO // Para productos que están temporalmente no disponibles
@@ -37,6 +34,18 @@ enum EstadoUsuario {
   INACTIVO
   PENDIENTE
   BLOQUEADO
+}
+
+enum CategoriaProducto {
+  CUADERNOS
+  LAPICES
+  FIBRONES
+  MOCHILAS
+  HOJAS
+  IMPRESIONES
+  PLASTILINAS
+  REGLAS
+  OTROS
 }
 
 model Usuario {
@@ -63,7 +72,7 @@ model Producto {
   nombre          String          @db.VarChar(100)
   slug            String         @unique // Agregado para URLs amigables con SEO e identificación única
   descripcion     String?        @db.Text // Descripción más larga, ideal para SEO y detalles del producto
-  categoria       String?        @db.VarChar(100) // Agregado para categorizar
+  categoria       CategoriaProducto @default(OTROS) // Usa el enum para categorías de productos
   precio          Float
   stock           Int            @default(0) // Fundamental para la gestión de inventario
   creadoEn        DateTime       @default(now())
@@ -137,8 +146,10 @@ model Pedido {
 model HistorialEstadoPedido {
   id        Int       @id @default(autoincrement())
   pedidoId  Int
-  estado    EstadoPedido
+  estadoAnterior    EstadoPedido
+  estadoNuevo       EstadoPedido
   fecha     DateTime  @default(now())
+  cambiadoEn     DateTime @default(now())
   cambiadoPor String? // Puede ser el ID del usuario que cambió el estado, o un nombre descriptivo
 
   pedido    Pedido    @relation(fields: [pedidoId], references: [id])
