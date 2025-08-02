@@ -47,6 +47,42 @@ const obtenerProductoPorId = async (id) => {
     })
 }
 
+/** * Servicio para obtener productos disponibles (en stock y activos).
+ * @returns {Promise<Array>} Lista de productos disponibles.
+ */
+
+const obtenerProductosDisponibles = async () => {
+    return await prisma.producto.findMany({
+        where: {
+            stock: {
+                gt: 0
+            },
+            estado: "ACTIVO"
+        },
+        select: {
+            id: true,
+            nombre: true,
+            descripcion: true,
+            precio: true,
+            stock: true,
+            slug: true,
+            categoria: true,
+            creadoEn: true,
+            imagenes: {
+                where: {
+                    esPrincipal: true
+                },
+                select: {
+                    url: true,
+                }
+            },
+        },
+        orderBy: {
+            creadoEn: "desc",
+        },
+    })
+}
+
 /** * Servicio para crear un nuevo producto.
  * @param {Object} data - Datos del producto a crear.
  * @returns {Promise<Object>} Producto creado.
@@ -78,6 +114,7 @@ const actualizarProducto = async (id, data) => {
 const PRODUCTOS_SERVICES = {
     listarProductos,
     obtenerProductoPorId,
+    obtenerProductosDisponibles,
     crearProducto,
     multiplesImagenesDeProducto,
     actualizarProducto

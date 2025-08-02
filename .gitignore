@@ -1,7 +1,4 @@
-form_crear_producto.html
-form_actualizar_producto.html
-form_crear_promocion.html
-# Node.js
+htmlDePruebas/
 node_modules
 npm-debug.log*
 yarn-debug.log*
@@ -9,7 +6,7 @@ yarn-error.log*
 package-lock.json
 .pnpm-debug.log*
 .vscode
-img
+img/
 public/imgs
 
 # Optional npm cache directory

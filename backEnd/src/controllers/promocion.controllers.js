@@ -1,9 +1,9 @@
 import fs from "fs/promises"
 import path from "path"
 import PROMOCIONES_SERVICES from "../services/promociones.services.js"
-import {
-    procesarImagenPromo
-} from "../middlewares/multer_IMGpromo.js"
+import { 
+    procesarImagenes 
+} from "../middlewares/multer_IMGs.js"
 
 
 /** * Controlador para listar todos las promociones.
@@ -42,12 +42,12 @@ export const promocion_lista = async (req, res) => {
 export const promocion_id = async (req, res) => {
     try {
         const { id } = req.params
-        const promocion = await PROMOCIONES_SERVICES.obtenerPromocionPorId(id)
+        const promocion = await PROMOCIONES_SERVICES.obtenerPromocionPorId(parseInt(id))
 
         if (!promocion) {
             return res.status(404).json({
                 success: false,
-                message: "Promoción no encontrada"
+                message: `Promoción ${id} no encontrada`
             })
         }
 
@@ -79,28 +79,31 @@ export const promocion_crear = async (req, res) => {
 
         const body = req.body
 
-        const array_de_numeros_productos = Array.isArray(body.productos) ?
-            body.productos.map(Number) : [Number(body.productos)]
+        let array_de_IDs_productos_sinRepetidos = req.body['productos[]'] || req.body.productos || []
 
-        const array_de_numeros_productos_sinRepetidos = [...new Set(array_de_numeros_productos)].filter(item => !isNaN(item))
+        if (!Array.isArray(array_de_IDs_productos_sinRepetidos)) {
+            array_de_IDs_productos_sinRepetidos = [array_de_IDs_productos_sinRepetidos]
+        }
+
+        array_de_IDs_productos_sinRepetidos = [...new Set(array_de_IDs_productos_sinRepetidos.map(id => parseInt(id)).filter(id => !isNaN(id)))]
 
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({
                 success: false,
-                message: "Debe subir al menos una imagen",
-            });
+                message: "Debe subir al menos una imagen para las Promosciones!",
+            })
         }
 
-        const productosValidos = await PROMOCIONES_SERVICES.verificarProductos(array_de_numeros_productos_sinRepetidos)
+        const productosValidos = await PROMOCIONES_SERVICES.verificarProductos(array_de_IDs_productos_sinRepetidos)
 
-        if (productosValidos.length !== array_de_numeros_productos_sinRepetidos.length) {
+        if (productosValidos.length !== array_de_IDs_productos_sinRepetidos.length) {
             return res.status(400).json({
                 success: false,
                 message: "Algunos productos seleccionados no están disponibles o están inactivos",
-            });
+            })
         }
 
-        const imagenUrlPromo = await procesarImagenPromo(req.files, req)
+        const imagenUrlPromo = await procesarImagenes(req.files, "promos", undefined, req)
 
         const _crear_P = await PROMOCIONES_SERVICES.crearPromocion({
             data: {
@@ -117,8 +120,8 @@ export const promocion_crear = async (req, res) => {
             await PROMOCIONES_SERVICES.insert_imagenUrlPromo(imagenUrlPromo, _crear_P.id)
         }
 
-        if (array_de_numeros_productos_sinRepetidos.length > 0) {
-            await PROMOCIONES_SERVICES.id_productos_promo(array_de_numeros_productos_sinRepetidos, _crear_P.id)
+        if (array_de_IDs_productos_sinRepetidos.length > 0) {
+            await PROMOCIONES_SERVICES.id_productos_promo(array_de_IDs_productos_sinRepetidos, _crear_P.id)
         }
 
         console.log("Promocion creada exitosamente", _crear_P)
@@ -131,7 +134,7 @@ export const promocion_crear = async (req, res) => {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(error)
 
         res.status(error.name === "ZodError" ? 400 : 500).json({
             success: false,
@@ -163,7 +166,7 @@ export const promocion_actualizar = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: "Debe subir al menos una imagen",
-            });
+            })
         }
 
         const productosValidos = await PROMOCIONES_SERVICES.verificarProductos(array_de_numeros_productos_sinRepetidos)
@@ -172,10 +175,10 @@ export const promocion_actualizar = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: "Algunos productos seleccionados no están disponibles o están inactivos",
-            });
+            })
         }
 
-        const imagenUrlPromo = await procesarImagenPromo(req.files, req)
+        const imagenUrlPromo = await procesarImagenes(req.files, "promos", undefined, req)
 
         const _actualizar_P = await PROMOCIONES_SERVICES.actualizarPromocion(id, {
             titulo: body.titulo,
@@ -204,7 +207,7 @@ export const promocion_actualizar = async (req, res) => {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(error)
 
         res.status(error.name === "ZodError" ? 400 : 500).json({
             success: false,

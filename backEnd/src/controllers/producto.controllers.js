@@ -81,6 +81,30 @@ export const producto_id = async (req, res) => {
     }
 }
 
+/** * Controlador para obtener los productos disponibles para promociones.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con los productos disponibles o un error.
+ */
+
+export const productos_paraPromo = async (req, res) => {
+    try {
+        const productos = await PRODUCTOS_SERVICES.obtenerProductosDisponibles()
+        res.status(200).json({
+            success: true,
+            message: "Productos disponibles para promociones",
+            data: productos
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+    }
+}
+
 /** * Controlador para crear un nuevo producto.
  * @param {Object} req - La solicitud HTTP.
  * @param {Object} res - La respuesta HTTP.
@@ -106,7 +130,7 @@ export const producto_crear = async (req, res) => {
             slug: generarSlug(req.body.nombre)
         })
 
-        const imagenUrls = await procesarImagenes(imagenes, _crear_P.slug, req)
+        const imagenUrls = await procesarImagenes(imagenes, "imgs", _crear_P.slug, req)
 
         const imagenesCreacion = await PRODUCTOS_SERVICES.multiplesImagenesDeProducto(imagenUrls, _crear_P.id)
 
@@ -202,7 +226,7 @@ export const producto_actualizar = async (req, res) => {
                 }
             })
 
-            const imagenUrls = await procesarImagenes(imagenes, productoActualizado.slug, req)
+            const imagenUrls = await procesarImagenes(imagenes, "imgs", productoActualizado.slug, req)
 
             const imagenesCreacion = await PRODUCTOS_SERVICES.multiplesImagenesDeProducto(imagenUrls, productoActualizado.id)
 

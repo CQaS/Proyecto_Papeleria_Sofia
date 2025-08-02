@@ -1,5 +1,6 @@
 Backend:
 npm init -y
+npm install
 npm i prisma -D
 npm i prisma-zod-generator -D
 

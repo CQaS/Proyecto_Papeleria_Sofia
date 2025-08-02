@@ -10,18 +10,19 @@ import {
     promocion_eliminar
 } from "../controllers/promocion.controllers.js"
 import {
-    multerError
-} from "../middlewares/multerError.js"
+    productos_paraPromo
+} from "../controllers/producto.controllers.js"
 import {
-    subirImgsPromo
-} from "../middlewares/multer_IMGpromo.js"
+    subirIMG
+} from "../middlewares/multer_IMGs.js"
 
 const routesPromocion = Router()
 
 routesPromocion.get('/lista_promociones', promocion_lista)
 routesPromocion.get('/promocion_id/:id', promocion_id)
-routesPromocion.put('/admin/actualizar_promocion/:id', subirImgsPromo, multerError, promocion_actualizar)
-routesPromocion.post('/admin/crear_promocion', subirImgsPromo, multerError, promocion_crear)
+routesPromocion.get('/admin/productos_paraPromo', productos_paraPromo)
+routesPromocion.post('/admin/crear_promocion', subirIMG, promocion_crear)
+routesPromocion.put('/admin/actualizar_promocion/:id', subirIMG, promocion_actualizar)
 routesPromocion.delete('/admin/eliminar_promocion/:id', promocion_eliminar)
 
 

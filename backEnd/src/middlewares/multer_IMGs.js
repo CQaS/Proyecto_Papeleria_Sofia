@@ -26,7 +26,7 @@ export const subirIMG = multer({
     limits: limites,
 }).array("imagen", 5)
 
-export const procesarImagenes = async (files, slug, req) => {
+export const procesarImagenes = async (files, carpeta, slug, req) => {
     const urls = []
 
     for (const file of files) {
@@ -34,10 +34,10 @@ export const procesarImagenes = async (files, slug, req) => {
         const nombreLimpio = file.originalname.replace(/\s+/g, "_").toLowerCase()
         const timestamp = Date.now()
         const nombreSinExtension = nombreLimpio.replace(/\.(jpeg|jpg|png|webp)$/i, "")
-        const uniqueName = `${timestamp}-${nombreSinExtension}-${slug}.webp`
+        const uniqueName = `${timestamp}-${nombreSinExtension}-${slug ? '-' + slug : ''}.webp`
 
-        const rutaPrincipal = `public/imgs/${uniqueName}`
-        const rutaMiniatura = `public/imgs/thumbs/${uniqueName}`
+        const rutaPrincipal = `public/${carpeta}/${uniqueName}`
+        const rutaMiniatura = `public/${carpeta}/thumbs/${uniqueName}`
 
         await sharp(file.buffer)
             .resize({
@@ -57,7 +57,7 @@ export const procesarImagenes = async (files, slug, req) => {
             })
             .toFile(rutaMiniatura)
 
-        const urlAccesible = `${req.protocol}://${req.get("host")}/imgs/${uniqueName}`
+        const urlAccesible = `${req.protocol}://${req.get("host")}/${carpeta}/${uniqueName}`
         urls.push(urlAccesible)
     }
 

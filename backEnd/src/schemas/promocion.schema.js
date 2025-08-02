@@ -1,6 +1,6 @@
 import {
     z
-} from "zod";
+} from "zod"
 
 export const PromocionSchema = z.object({
     titulo: z.string().min(3).max(100),
@@ -8,5 +8,5 @@ export const PromocionSchema = z.object({
     descripcion: z.string().max(500).optional(),
     fechaInicio: z.coerce.date().optional(), // si no se envía, Prisma usa now()
     fechaFin: z.coerce.date().optional(),
-    activa: z.boolean().optional()
-});
+    activa: z.coerce.boolean().optional()
+})

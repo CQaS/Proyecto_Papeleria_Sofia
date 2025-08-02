@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:5000/api/promocion
+@token = Bearer TU_TOKEN_JWT_AQUI
+
+###
+
+### 🎯 1. Listar todas las promociones (público o admin)
+GET {{baseUrl}}/lista_promociones
+
+###
+
+### 🔍 2. Obtener promoción por ID (público o admin)
+GET {{baseUrl}}/promocion_id/5
+
+###
+
+
+### ❌ 3. Eliminar promoción por ID (requiere admin)
+DELETE {{baseUrl}}/admin/eliminar_promocion/1
+//Authorization: {{token}}
+
+###
+
+### 🛠️ 3. Crear nueva promoción (requiere admin)
+GET {{baseUrl}}/admin/productos_paraPromo
+//Authorization: {{token}}

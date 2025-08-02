@@ -11,16 +11,13 @@ import {
     producto_actualizar,
     producto_eliminar
 } from "../controllers/producto.controllers.js"
-import {
-    multerError
-} from "../middlewares/multerError.js"
 
 const routesProducto = Router()
 
 routesProducto.get('/producto_lista', producto_lista)
 routesProducto.get('/producto_id/:id', producto_id)
-routesProducto.post('/admin/producto_crear', subirIMG, multerError, producto_crear)
-routesProducto.put('/admin/producto_actualizar/:id', subirIMG, multerError, producto_actualizar)
+routesProducto.post('/admin/producto_crear', subirIMG, producto_crear)
+routesProducto.put('/admin/producto_actualizar/:id', subirIMG, producto_actualizar)
 routesProducto.delete('/admin/producto_eliminar/:id', producto_eliminar)
 
 

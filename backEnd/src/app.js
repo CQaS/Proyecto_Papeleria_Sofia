@@ -7,6 +7,7 @@ import {
 } from './config.js'
 
 import routes from './router/index.js'
+import { errorHandler } from './middlewares/errorHandler.js'
 
 const app = express()
 
@@ -24,7 +25,7 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(bodyParser.json())
-app.use("/imgs", express.static("public/imgs")) // Servir imágenes estáticas
+app.use(express.static("public"))
 
 routes.forEach(({
     path,
@@ -39,5 +40,7 @@ app.use((req, res, next) => {
         Error: 'Ruta no encontrada'
     })
 })
+
+app.use(errorHandler)
 
 export default app
