@@ -47,6 +47,37 @@ const obtenerProductoPorId = async (id) => {
     })
 }
 
+/** * Servicio para obtener productos por categoría.
+ * @param {string} categoria - Nombre de la categoría.
+ * @returns {Promise<Array>} Lista de productos de la categoría.
+ */
+
+const obtenerPorCategoria = async (categoria) => {
+    return await prisma.producto.findMany({
+        where: { categoria },
+        select: {
+            id: true,
+            nombre: true,
+            descripcion: true,
+            precio: true,
+            stock: true,
+            slug: true,
+            creadoEn: true,
+            imagenes: {
+                where: {
+                    esPrincipal: true
+                },
+                select: {
+                    url: true,
+                }
+            },
+        },
+        orderBy: {
+            creadoEn: "desc",
+        },
+    })
+}
+
 /** * Servicio para obtener productos disponibles (en stock y activos).
  * @returns {Promise<Array>} Lista de productos disponibles.
  */
@@ -114,6 +145,7 @@ const actualizarProducto = async (id, data) => {
 const PRODUCTOS_SERVICES = {
     listarProductos,
     obtenerProductoPorId,
+    obtenerPorCategoria,
     obtenerProductosDisponibles,
     crearProducto,
     multiplesImagenesDeProducto,

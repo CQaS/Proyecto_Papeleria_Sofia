@@ -15,3 +15,65 @@ npx prisma studio (abre una iterface grafica en el navegador para ver la DB)
 frontend:
 npx create-next-app nombreApp
 npm run dev
+
+TAREAS PENDIENTES:
+
+🛡 Seguridad
+ Implementar refresh tokens junto con el access token JWT.
+
+ Confirmar que las contraseñas se guardan con hash y sal (bcrypt o argon2).
+
+ Centralizar control de roles y permisos (isAdmin, isUser, checkPermission()).
+
+ Agregar rate limiting para login y rutas sensibles.
+
+ Usar helmet para cabeceras de seguridad HTTP.
+
+ Asegurar CORS correctamente configurado (solo orígenes permitidos).
+
+✅ Validación y consistencia
+ Validar todos los inputs con Zod, incluso parámetros de ruta y query.
+
+ Agregar control de errores global (errorHandler) para JWT, Prisma, multer, etc.
+
+ Mensajes de error consistentes y claros para frontend.
+
+ Normalizar respuestas API (success, message, data).
+
+⚡ Optimización
+ Implementar paginación en listados (productos, promociones, pedidos).
+
+ Agregar filtros y ordenamiento en endpoints de listados.
+
+ Revisar índices en Prisma para campos muy consultados (slug, código, categoría, estado).
+
+ Agregar caché opcional para listados que no cambian mucho (ej. Redis).
+
+🖼 Archivos e imágenes
+ Eliminar archivos huérfanos cuando se elimina producto/promo.
+
+ Guardar versión reducida (mini) para listados.
+
+ Validar tipo, tamaño y cantidad de imágenes en multer antes de guardar.
+
+ Crear subcarpetas organizadas para imágenes (por fecha o tipo).
+
+🧪 Pruebas
+ Unit tests para funciones clave (verificarProductos, autenticación, etc.).
+
+ Pruebas de integración con supertest simulando flujos reales.
+
+ Tests de subida de archivos.
+
+ Tests de seguridad (token inválido, usuario sin permisos, etc.).
+
+🛠 Mantenimiento y desarrollo
+ Crear .env.example con todas las variables necesarias.
+
+ Agregar seed de datos con Prisma para entorno de desarrollo.
+
+ Script de limpieza automática de promociones vencidas.
+
+ Documentar endpoints con Swagger o un archivo .rest bien comentado.
+
+ Registrar eventos importantes con Winston/Pino.

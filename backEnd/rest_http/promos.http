@@ -9,7 +9,7 @@ GET {{baseUrl}}/lista_promociones
 ###
 
 ### 🔍 2. Obtener promoción por ID (público o admin)
-GET {{baseUrl}}/promocion_id/5
+GET {{baseUrl}}/promocion_id/6
 
 ###
 

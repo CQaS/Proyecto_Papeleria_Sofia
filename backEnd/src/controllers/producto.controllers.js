@@ -44,6 +44,28 @@ export const producto_lista = async (req, res) => {
     }
 }
 
+export const Categoria = async (req, res) => {
+    try {
+        const { categoria } = req.params
+        const productos = await PRODUCTOS_SERVICES.obtenerPorCategoria(categoria)
+
+        res.status(200).json({
+            success: true,
+            message: `Productos de la categoría ${categoria} obtenidos exitosamente`,
+            data: productos
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+
+    }
+}
+
 /** * Controlador para obtener un producto por su ID.
  * @param {Object} req - La solicitud HTTP.
  * @param {Object} res - La respuesta HTTP.

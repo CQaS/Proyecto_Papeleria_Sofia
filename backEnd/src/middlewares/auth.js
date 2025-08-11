@@ -1,7 +1,7 @@
 // middlewares/auth.js
 import jwt from "jsonwebtoken"
 
-export const verificarToken = (req, res, next) => {
+export const authAdmin = (req, res, next) => {
     const authHeader = req.headers["authorization"]
     const token = authHeader && authHeader.split(" ")[1]
 
@@ -14,22 +14,21 @@ export const verificarToken = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        req.usuario = decoded 
+
+        if (decoded.rol !== "ADMIN") {
+            return res.status(403).json({
+                success: false,
+                message: "Acceso denegado: se requiere rol ADMIN",
+            })
+        }
+
+        req.usuario = decoded
         next()
+
     } catch (error) {
         return res.status(403).json({
             success: false,
             message: "Token inválido o expirado"
         })
     }
-}
-
-export const soloAdmin = (req, res, next) => {
-    if (req.usuario?.rol !== "ADMIN") {
-        return res.status(403).json({
-            success: false,
-            message: "Acceso denegado. Solo administradores"
-        })
-    }
-    next()
 }
