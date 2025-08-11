@@ -19,17 +19,17 @@ npm run dev
 TAREAS PENDIENTES:
 
 🛡 Seguridad
- Implementar refresh tokens junto con el access token JWT.
+>> Implementar refresh tokens junto con el access token JWT.
 
- Confirmar que las contraseñas se guardan con hash y sal (bcrypt o argon2).
+>> Confirmar que las contraseñas se guardan con hash y sal (bcrypt o argon2).
 
- Centralizar control de roles y permisos (isAdmin, isUser, checkPermission()).
+>> Centralizar control de roles y permisos (isAdmin, isUser, checkPermission()).
 
- Agregar rate limiting para login y rutas sensibles.
+>> Agregar rate limiting para login y rutas sensibles.
 
- Usar helmet para cabeceras de seguridad HTTP.
+>> Usar helmet para cabeceras de seguridad HTTP.
 
- Asegurar CORS correctamente configurado (solo orígenes permitidos).
+>> Asegurar CORS correctamente configurado (solo orígenes permitidos).
 
 ✅ Validación y consistencia
  Validar todos los inputs con Zod, incluso parámetros de ruta y query.

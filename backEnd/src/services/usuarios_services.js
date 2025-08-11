@@ -1,6 +1,6 @@
 import {
     prisma
-} from "../libs/prisma.js";
+} from "../libs/prisma.js"
 
 /** * Servicio para listar todos los usuarios.
  * @returns {Promise<Array>} Lista de usuarios.
@@ -120,7 +120,30 @@ const UsuarioEliminar = async (id) => {
         data: {
             estado: 'INACTIVO'
         },
-    });
+    })
+}
+
+const crearRefreshToken = (refreshToken, id_usuario) => {
+    return prisma.refreshToken.create({
+        data: {
+            token: refreshToken,
+            usuarioId: id_usuario,
+            expiraEn: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 días
+        },
+    })
+}
+
+const refreshToken = async () => {
+    await prisma.refreshToken.findMany({
+        where: {
+            expiraEn: {
+                gt: new Date()
+            }
+        },
+        include: {
+            usuario: true
+        }
+    })
 }
 
 const USUARIOS_SERVICES = {
@@ -129,7 +152,9 @@ const USUARIOS_SERVICES = {
     UsuarioPorEmailTelefono,
     UsuarioCrear,
     UsuarioActualizar,
-    UsuarioEliminar
+    UsuarioEliminar,
+    crearRefreshToken,
+    refreshToken
 }
 
 export default USUARIOS_SERVICES
