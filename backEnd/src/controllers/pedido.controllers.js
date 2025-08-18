@@ -1,3 +1,4 @@
+ import Logger from "../utils/logger.js"
  import PEDIDOS_SERVICES from "../services/pedidos.services.js"
  import USUARIOS_SERVICES from "../services/usuarios_services.js"
  import {
@@ -42,12 +43,14 @@
          const pedido = await PEDIDOS_SERVICES.listarPedidoPorId(id)
 
          if (!pedido) {
+            Logger.info(`Pedido n:${id} no encontrado`)
              return res.status(404).json({
                  success: false,
                  message: `Pedido n:${id} no encontrado`
              })
          }
 
+         Logger.info(`Estado del pedido n:${id} obtenido exitosamente`)
          res.status(200).json({
              success: true,
              message: "Estado del pedido obtenido exitosamente",

@@ -32,31 +32,31 @@ TAREAS PENDIENTES:
 >> Asegurar CORS correctamente configurado (solo orígenes permitidos).
 
 ✅ Validación y consistencia
- Validar todos los inputs con Zod, incluso parámetros de ruta y query.
+>> Validar todos los inputs con Zod, incluso parámetros de ruta y query.
 
- Agregar control de errores global (errorHandler) para JWT, Prisma, multer, etc.
+>> Agregar control de errores global (errorHandler) para JWT, Prisma, multer, etc.
 
- Mensajes de error consistentes y claros para frontend.
+>> Mensajes de error consistentes y claros para frontend.
 
- Normalizar respuestas API (success, message, data).
+>> Normalizar respuestas API (success, message, data).
 
 ⚡ Optimización
  Implementar paginación en listados (productos, promociones, pedidos).
 
- Agregar filtros y ordenamiento en endpoints de listados.
+>> Agregar filtros y ordenamiento en endpoints de listados.
 
- Revisar índices en Prisma para campos muy consultados (slug, código, categoría, estado).
+>> Revisar índices en Prisma para campos muy consultados (slug, código, categoría, estado).
 
- Agregar caché opcional para listados que no cambian mucho (ej. Redis).
+ Agregar caché opcional para listados que no cambian mucho (ej. Redis)??.
 
 🖼 Archivos e imágenes
- Eliminar archivos huérfanos cuando se elimina producto/promo.
+>> Eliminar archivos huérfanos cuando se elimina producto/promo.
 
- Guardar versión reducida (mini) para listados.
+>> Guardar versión reducida (mini) para listados.
 
- Validar tipo, tamaño y cantidad de imágenes en multer antes de guardar.
+>> Validar tipo, tamaño y cantidad de imágenes en multer antes de guardar.
 
- Crear subcarpetas organizadas para imágenes (por fecha o tipo).
+>> Crear subcarpetas organizadas para imágenes (por fecha o tipo).
 
 🧪 Pruebas
  Unit tests para funciones clave (verificarProductos, autenticación, etc.).
@@ -68,7 +68,7 @@ TAREAS PENDIENTES:
  Tests de seguridad (token inválido, usuario sin permisos, etc.).
 
 🛠 Mantenimiento y desarrollo
- Crear .env.example con todas las variables necesarias.
+>> Crear .env.example con todas las variables necesarias.
 
  Agregar seed de datos con Prisma para entorno de desarrollo.
 
@@ -76,4 +76,4 @@ TAREAS PENDIENTES:
 
  Documentar endpoints con Swagger o un archivo .rest bien comentado.
 
- Registrar eventos importantes con Winston/Pino.
+ 

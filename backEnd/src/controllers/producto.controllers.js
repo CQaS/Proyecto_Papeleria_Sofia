@@ -213,11 +213,7 @@ export const producto_actualizar = async (req, res) => {
 
             const imagenes = req.files
 
-            const imagenesAnteriores = await prisma.imagenProducto.findMany({
-                where: {
-                    productoId: productoActualizado.id
-                }
-            })
+            const imagenesAnteriores = await PRODUCTOS_SERVICES.obtenerImagenesProducto(parseInt(id))
 
             console.log("Imagenes Anteriores:", imagenesAnteriores)
 

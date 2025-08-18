@@ -10,7 +10,7 @@ GET {{baseUrl}}/admin/pedido_lista
 ###
 
 ### 📦 2. Consultar estado de un pedido (público)
-GET {{baseUrl}}/pedido_estado/1
+GET {{baseUrl}}/pedido_estado/3
 
 ###
 

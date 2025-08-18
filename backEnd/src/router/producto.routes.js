@@ -15,12 +15,18 @@ import {
 import {
     authAdmin
 } from "../middlewares/auth.js"
+import {
+    validarParams
+} from "../middlewares/validarParams.js"
+import {
+    paramsSchema
+} from "../schemas/params.shema.js"
 
 const routesProducto = Router()
 
 routesProducto.get('/producto_lista', producto_lista)
 routesProducto.get('cuadernos/:categoria', Categoria)
-routesProducto.get('/producto_id/:id', producto_id)
+routesProducto.get('/producto_id/:id', validarParams(paramsSchema), producto_id)
 routesProducto.post('/admin/producto_crear', authAdmin, subirIMG, producto_crear)
 routesProducto.put('/admin/producto_actualizar/:id', authAdmin, subirIMG, producto_actualizar)
 routesProducto.delete('/admin/producto_eliminar/:id', authAdmin, producto_eliminar)

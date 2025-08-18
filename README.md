@@ -109,3 +109,12 @@ Este es el backend del proyecto **Papelería Sofía**, una app web desarrollada 
 * Slug validado por expresión regular
 
 ---
+
+## Configuración de entorno
+
+Este proyecto utiliza variables de entorno para su configuración.  
+Antes de iniciar, copiá el archivo `.env.example` a `.env` y completá tus valores:
+
+```bash
+cp .env.example .env
+

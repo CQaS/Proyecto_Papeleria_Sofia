@@ -1,8 +1,8 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
-import bodyParser from 'body-parser'
 import helmet from 'helmet'
+import 'dotenv/config'
 import routes from './router/index.js'
 import {
     errorHandler
@@ -10,11 +10,7 @@ import {
 
 const app = express()
 
-const allowedOrigins = [
-    "http://127.0.0.1:5500",
-    "http://localhost:3000",
-    "https://miapp.com", //app Papeleria
-];
+const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS ? process.env.CORS_ALLOWED_ORIGINS.split(',') : [];
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -35,11 +31,9 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(morgan('dev'))
 app.use(express.json())
-app.use(bodyParser.urlencoded({
+app.use(express.urlencoded({
     extended: true
 }))
-
-app.use(bodyParser.json())
 app.use(express.static("public"))
 app.use(helmet({
     contentSecurityPolicy: {

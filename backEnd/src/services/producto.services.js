@@ -40,7 +40,9 @@ const listarProductos = async () => {
 
 const obtenerProductoPorId = async (id) => {
     return await prisma.producto.findUnique({
-        where: { id },
+        where: {
+            id
+        },
         include: {
             imagenes: true
         }
@@ -54,7 +56,9 @@ const obtenerProductoPorId = async (id) => {
 
 const obtenerPorCategoria = async (categoria) => {
     return await prisma.producto.findMany({
-        where: { categoria },
+        where: {
+            categoria
+        },
         select: {
             id: true,
             nombre: true,
@@ -137,9 +141,19 @@ const multiplesImagenesDeProducto = async (urlsImagenes, id_producto) => {
 
 const actualizarProducto = async (id, data) => {
     return await prisma.producto.update({
-        where: { id },
+        where: {
+            id
+        },
         data
     })
+}
+
+const obtenerImagenesProducto = async (id_producto) => {
+    return await prisma.imagenProducto.findMany({
+        where: {
+            productoId: id_producto
+        }
+    });
 }
 
 const PRODUCTOS_SERVICES = {
@@ -149,7 +163,8 @@ const PRODUCTOS_SERVICES = {
     obtenerProductosDisponibles,
     crearProducto,
     multiplesImagenesDeProducto,
-    actualizarProducto
+    actualizarProducto,
+    obtenerImagenesProducto
 }
 
 export default PRODUCTOS_SERVICES
