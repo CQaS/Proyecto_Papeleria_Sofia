@@ -1,6 +1,7 @@
 import {
     Prisma
 } from "@prisma/client"
+import logger from "../utils/logger.js"
 import CONSULTAS_SERVICES from "../services/consultas.services.js";
 
 /** * Controlador para listar todas las consultas.
@@ -12,7 +13,7 @@ import CONSULTAS_SERVICES from "../services/consultas.services.js";
 export const consulta_lista = async (req, res) => {
     try {
         const _listar_C = await CONSULTAS_SERVICES.listarConsultas()
-        console.log(_listar_C)
+        logger.info(_listar_C)
         res.status(200).json({
             success: true,
             message: "Consultas listadas exitosamente",
@@ -39,7 +40,7 @@ export const consulta_lista = async (req, res) => {
 export const consulta_crear = async (req, res) => {
     try {
         const _crear_C = await CONSULTAS_SERVICES.crearConsulta(req.body)
-        console.log(_crear_C)
+        logger.info(_crear_C)
         res.status(201).json({
             success: true,
             message: "Consulta creada exitosamente",

@@ -1,8 +1,11 @@
 import bcrypt from "bcryptjs"
 import crypto from "crypto"
 import jwt from "jsonwebtoken"
+import logger from "../utils/logger.js"
 import USUARIOS_SERVICES from "../services/usuarios_services.js"
-import { LoginSchema } from "../schemas/login.schema.js"
+import {
+  LoginSchema
+} from "../schemas/login.schema.js"
 
 export const login = async (req, res) => {
   try {
@@ -15,21 +18,24 @@ export const login = async (req, res) => {
       })
     }
 
-    const { email, password } = parsed.data
+    const {
+      email,
+      password
+    } = parsed.data
 
     const usuario = await USUARIOS_SERVICES.UsuarioPorEmailTelefono(
       email,
-      "0" 
+      "0"
     )
-    
+
     if (!usuario || usuario.estado !== "ACTIVO" || usuario.rol !== "ADMIN") {
       return res.status(401).json({
         success: false,
         message: "Credenciales inválidas o usuario inactivo",
       })
     }
-    console.log("Usuario encontrado:", usuario)
-    
+    logger.info("Usuario encontrado:", usuario)
+
     const passwordValido = await bcrypt.compare(password, usuario.password)
     if (!passwordValido) {
       return res.status(401).json({
@@ -38,14 +44,12 @@ export const login = async (req, res) => {
       })
     }
 
-    const accessToken = jwt.sign(
-      {
+    const accessToken = jwt.sign({
         id: usuario.id,
         rol: usuario.rol,
         nombre: usuario.nombre,
       },
-      process.env.JWT_SECRET,
-      {
+      process.env.JWT_SECRET, {
         expiresIn: "15min",
       }
     )
@@ -65,7 +69,10 @@ export const login = async (req, res) => {
     })
 
     // No enviamos la contraseña
-    const { password: _, ...usuarioSinPassword } = usuario
+    const {
+      password: _,
+      ...usuarioSinPassword
+    } = usuario
 
     return res.status(200).json({
       success: true,
@@ -73,7 +80,7 @@ export const login = async (req, res) => {
       accessToken,
       data: usuarioSinPassword,
     })
-    
+
   } catch (error) {
     console.error("Error en login:", error)
     return res.status(500).json({
@@ -86,7 +93,14 @@ export const login = async (req, res) => {
 
 export const registro = async (req, res) => {
   try {
-    const { nombre, apellido, email, password, telefono, direccion } = req.body
+    const {
+      nombre,
+      apellido,
+      email,
+      password,
+      telefono,
+      direccion
+    } = req.body
 
     const nuevoUsuario = await USUARIOS_SERVICES.UsuarioCrear({
       nombre,

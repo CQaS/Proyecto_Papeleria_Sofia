@@ -8,6 +8,8 @@ import {
     errorHandler
 } from './middlewares/errorHandler.js'
 
+import "./jobs/cleanupPromos.js" // limpieza de promociones vencidas
+
 const app = express()
 
 const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS ? process.env.CORS_ALLOWED_ORIGINS.split(',') : [];

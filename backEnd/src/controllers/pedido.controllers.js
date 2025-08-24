@@ -14,7 +14,7 @@
  export const pedido_lista = async (req, res) => {
      try {
          const _listar_P = await PEDIDOS_SERVICES.listarPedidos()
-         console.log(_listar_P)
+         logger.info(_listar_P)
          res.status(200).json({
              success: true,
              message: "Pedidos listados exitosamente",
@@ -43,7 +43,7 @@
          const pedido = await PEDIDOS_SERVICES.listarPedidoPorId(id)
 
          if (!pedido) {
-            Logger.info(`Pedido n:${id} no encontrado`)
+             Logger.info(`Pedido n:${id} no encontrado`)
              return res.status(404).json({
                  success: false,
                  message: `Pedido n:${id} no encontrado`

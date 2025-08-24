@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename)
 import {
     prisma
 } from "../libs/prisma.js"
+import logger from "../utils/logger.js"
 import PRODUCTOS_SERVICES from "../services/producto.services.js"
 import {
     procesarImagenes
@@ -26,7 +27,7 @@ import {
 export const producto_lista = async (req, res) => {
     try {
         const _listar_P = await PRODUCTOS_SERVICES.listarProductos()
-        console.log(_listar_P)
+        logger.info(_listar_P)
         res.status(200).json({
             success: true,
             message: "Productos listados exitosamente",
@@ -46,7 +47,9 @@ export const producto_lista = async (req, res) => {
 
 export const Categoria = async (req, res) => {
     try {
-        const { categoria } = req.params
+        const {
+            categoria
+        } = req.params
         const productos = await PRODUCTOS_SERVICES.obtenerPorCategoria(categoria)
 
         res.status(200).json({
@@ -156,7 +159,7 @@ export const producto_crear = async (req, res) => {
 
         const imagenesCreacion = await PRODUCTOS_SERVICES.multiplesImagenesDeProducto(imagenUrls, _crear_P.id)
 
-        console.log("Producto creado exitosamente", _crear_P, imagenesCreacion)
+        logger.info("Producto creado exitosamente", _crear_P, imagenesCreacion)
 
         res.status(201).json({
             success: true,
@@ -215,7 +218,7 @@ export const producto_actualizar = async (req, res) => {
 
             const imagenesAnteriores = await PRODUCTOS_SERVICES.obtenerImagenesProducto(parseInt(id))
 
-            console.log("Imagenes Anteriores:", imagenesAnteriores)
+            logger.info("Imagenes Anteriores:", imagenesAnteriores)
 
             for (const imagen of imagenesAnteriores) {
                 const nombreArchivo = path.basename(imagen.url) // extrae solo el nombre del archivo
@@ -225,14 +228,14 @@ export const producto_actualizar = async (req, res) => {
 
                 try {
                     await fs.unlink(rutaOriginal)
-                    console.log('Eliminada original:', nombreArchivo)
+                    logger.info('Eliminada original:', nombreArchivo)
                 } catch (err) {
                     console.warn('No se pudo eliminar original:', err.message)
                 }
 
                 try {
                     await fs.unlink(rutaThumb)
-                    console.log('Eliminada thumbnail:', nombreArchivo)
+                    logger.info('Eliminada thumbnail:', nombreArchivo)
                 } catch (err) {
                     console.warn('No se pudo eliminar thumbnail:', err.message)
                 }
@@ -248,7 +251,7 @@ export const producto_actualizar = async (req, res) => {
 
             const imagenesCreacion = await PRODUCTOS_SERVICES.multiplesImagenesDeProducto(imagenUrls, productoActualizado.id)
 
-            console.log("Imagenes del Producto actualizadas exitosamente", productoActualizado, imagenesCreacion)
+            logger.info("Imagenes del Producto actualizadas exitosamente", productoActualizado, imagenesCreacion)
         }
 
         res.status(200).json({

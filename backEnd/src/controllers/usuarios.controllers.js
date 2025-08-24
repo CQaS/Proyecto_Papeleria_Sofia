@@ -1,3 +1,4 @@
+import logger from "../utils/logger.js"
 import USUARIOS_SERVICES from "../services/usuarios_services.js"
 const {
     listarUsuarios,
@@ -16,7 +17,7 @@ const {
 export const usuarios_lista = async (req, res) => {
     try {
         const _listar_U = await listarUsuarios()
-        console.log(_listar_U)
+        logger.info(_listar_U)
         res.status(200).json({
             success: true,
             message: "Usuarios listados exitosamente",
@@ -141,7 +142,7 @@ export const usuarios_eliminar = async (req, res) => {
             message: "Usuario eliminado",
             data: usuario,
         })
-        
+
     } catch (error) {
         if (error.code === "P2025") {
             return res.status(404).json({
@@ -195,5 +196,3 @@ export const usuarios_PorId = async (req, res) => {
         })
     }
 }
-  
-  

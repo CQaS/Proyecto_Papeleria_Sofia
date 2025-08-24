@@ -1,6 +1,7 @@
 import {
     prisma
 } from "../libs/prisma.js"
+import logger from "../utils/logger.js"
 
 /** * Servicio para listar todas las consultas.
  * @returns {Promise<Array>} Lista de consultas.
@@ -42,7 +43,7 @@ const crearConsulta = async (data) => {
  */
 
 const marcarConsultaLeida = async (id) => {
-    console.log("Actualizando consulta ID:", id)
+    logger.info("Actualizando consulta ID:", id)
     return await prisma.consulta.update({
         where: {
             id: id
@@ -59,7 +60,7 @@ const marcarConsultaLeida = async (id) => {
  */
 
 const marcarConsultaResuelta = async (id) => {
-    console.log("Actualizando consulta ID:", id)
+    logger.info("Actualizando consulta ID:", id)
     return await prisma.consulta.update({
         where: {
             id: id

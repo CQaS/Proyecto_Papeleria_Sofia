@@ -1,8 +1,9 @@
 import fs from "fs/promises"
 import path from "path"
+import logger from "../utils/logger.js"
 import PROMOCIONES_SERVICES from "../services/promociones.services.js"
-import { 
-    procesarImagenes 
+import {
+    procesarImagenes
 } from "../middlewares/multer_IMGs.js"
 
 
@@ -15,7 +16,7 @@ import {
 export const promocion_lista = async (req, res) => {
     try {
         const _listar_P = await PROMOCIONES_SERVICES.listarPromociones()
-        console.log(_listar_P)
+        logger.info(_listar_P)
         res.status(200).json({
             success: true,
             message: "Promociones listadas exitosamente",
@@ -41,7 +42,9 @@ export const promocion_lista = async (req, res) => {
 
 export const promocion_id = async (req, res) => {
     try {
-        const { id } = req.params
+        const {
+            id
+        } = req.params
         const promocion = await PROMOCIONES_SERVICES.obtenerPromocionPorId(parseInt(id))
 
         if (!promocion) {
@@ -124,7 +127,7 @@ export const promocion_crear = async (req, res) => {
             await PROMOCIONES_SERVICES.id_productos_promo(array_de_IDs_productos_sinRepetidos, _crear_P.id)
         }
 
-        console.log("Promocion creada exitosamente", _crear_P)
+        logger.info("Promocion creada exitosamente", _crear_P)
 
         res.status(201).json({
             success: true,
@@ -139,8 +142,7 @@ export const promocion_crear = async (req, res) => {
         res.status(error.name === "ZodError" ? 400 : 500).json({
             success: false,
             message: error.name === "ZodError" ?
-                "Error de validación de datos" :
-                "Ocurrió un error inesperado en el servidor.",
+                "Error de validación de datos" : "Ocurrió un error inesperado en el servidor.",
             error: error.errors || error.message,
         })
     }
@@ -154,7 +156,9 @@ export const promocion_crear = async (req, res) => {
 
 export const promocion_actualizar = async (req, res) => {
     try {
-        const { id } = req.params
+        const {
+            id
+        } = req.params
         const body = req.body
 
         const array_de_numeros_productos = Array.isArray(body.productos) ?
@@ -197,7 +201,7 @@ export const promocion_actualizar = async (req, res) => {
             await PROMOCIONES_SERVICES.id_productos_promo(array_de_numeros_productos_sinRepetidos, id)
         }
 
-        console.log("Promocion actualizada exitosamente", _actualizar_P)
+        logger.info("Promocion actualizada exitosamente", _actualizar_P)
 
         res.status(200).json({
             success: true,
@@ -225,7 +229,9 @@ export const promocion_actualizar = async (req, res) => {
 
 export const promocion_eliminar = async (req, res) => {
     try {
-        const { id } = req.params
+        const {
+            id
+        } = req.params
 
         // Verificar si la promoción existe
         const promocion = await PROMOCIONES_SERVICES.obtenerPromocionPorId(id)
