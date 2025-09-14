@@ -1,4 +1,7 @@
 import {
+    CategoriaProducto
+} from '@prisma/client'
+import {
     prisma
 } from "../libs/prisma.js"
 
@@ -55,9 +58,15 @@ const obtenerProductoPorId = async (id) => {
  */
 
 const obtenerPorCategoria = async (categoria) => {
+    const categoriaEnum = CategoriaProducto[categoria.toUpperCase()]
+
+    if (!categoriaEnum) {
+        return []
+    }
+
     return await prisma.producto.findMany({
         where: {
-            categoria
+            categoria: categoriaEnum
         },
         select: {
             id: true,

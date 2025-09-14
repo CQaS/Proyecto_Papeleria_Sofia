@@ -13,7 +13,12 @@ GET {{baseUrl}}/producto_id/16
 
 ###
 
-###  3. Eliminar producto por ID (requiere auth)
+###  3. Obtener productos por categoría (sin auth)
+GET {{baseUrl}}/categorias/goma
+
+###
+
+###  4. Eliminar producto por ID (requiere auth)
 DELETE {{baseUrl}}/admin/producto_eliminar/8
 //Authorization: {{token}}
 

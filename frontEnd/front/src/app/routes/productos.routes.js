@@ -1,0 +1,42 @@
+import {
+    api
+} from "../lib/api";
+
+export const setAuthToken = (token) => {
+    if (token) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+        delete api.defaults.headers.common['Authorization'];
+    }
+};
+
+export const login = async (email, password) => {
+    const response = await api.post('/auth/login', {
+        email,
+        password
+    });
+    return response.data; // { token, user }
+};
+
+export const getProducts = async (filters = {}) => {
+    let url = '/producto/producto_lista';
+    if (filters.categoria) {
+        url = `/producto/categorias/${filters.categoria}`;
+    }
+    const response = await api.get(url);
+    return response.data;
+};
+
+export const getProductById = async (id) => {
+    const response = await api.get(`/producto/producto_id/${id}`);
+    return response.data;
+};
+
+export const createProduct = async (formData) => {
+    const response = await api.post('/productos', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+    });
+    return response.data;
+};

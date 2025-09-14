@@ -5,7 +5,7 @@
 
 ###  1. Listar todas las consultas (requiere auth)
 GET {{baseUrl}}/admin/consulta_lista
-//Authorization: {{token}}
+Authorization: {{token}}
 
 ###
 

@@ -48,7 +48,7 @@ export default function Home() {
                 Inicio
               </a>
               <a
-                href="/catalogo.html"
+                href="/productos"
                 className="font-medium text-gray-600 hover:text-primary transition-colors py-2 md:py-0"
               >
                 Productos y Promociones

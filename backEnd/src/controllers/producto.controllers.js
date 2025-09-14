@@ -45,12 +45,26 @@ export const producto_lista = async (req, res) => {
     }
 }
 
+/** * Controlador para obtener productos por categoría.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con los productos de la categoría o un error.
+ */
+
 export const Categoria = async (req, res) => {
     try {
         const {
             categoria
         } = req.params
+
         const productos = await PRODUCTOS_SERVICES.obtenerPorCategoria(categoria)
+
+        if (productos.length === 0) {
+            return res.status(200).json({
+                success: false,
+                message: `No se encontraron productos para la categoría: ${categoria}`
+            })
+        }
 
         res.status(200).json({
             success: true,
