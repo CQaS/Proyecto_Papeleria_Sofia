@@ -1,5 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Headers from "../components/header";
+import Footer from "../components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,15 +33,14 @@ export default function RootLayout({ children }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
         />
       </head>
-
-      {/* Enlaces a fuentes y iconos colocados directamente en <html> con precedence */}
-      {/* Next.js App Router maneja el <head> basado en metadata y elementos aquí */}
-
-      <body className={inter.className}>
-        {" "}
-        {/* La clase de la fuente Inter se aplica al body */}
-        {children}{" "}
-        {/* Aquí se renderiza el contenido de las páginas (como page.js) */}
+      <body>
+        <div className="bg-white">
+          {/* Header */}
+          <Headers />
+          {children}
+          {/* Footer */}
+          <Footer />
+        </div>
       </body>
     </html>
   );
