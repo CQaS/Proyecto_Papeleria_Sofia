@@ -12,60 +12,52 @@ export default function Footer() {
               servicios de impresión.
             </p>
             <div className="flex space-x-4">
-              <a
+              <Link
                 href="#"
                 className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
               >
                 <i className="ri-facebook-fill"></i>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
               >
                 <i className="ri-instagram-line"></i>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
               >
                 <i className="ri-whatsapp-line"></i>
-              </a>
+              </Link>
             </div>
           </div>
           <div>
             <h4 className="text-lg font-semibold mb-4">Enlaces rápidos</h4>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Inicio
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/productos"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Productos
-                </a>
+                  Productos y Promociones
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Promociones
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Pedidos de impresión
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -75,12 +67,12 @@ export default function Footer() {
               <li className="flex items-start">
                 <i className="ri-map-pin-line mr-2 mt-1"></i>
                 <span className="text-gray-400">
-                  Av. Constitución 1254, Col. Centro, Ciudad de México
+                  Av. La Punta, San Luis, Arg.
                 </span>
               </li>
               <li className="flex items-center">
                 <i className="ri-phone-line mr-2"></i>
-                <span className="text-gray-400">(55) 1234-5678</span>
+                <span className="text-gray-400">(54) 1234-5678</span>
               </li>
               <li className="flex items-center">
                 <i className="ri-mail-line mr-2"></i>

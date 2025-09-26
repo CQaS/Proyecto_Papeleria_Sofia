@@ -4,7 +4,7 @@ import PromocionCard from "./PromoCard";
 export default async function PromocionSeccion() {
   let promociones = [];
   const promoResponse = await getPromociones();
-  promociones = promoResponse.data || [];
+  promociones = promoResponse.success ? promoResponse.data : [];
 
   return (
     <section className="py-12" id="promociones">

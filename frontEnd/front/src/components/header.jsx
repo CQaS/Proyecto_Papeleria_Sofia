@@ -24,9 +24,9 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="#" className="text-2xl font-['Pacifico'] text-blue-600">
+        <Link href="/" className="text-2xl font-['Pacifico'] text-blue-600">
           Papelería SOFIA
-        </a>
+        </Link>
         <nav
           className={`md:flex items-center space-x-8 ${
             isMenuOpen
@@ -34,24 +34,24 @@ export default function Header() {
               : "hidden"
           }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/"
             className="font-medium text-gray-900 hover:text-primary transition-colors py-2 md:py-0"
           >
             Inicio
-          </a>
-          <a
+          </Link>
+          <Link
             href="/productos"
             className="font-medium text-gray-600 hover:text-primary transition-colors py-2 md:py-0"
           >
             Productos y Promociones
-          </a>
-          <a
+          </Link>
+          <Link
             href="#"
             className="font-medium text-gray-600 hover:text-primary transition-colors py-2 md:py-0"
           >
             Pedidos de impresión
-          </a>
+          </Link>
         </nav>
         <button className="bg-primary text-blue-700 px-4 py-2 !rounded-button font-medium hover:bg-blue-400 transition-colors duration-500 whitespace-nowrap hidden md:block">
           Iniciar sesión

@@ -33,6 +33,7 @@ export default function ProductCard({ product }) {
           <img
             key={i}
             src={p.url || "/placeholder.svg"}
+            alt={product.nombre}
             className="w-full h-full object-cover object-top"
           />
         ))}
@@ -40,6 +41,21 @@ export default function ProductCard({ product }) {
       <div className="p-4">
         <h3 className="font-medium text-gray-900 mb-1">{product.nombre}</h3>
         <p className="text-primary-custom font-bold">{product.precio}</p>
+      </div>
+      <div className="absolute inset-0 bg-white/95 translate-y-full transition-transform duration-300 ease-in-out group-hover:translate-y-0 flex flex-col p-4">
+        <h3 className="font-medium text-gray-900 mb-2">{product.nombre}</h3>
+        <div className="space-y-2 text-sm text-gray-600 flex-grow">
+          <p className="font-medium text-secondary-custom">Características:</p>
+          <ul className="space-y-1">
+            <li className="flex items-start">
+              <i className="ri-checkbox-circle-line text-secondary-custom mt-1 mr-2"></i>
+              <span>{product.descripcion}</span>
+            </li>
+          </ul>
+        </div>
+        <button className="mt-4 w-full bg-amber-500 text-white py-2 rounded-lg font-medium hover:bg-amber-400 transition-colors whitespace-nowrap">
+          Agregar al carrito
+        </button>
       </div>
     </div>
   );

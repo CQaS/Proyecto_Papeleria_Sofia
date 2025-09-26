@@ -2,15 +2,6 @@ import { getProducts, getProductById } from "../app/routes/productos.routes";
 import ProductCard from "./ProductosCard";
 
 export default async function ProductosCategoriasSection({ searchParams }) {
-  /* 
-  let products = [];
-
-    const productResponse = await getProducts(categoria ? { categoria } : {});
-    products = productResponse.data || [];
-
-    
-   */
-
   const categoria = searchParams?.categoria;
   let products = [];
 

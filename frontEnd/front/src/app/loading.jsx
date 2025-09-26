@@ -16,9 +16,8 @@ export default function Loading() {
     <div className="fixed inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-50">
       <div className="text-center">
         <div className="relative w-24 h-24 mx-auto mb-4">
-          {/* Ícono de lápiz girando */}
           <svg
-            className="animate-spin w-full h-full text-blue-500"
+            className="animate-spin w-full h-full text-primary"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
@@ -27,13 +26,12 @@ export default function Loading() {
           >
             <path d="M4 20.7L7.3 17.3M12 3v2m-9 7h2m14 0h2m-7 7v2M6.3 6.3l1.4 1.4M17.3 17.3l1.4 1.4M6.3 17.3l1.4-1.4M17.3 6.3l1.4 1.4" />
           </svg>
-          {/* Cuaderno estilizado */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-12 h-16 bg-yellow-200 rounded-md shadow-md transform rotate-12"></div>
             <div className="w-12 h-16 bg-pink-200 rounded-md shadow-md transform -rotate-12"></div>
           </div>
         </div>
-        <h2 className="text-2xl font-['Pacifico'] text-blue-700">
+        <h2 className="text-2xl font-['Pacifico'] text-primary">
           Preparando tu papelería{dots}
         </h2>
         <p className="text-gray-600">Cargando colores y creatividad...</p>
