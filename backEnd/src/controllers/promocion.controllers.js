@@ -48,7 +48,7 @@ export const promocion_id = async (req, res) => {
         const promocion = await PROMOCIONES_SERVICES.obtenerPromocionPorId(parseInt(id))
 
         if (!promocion) {
-            return res.status(404).json({
+            return res.status(200).json({
                 success: false,
                 message: `Promoción ${id} no encontrada`
             })

@@ -36,6 +36,21 @@ const listarProductos = async () => {
 
 }
 
+const listarProductosPorCategorias = async () => {
+    return await prisma.producto.groupBy({
+        by: ['categoria'],
+        _count: {
+            _all: true
+        },
+        _avg: {
+            precio: true
+        },
+        _sum: {
+            stock: true
+        }
+    })
+}
+
 /** * Servicio para obtener un producto por su ID.
  * @param {string} id - ID del producto.
  * @returns {Promise<Object|null>} Producto encontrado o null.
@@ -89,6 +104,20 @@ const obtenerPorCategoria = async (categoria) => {
             creadoEn: "desc",
         },
     })
+}
+
+/** * Servicio para obtener todas las categorías de productos.
+ * @returns {Promise<Array>} Lista de categorías.
+ */
+
+const obtenerCategorias = async () => {
+    const categorias = await prisma.producto.findMany({
+        distinct: ['categoria'],
+        select: {
+            categoria: true
+        }
+    })
+    return categorias.map(c => c.categoria)
 }
 
 /** * Servicio para obtener productos disponibles (en stock y activos).
@@ -167,8 +196,10 @@ const obtenerImagenesProducto = async (id_producto) => {
 
 const PRODUCTOS_SERVICES = {
     listarProductos,
+    listarProductosPorCategorias,
     obtenerProductoPorId,
     obtenerPorCategoria,
+    obtenerCategorias,
     obtenerProductosDisponibles,
     crearProducto,
     multiplesImagenesDeProducto,

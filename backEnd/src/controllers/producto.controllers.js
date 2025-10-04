@@ -45,6 +45,25 @@ export const producto_lista = async (req, res) => {
     }
 }
 
+export const producto_lista_Xcategorias = async (req, res) => {
+    try {
+        const _lisytar_P_Xcategorias = await PRODUCTOS_SERVICES.listarProductosPorCategorias()
+        logger.info(_lisytar_P_Xcategorias)
+        res.status(200).json({
+            success: true,
+            message: "Productos listados por categorías exitosamente",
+            data: _lisytar_P_Xcategorias
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+    }
+}
+
 /** * Controlador para obtener productos por categoría.
  * @param {Object} req - La solicitud HTTP.
  * @param {Object} res - La respuesta HTTP.
@@ -60,6 +79,7 @@ export const Categoria = async (req, res) => {
         const productos = await PRODUCTOS_SERVICES.obtenerPorCategoria(categoria)
 
         if (productos.length === 0) {
+            console.warn(`No se encontraron productos para la categoría: ${categoria}`)
             return res.status(200).json({
                 success: false,
                 message: `No se encontraron productos para la categoría: ${categoria}`
@@ -83,6 +103,30 @@ export const Categoria = async (req, res) => {
     }
 }
 
+/** * Controlador para obtener todas las categorías de productos.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con la lista de categorías o un error.
+ */
+
+export const categoriasLista = async (req, res) => {
+    try {
+        const categorias = await PRODUCTOS_SERVICES.obtenerCategorias()
+        res.status(200).json({
+            success: true,
+            message: "Categorías obtenidas exitosamente",
+            data: categorias
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+    }
+}
+
 /** * Controlador para obtener un producto por su ID.
  * @param {Object} req - La solicitud HTTP.
  * @param {Object} res - La respuesta HTTP.
@@ -97,7 +141,7 @@ export const producto_id = async (req, res) => {
         const producto = await PRODUCTOS_SERVICES.obtenerProductoPorId(parseInt(id))
 
         if (!producto) {
-            return res.status(404).json({
+            return res.status(200).json({
                 success: false,
                 message: `Producto ${id} no encontrado`
             })

@@ -1,11 +1,26 @@
-"use client";
+import Image from "next/image";
+import { getPromoById } from "../app/routes/promos.routes";
+import BackButton from "./BackBtn";
 
-export default function PromocionCard({ promocion }) {
+export default async function PromocionCard({ promocionid }) {
+  const promoResponse = await getPromoById(promocionid);
+  if (!promoResponse.success) {
+    return (
+      <div className="text-center text-red-600">
+        <p>Error: {promoResponse.message}</p>
+      </div>
+    );
+  }
+
+  const promocion = promoResponse.data;
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg group relative">
       {promocion.imagenes[0] && (
         <div className="h-48 overflow-hidden">
-          <img
+          <Image
+            width={400}
+            height={200}
+            alt={promocion.titulo}
             src={promocion.imagenes[0].url || "/placeholder.svg"}
             className="w-full h-full object-cover object-top"
           />

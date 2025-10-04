@@ -27,13 +27,13 @@ export const getProducts = async (filters = {}) => {
     return response.data;
 };
 
+export const getCategorias = async () => {
+    const response = await api.get('/producto/categoriasLista');
+    return response.data;
+}
+
 export const getProductById = async (id) => {
     const response = await api.get(`/producto/producto_id/${id}`);
-    return response.data;
-};
-
-export const getPromociones = async () => {
-    const response = await api.get('/promocion/lista_promociones');
     return response.data;
 };
 
