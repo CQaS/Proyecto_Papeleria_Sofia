@@ -3,11 +3,8 @@ import Loading from "../app/loading";
 import { getProducts, getCategorias } from "../app/routes/productos.routes";
 import ProductCard from "./ProductosCard";
 
-export default async function ProductosCategoriasSection({ searchParams }) {
-  const categoria =
-    typeof searchParams?.categoria === "string"
-      ? searchParams.categoria
-      : undefined;
+export default async function ProductosCategoriasSection({ porcategoria }) {
+  const categoria = porcategoria ? porcategoria.toUpperCase() : undefined;
 
   if (categoria) {
     // Mostrar solo productos de la categoría especificada
@@ -87,7 +84,7 @@ export default async function ProductosCategoriasSection({ searchParams }) {
       .toLowerCase()
       .replace(/\b\w/g, (c) => c.toUpperCase()),
     id: categories[idx].toLowerCase().replace("_", "-"),
-    products: res.success ? res.data.slice(0, 4) : [],
+    products: res.success ? res.data.slice(0, 8) : [],
     error: res.success ? null : res.message,
   }));
 

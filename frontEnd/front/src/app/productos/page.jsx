@@ -44,7 +44,7 @@ export default async function ProductosPage({ searchParams }) {
             <PromoDetalle idPromo={idPromo} />
           ) : categoria ? (
             // Vista de lista: Productos por categoría
-            <ProductoCategoria />
+            <ProductoCategoria porcategoria={categoria} />
           ) : (
             // Vista de lista: Todos los productos y promociones
             <ProductosLista />
@@ -74,6 +74,8 @@ async function ProductoDetalles({ id }) {
           {product.imagenes?.map((img, idx) => (
             <Image
               key={idx}
+              width={200}
+              height={200}
               src={img.url}
               alt={product.nombre}
               className="w-full h-64 object-cover mb-4 rounded-md"
@@ -108,12 +110,12 @@ async function PromoDetalle({ idPromo }) {
   );
 }
 
-async function ProductoCategoria() {
+async function ProductoCategoria({ porcategoria }) {
   return (
     <div>
       {/* Sección de productos por categoría */}
 
-      <ProductosCategoriasSection />
+      <ProductosCategoriasSection porcategoria={porcategoria} />
 
       {/* Sección de promociones */}
 
