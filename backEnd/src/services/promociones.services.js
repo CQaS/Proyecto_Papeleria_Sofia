@@ -35,15 +35,17 @@ const listarPromociones = async () => {
             creadaEn: 'desc'
         }
     })
-
 }
+
 /** * Servicio para obtener una promocion por ID.
  * @param {string} id - ID de la promocion.
  * @returns {Promise<Object|null>} Promocion encontrada o null.
  */
 const obtenerPromocionPorId = async (id) => {
     return await prisma.promocion.findUnique({
-        where: { id },
+        where: {
+            id
+        },
         include: {
             imagenes: true,
             productos: {
@@ -140,7 +142,9 @@ const verificarProductos = async (productosIds) => {
 
 const actualizarPromocion = async (id, data) => {
     return await prisma.promocion.update({
-        where: { id },
+        where: {
+            id
+        },
         data
     })
 }
@@ -152,8 +156,12 @@ const actualizarPromocion = async (id, data) => {
 
 const eliminarPromocion = async (id) => {
     await prisma.promocion.update({
-        where: { id },
-        data: { activa: false }
+        where: {
+            id
+        },
+        data: {
+            activa: false
+        }
     })
 }
 

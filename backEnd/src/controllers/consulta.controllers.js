@@ -65,7 +65,7 @@ export const consulta_crear = async (req, res) => {
 
 export const consulta_leida = async (req, res) => {
     try {
-        const id = parseInt(req.params.id)
+        const id = req.params.id
         const _marcar_leida = await CONSULTAS_SERVICES.marcarConsultaLeida(id)
 
         res.status(200).json({
@@ -100,7 +100,7 @@ export const consulta_leida = async (req, res) => {
 
 export const consulta_resuelta = async (req, res) => {
     try {
-        const id = parseInt(req.params.id)
+        const id = req.params.id
         const _marcar_resuelta = await CONSULTAS_SERVICES.marcarConsultaResuelta(id)
 
         res.status(200).json({
@@ -135,7 +135,7 @@ export const consulta_resuelta = async (req, res) => {
 
 export const consulta_respuesta = async (req, res) => {
     try {
-        const id = parseInt(req.params.id)
+        const id = req.params.id
         const {
             respuesta
         } = req.body

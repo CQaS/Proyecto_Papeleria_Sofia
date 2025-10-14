@@ -45,7 +45,7 @@ export const promocion_id = async (req, res) => {
         const {
             id
         } = req.params
-        const promocion = await PROMOCIONES_SERVICES.obtenerPromocionPorId(parseInt(id))
+        const promocion = await PROMOCIONES_SERVICES.obtenerPromocionPorId(id)
 
         if (!promocion) {
             return res.status(200).json({
@@ -88,7 +88,7 @@ export const promocion_crear = async (req, res) => {
             array_de_IDs_productos_sinRepetidos = [array_de_IDs_productos_sinRepetidos]
         }
 
-        array_de_IDs_productos_sinRepetidos = [...new Set(array_de_IDs_productos_sinRepetidos.map(id => parseInt(id)).filter(id => !isNaN(id)))]
+        array_de_IDs_productos_sinRepetidos = [...new Set(array_de_IDs_productos_sinRepetidos.map(id => id).filter(id => !isNaN(id)))]
 
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({

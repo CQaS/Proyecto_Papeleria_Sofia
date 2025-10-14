@@ -1,3 +1,4 @@
+import fs from 'fs'
 import multer from "multer"
 import path from "path"
 import sharp from "sharp"
@@ -30,14 +31,29 @@ export const procesarImagenes = async (files, carpeta, slug, req) => {
     const urls = []
 
     for (const file of files) {
-        
+
         const nombreLimpio = file.originalname.replace(/\s+/g, "_").toLowerCase()
         const timestamp = Date.now()
         const nombreSinExtension = nombreLimpio.replace(/\.(jpeg|jpg|png|webp)$/i, "")
         const uniqueName = `${timestamp}-${nombreSinExtension}-${slug ? '-' + slug : ''}.webp`
 
-        const rutaPrincipal = `public/${carpeta}/${uniqueName}`
-        const rutaMiniatura = `public/${carpeta}/thumbs/${uniqueName}`
+        const carpetaPath = path.join('public', carpeta)
+        const thumbsPath = path.join(carpetaPath, 'thumbs')
+
+        if (!fs.existsSync(carpetaPath)) {
+            fs.mkdirSync(carpetaPath, {
+                recursive: true
+            })
+        }
+
+        if (!fs.existsSync(thumbsPath)) {
+            fs.mkdirSync(thumbsPath, {
+                recursive: true
+            })
+        }
+
+        const rutaPrincipal = path.join(carpetaPath, uniqueName)
+        const rutaMiniatura = path.join(thumbsPath, uniqueName)
 
         await sharp(file.buffer)
             .resize({

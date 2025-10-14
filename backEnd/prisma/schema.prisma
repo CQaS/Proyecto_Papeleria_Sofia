@@ -1,13 +1,21 @@
-
+// -------------------------------------------------------------------------
+// Bloque de Configuración (PostgreSQL)
+// -------------------------------------------------------------------------
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  // CAMBIO 1: Usamos 'postgresql' para Neon
+  provider = "postgresql" 
   url      = env("DATABASE_URL")
+  // NOTA: 'relationMode' no es necesario para PostgreSQL, solo para MySQL/PlanetScale.
 }
 
+
+// -------------------------------------------------------------------------
+// Enums (Sin Cambios)
+// -------------------------------------------------------------------------
 enum RolUsuario {
   ADMIN
   EMPLEADO 
@@ -18,15 +26,15 @@ enum EstadoPedido {
   PENDIENTE
   EN_PROCESO
   LISTO_PARA_RETIRO 
-  EN_CAMINO // Si tienes entregas a domicilio
+  EN_CAMINO
   ENTREGADO
-  CANCELADO // Importante para la gestión de pedidos
+  CANCELADO
 }
 
 enum EstadoProducto {
   ACTIVO
-  INACTIVO // Para productos que están temporalmente no disponibles
-  ARCHIVADO // Para productos que ya no se ofrecen pero se mantienen por motivos históricos
+  INACTIVO
+  ARCHIVADO
 }
 
 enum EstadoUsuario {
@@ -48,134 +56,167 @@ enum CategoriaProducto {
   OTROS
 }
 
-model Usuario {
-  id               Int        @id @default(autoincrement())
-  nombre           String     @db.VarChar(100)
-  apellido         String?    @db.VarChar(100)
-  email            String     @unique @db.VarChar(100)
-  password         String?    @db.VarChar(255)
-  rol              RolUsuario @default(CLIENTE) // Usa el enum aquí con un valor por defecto.
-  telefono         String?    @unique @db.VarChar(20)
-  direccion        String?    @db.VarChar(255)
-  estado           EstadoUsuario @default(ACTIVO)
-  creadoEn         DateTime   @default(now())
-  actualizadoEn    DateTime   @updatedAt @default(now())// Se actualiza automáticamente en cada modificación del registro.
+// -------------------------------------------------------------------------
+// Modelos
+// -------------------------------------------------------------------------
 
-  pedidos          Pedido[]
-  refreshTokens        RefreshToken[]
-  // Token de recuperación de contraseña
-  resetPasswordToken String?
+// MODELO: Usuario
+model Usuario {
+  // CAMBIO: ID primario a String con cuid()
+  id               String          @id @default(cuid()) 
+  nombre           String          @db.VarChar(100)
+  apellido         String?         @db.VarChar(100)
+  email            String          @unique @db.VarChar(100)
+  password         String?         @db.VarChar(255)
+  rol              RolUsuario      @default(CLIENTE)
+  telefono         String?         @unique @db.VarChar(20)
+  direccion        String?         @db.VarChar(255)
+  estado           EstadoUsuario   @default(ACTIVO)
+  creadoEn         DateTime        @default(now())
+  actualizadoEn    DateTime        @updatedAt
+
+  pedidos            Pedido[]
+  refreshTokens      RefreshToken[]
+  resetPasswordToken   String?
   resetPasswordExpires DateTime?
 }
 
+// MODELO: RefreshToken
 model RefreshToken {
-  id          Int       @id @default(autoincrement())
-  token       String    @unique
-  usuarioId   Int
-  usuario     Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-  creadoEn    DateTime  @default(now())
-  expiraEn    DateTime
-  usado       Boolean   @default(false) // Por si queremos invalidarlo cuando se use
+  // CAMBIO: ID primario a String con cuid()
+  id         String    @id @default(cuid()) 
+  token      String    @unique
+  
+  // CAMBIO: Clave foránea a String para coincidir con Usuario.id
+  usuarioId  String 
+  usuario    Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  
+  creadoEn   DateTime  @default(now())
+  expiraEn   DateTime
+  usado      Boolean   @default(false)
 }
 
 
+// MODELO: Producto
 model Producto {
-  id              Int            @id @default(autoincrement())
-  nombre          String          @db.VarChar(100)
-  slug            String         @unique // Agregado para URLs amigables con SEO e identificación única
-  descripcion     String?        @db.Text // Descripción más larga, ideal para SEO y detalles del producto
-  categoria       CategoriaProducto @default(OTROS) // Usa el enum para categorías de productos
+  // CAMBIO: ID primario a String con cuid()
+  id              String            @id @default(cuid()) 
+  nombre          String            @db.VarChar(100)
+  slug            String            @unique
+  descripcion     String?           @db.Text
+  categoria       CategoriaProducto @default(OTROS)
   precio          Float
-  stock           Int            @default(0) // Fundamental para la gestión de inventario
-  creadoEn        DateTime       @default(now())
-  actualizadoEn   DateTime       @updatedAt
-  estado          EstadoProducto @default(ACTIVO) // Usa el enum para el estado del producto.
+  stock           Int               @default(0)
+  creadoEn        DateTime          @default(now())
+  actualizadoEn   DateTime          @updatedAt
+  estado          EstadoProducto    @default(ACTIVO)
 
-  imagenes        ImagenProducto[]
-  promos          PromoProducto[]
+  imagenes ImagenProducto[]
+  promos   PromoProducto[]
 }
 
+// MODELO: ImagenProducto
 model ImagenProducto {
-  id         Int       @id @default(autoincrement())
-  url        String    @db.VarChar(255)
-  esPrincipal Boolean  @default(false)
-  producto   Producto  @relation(fields: [productoId], references: [id])
-  productoId Int
+  // CAMBIO: ID primario a String con cuid()
+  id            String   @id @default(cuid())
+  url           String   @db.VarChar(255)
+  esPrincipal   Boolean  @default(false)
+  
+  // CAMBIO: Clave foránea a String para coincidir con Producto.id
+  productoId    String 
+  producto      Producto @relation(fields: [productoId], references: [id])
 }
 
+// MODELO: Promocion
 model Promocion {
-  id              Int            @id @default(autoincrement())
-  titulo          String         @db.VarChar(100) // Título descriptivo de la promoción
-  codigo          String?        @unique // Agregado para códigos promocionales (ej: DESCUENTO20)
-  descripcion     String?        @db.Text
-  imagenes      ImagenPromocion[] // Una promoción puede tener múltiples imágenes
-  fechaInicio     DateTime       @default(now())
-  fechaFin        DateTime?      // Fecha de finalización opcional para promociones por tiempo limitado
-  activa          Boolean        @default(true)
-  creadaEn        DateTime       @default(now())
-  actualizadaEn   DateTime       @updatedAt
+  // CAMBIO: ID primario a String con cuid()
+  id              String            @id @default(cuid())
+  titulo          String            @db.VarChar(100)
+  codigo          String?           @unique
+  descripcion     String?           @db.Text
+  imagenes        ImagenPromocion[]
+  fechaInicio     DateTime          @default(now())
+  fechaFin        DateTime?
+  activa          Boolean           @default(true)
+  creadaEn        DateTime          @default(now())
+  actualizadaEn   DateTime          @updatedAt
 
-  productos       PromoProducto[] // Una promoción puede estar asociada a múltiples productos.
+  productos       PromoProducto[]
 }
 
-// Esta es una tabla intermedia para relaciones muchos a muchos,
-// a menudo llamada "tabla de unión" o "tabla pivote".
+// MODELO: PromoProducto (Tabla de Unión)
 model PromoProducto {
-  id          Int      @id @default(autoincrement())
-  productoId  Int
-  promocionId Int
+  // CAMBIO: ID primario a String con cuid()
+  id            String    @id @default(cuid())
+  
+  // CAMBIO: Claves foráneas a String
+  productoId    String
+  promocionId   String
 
-  producto    Producto  @relation(fields: [productoId], references: [id])
-  promocion   Promocion @relation(fields: [promocionId], references: [id])
+  producto      Producto  @relation(fields: [productoId], references: [id])
+  promocion     Promocion @relation(fields: [promocionId], references: [id])
 
-  @@unique([productoId, promocionId]) // Garantiza que un producto solo esté una vez en una promoción.
+  @@unique([productoId, promocionId])
 }
 
+// MODELO: ImagenPromocion
 model ImagenPromocion {
-  id            Int         @id @default(autoincrement())
-  url           String      @db.VarChar(255)
-  promocionId   Int
-  promocion     Promocion   @relation(fields: [promocionId], references: [id])
+  // CAMBIO: ID primario a String con cuid()
+  id            String    @id @default(cuid())
+  url           String    @db.VarChar(255)
+  
+  // CAMBIO: Clave foránea a String
+  promocionId   String
+  promocion     Promocion @relation(fields: [promocionId], references: [id])
 }
 
+// MODELO: Pedido
 model Pedido {
-  id            Int          @id @default(autoincrement())
-  usuarioId     Int
-  archivoUrl    String
-  detalles      String?      @db.Text 
-  estado        EstadoPedido @default(PENDIENTE) // Usa el enum para el estado del pedido.
-  total         Float        @default(0.0) // Agregado para almacenar el costo total del pedido.
-  direccionEnvio String?     @db.VarChar(255)     // Si es diferente de la dirección predeterminada del usuario
-  notasInternas String?      @db.Text                // Para uso interno de administradores/empleados
-  creadoEn      DateTime     @default(now())
-  actualizadoEn DateTime     @updatedAt
+  // CAMBIO: ID primario a String con cuid()
+  id             String         @id @default(cuid())
+  
+  // CAMBIO: Clave foránea a String
+  usuarioId      String 
+  archivoUrl     String
+  detalles       String?        @db.Text
+  estado         EstadoPedido   @default(PENDIENTE)
+  total          Float          @default(0.0)
+  direccionEnvio String?        @db.VarChar(255)
+  notasInternas  String?        @db.Text
+  creadoEn       DateTime       @default(now())
+  actualizadoEn  DateTime       @updatedAt
 
-  usuario       Usuario      @relation(fields: [usuarioId], references: [id])
-
-  HistorialEstadoPedido HistorialEstadoPedido[]
+  usuario                 Usuario                 @relation(fields: [usuarioId], references: [id])
+  HistorialEstadoPedido   HistorialEstadoPedido[]
 }
 
+// MODELO: HistorialEstadoPedido
 model HistorialEstadoPedido {
-  id        Int       @id @default(autoincrement())
-  pedidoId  Int
-  estadoAnterior    EstadoPedido
-  estadoNuevo       EstadoPedido
-  fecha     DateTime  @default(now())
-  cambiadoEn     DateTime @default(now())
-  cambiadoPor String? // Puede ser el ID del usuario que cambió el estado, o un nombre descriptivo
+  // CAMBIO: ID primario a String con cuid()
+  id             String         @id @default(cuid())
+  
+  // CAMBIO: Clave foránea a String
+  pedidoId       String
+  estadoAnterior EstadoPedido
+  estadoNuevo    EstadoPedido
+  fecha          DateTime       @default(now())
+  cambiadoEn     DateTime       @default(now())
+  cambiadoPor    String?
 
-  pedido    Pedido    @relation(fields: [pedidoId], references: [id])
+  pedido         Pedido         @relation(fields: [pedidoId], references: [id])
 }
 
+// MODELO: Consulta
 model Consulta {
-  id            Int        @id @default(autoincrement())
-  nombre        String     @db.VarChar(100)
-  email         String     @db.VarChar(100)
-  telefono      String     @db.VarChar(20)
-  mensaje       String     @db.Text
-  respuesta     String?    @db.Text // Para almacenar la respuesta de un administrador
-  leido         Boolean    @default(false)
-  resuelto      Boolean    @default(false) // Para rastrear si la consulta ha sido resuelta
-  creadoEn      DateTime   @default(now())
-  actualizadoEn DateTime   @updatedAt
+  // CAMBIO: ID primario a String con cuid()
+  id             String         @id @default(cuid())
+  nombre         String         @db.VarChar(100)
+  email          String         @db.VarChar(100)
+  telefono       String         @db.VarChar(20)
+  mensaje        String         @db.Text
+  respuesta      String?        @db.Text
+  leido          Boolean        @default(false)
+  resuelto       Boolean        @default(false)
+  creadoEn       DateTime       @default(now())
+  actualizadoEn  DateTime       @updatedAt
 }

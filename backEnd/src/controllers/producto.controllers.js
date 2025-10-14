@@ -138,7 +138,17 @@ export const producto_id = async (req, res) => {
         const {
             id
         } = req.params
-        const producto = await PRODUCTOS_SERVICES.obtenerProductoPorId(parseInt(id))
+
+        const cuidRegex = /^c[a-z0-9]{24}$/
+
+        if (!cuidRegex.test(id)) {
+            return res.status(200).json({
+                success: false,
+                message: 'Datos de producto no válidos'
+            })
+        }
+
+        const producto = await PRODUCTOS_SERVICES.obtenerProductoPorId(id)
 
         if (!producto) {
             return res.status(200).json({
@@ -254,7 +264,7 @@ export const producto_actualizar = async (req, res) => {
             id
         } = req.params
 
-        const productoExistente = await PRODUCTOS_SERVICES.obtenerProductoPorId(parseInt(id))
+        const productoExistente = await PRODUCTOS_SERVICES.obtenerProductoPorId(id)
 
         if (!productoExistente) {
             return res.status(404).json({
@@ -263,7 +273,7 @@ export const producto_actualizar = async (req, res) => {
             })
         }
 
-        const productoActualizado = await PRODUCTOS_SERVICES.actualizarProducto(parseInt(id), {
+        const productoActualizado = await PRODUCTOS_SERVICES.actualizarProducto(id, {
             ...req.body,
             precio: parseFloat(req.body.precio),
             stock: parseInt(req.body.stock),
@@ -274,7 +284,7 @@ export const producto_actualizar = async (req, res) => {
 
             const imagenes = req.files
 
-            const imagenesAnteriores = await PRODUCTOS_SERVICES.obtenerImagenesProducto(parseInt(id))
+            const imagenesAnteriores = await PRODUCTOS_SERVICES.obtenerImagenesProducto(id)
 
             logger.info("Imagenes Anteriores:", imagenesAnteriores)
 
@@ -341,7 +351,7 @@ export const producto_eliminar = async (req, res) => {
             id
         } = req.params
 
-        const productoExistente = await PRODUCTOS_SERVICES.obtenerProductoPorId(parseInt(id))
+        const productoExistente = await PRODUCTOS_SERVICES.obtenerProductoPorId(id)
 
         if (!productoExistente) {
             return res.status(404).json({
@@ -350,7 +360,7 @@ export const producto_eliminar = async (req, res) => {
             })
         }
 
-        const productoEliminado = await PRODUCTOS_SERVICES.actualizarProducto(parseInt(id), {
+        const productoEliminado = await PRODUCTOS_SERVICES.actualizarProducto(id, {
             estado: productoExistente.estado === "ACTIVO" ? "INACTIVO" : "ACTIVO"
         })
 

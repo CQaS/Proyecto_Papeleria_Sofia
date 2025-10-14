@@ -31,7 +31,7 @@ routesProducto.get('/producto_lista_Xcategorias', producto_lista_Xcategorias)
 routesProducto.get('/categorias/:categoria', Categoria)
 routesProducto.get('/categoriasLista', categoriasLista)
 routesProducto.get('/producto_id/:id', validarParams(paramsSchema), producto_id)
-routesProducto.post('/admin/producto_crear', authAdmin, subirIMG, producto_crear)
+routesProducto.post('/admin/producto_crear', subirIMG, producto_crear)
 routesProducto.put('/admin/producto_actualizar/:id', authAdmin, subirIMG, producto_actualizar)
 routesProducto.delete('/admin/producto_eliminar/:id', authAdmin, producto_eliminar)
 

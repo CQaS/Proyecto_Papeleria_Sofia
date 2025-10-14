@@ -9,6 +9,9 @@ package-lock.json
 img/
 public/imgs
 
+# Archivos de la base de datos local de Docker
+/docker-db-stack/
+
 # Optional npm cache directory
 .npm
 

@@ -53,7 +53,7 @@ export default function Header() {
             Pedidos de impresión
           </Link>
         </nav>
-        <button className="bg-primary text-blue-700 px-4 py-2 !rounded-button font-medium hover:bg-blue-400 transition-colors duration-500 whitespace-nowrap hidden md:block">
+        <button className="text-white px-4 py-2 !rounded-button font-medium hover:bg-blue-400 transition-colors duration-500 whitespace-nowrap rounded-lg bg-indigo-600 hidden md:block">
           Iniciar sesión
         </button>
         <button

@@ -1,6 +1,5 @@
-"use client";
-
-import Image from "next/image";
+import PromosDestacadas from "@/components/promos-destacadas";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -29,7 +28,7 @@ export default function Home() {
                 <button className="bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">
                   Ver productos
                 </button>
-                <button className="bg-blue-400 text-primary border border-primary px-6 py-3 !rounded-button font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">
+                <button className="text-white px-4 py-2 !rounded-button font-medium hover:bg-blue-400 transition-colors duration-500 whitespace-nowrap rounded-lg bg-indigo-600 hidden md:block">
                   Contactar
                 </button>
               </div>
@@ -38,96 +37,7 @@ export default function Home() {
         </div>
       </section>
       {/* Promociones Destacadas */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Promociones Destacadas
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Descubre nuestras ofertas especiales y aprovecha los mejores
-              precios en artículos de papelería y útiles escolares.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Promoción 1 */}
-            <div className="bg-white rounded shadow-md overflow-hidden transition-transform hover:translate-y-[-5px]">
-              <div className="h-48 overflow-hidden">
-                {/* Using next/image component */}
-                <Image
-                  src="https://readdy.ai/api/search-image?query=A%20collection%20of%20colorful%20school%20notebooks%2C%20pens%2C%20and%20pencils%20arranged%20neatly%20on%20a%20clean%20white%20background.%20The%20stationery%20items%20look%20vibrant%20and%20new%2C%20perfect%20for%20back%20to%20school%20promotion.%20Professional%20product%20photography%20with%20soft%20shadows%20and%20excellent%20lighting%20to%20highlight%20the%20colors%20and%20textures%20of%20the%20school%20supplies.&width=600&height=400&seq=12346&orientation=landscape"
-                  alt="Promoción Regreso a Clases"
-                  className="w-full h-full object-cover object-top"
-                  width={600}
-                  height={400}
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Regreso a Clases 2025
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Paquetes escolares con descuentos de hasta 30% en cuadernos,
-                  lápices y más artículos esenciales.
-                </p>
-                <button className="text-primary font-medium flex items-center hover:underline whitespace-nowrap">
-                  Ver más <i className="ri-arrow-right-line ml-1"></i>
-                </button>
-              </div>
-            </div>
-            {/* Promoción 2 */}
-            <div className="bg-white rounded shadow-md overflow-hidden transition-transform hover:translate-y-[-5px]">
-              <div className="h-48 overflow-hidden">
-                {/* Using next/image component */}
-                <Image
-                  src="https://readdy.ai/api/search-image?query=Modern%20art%20supplies%20including%20watercolor%20paints%2C%20premium%20brushes%2C%20and%20sketchbooks%20arranged%20artistically%20on%20a%20clean%20white%20background.%20The%20art%20materials%20look%20high-quality%20and%20professional%2C%20with%20vibrant%20colors%20and%20textures.%20Professional%20product%20photography%20with%20soft%20shadows%20and%20excellent%20lighting%20to%20showcase%20the%20premium%20art%20supplies.&width=600&height=400&seq=12347&orientation=landscape"
-                  alt="Promoción Artistas"
-                  className="w-full h-full object-cover object-top"
-                  width={600}
-                  height={400}
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Semana del Artista
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Todos los materiales de arte con 25% de descuento. Incluye
-                  acuarelas, pinceles y blocks de dibujo.
-                </p>
-                <button className="text-primary font-medium flex items-center hover:underline whitespace-nowrap">
-                  Ver más <i className="ri-arrow-right-line ml-1"></i>
-                </button>
-              </div>
-            </div>
-            {/* Promoción 3 */}
-            <div className="bg-white rounded shadow-md overflow-hidden transition-transform hover:translate-y-[-5px]">
-              <div className="h-48 overflow-hidden">
-                {/* Using next/image component */}
-                <Image
-                  src="https://readdy.ai/api/search-image?query=A%20modern%20office%20desk%20setup%20with%20premium%20stationery%20items%20including%20leather%20notebooks%2C%20elegant%20pens%2C%20desk%20organizers%2C%20and%20planners%20arranged%20neatly%20on%20a%20clean%20white%20background.%20The%20office%20supplies%20look%20sophisticated%20and%20professional.%20Professional%20product%20photography%20with%20soft%20shadows%20and%20excellent%20lighting%20to%20highlight%20the%20premium%20quality%20of%20the%20office%20supplies.&width=600&height=400&seq=12348&orientation=landscape"
-                  alt="Promoción Oficina"
-                  className="w-full h-full object-cover object-top"
-                  width={600}
-                  height={400}
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Equipamiento de Oficina
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Lleva 3 y paga 2 en toda nuestra línea de organizadores,
-                  agendas y artículos de escritorio.
-                </p>
-                <button className="text-primary font-medium flex items-center hover:underline whitespace-nowrap">
-                  Ver más <i className="ri-arrow-right-line ml-1"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PromosDestacadas />
       {/* Productos Populares */}
       <section className="py-16">
         <div className="container mx-auto px-4">
@@ -143,63 +53,79 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {/* Producto 1 */}
             <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center group-hover:bg-blue-100 transition-colors">
-                <i className="ri-book-line ri-2x text-primary"></i>
-              </div>
+              <Link href="/productos?categoria=cuadernos">
+                <div className="w-20 h-20 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                  <i className="ri-book-line ri-2x text-primary"></i>
+                </div>
+              </Link>
               <h3 className="font-medium text-gray-900">Cuadernos</h3>
             </div>
             {/* Producto 2 */}
             <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-4 bg-green-50 rounded-full flex items-center justify-center group-hover:bg-green-100 transition-colors">
-                <i className="ri-pencil-line ri-2x text-green-600"></i>
-              </div>
+              <Link href="/productos?categoria=lapices">
+                <div className="w-20 h-20 mx-auto mb-4 bg-green-50 rounded-full flex items-center justify-center group-hover:bg-green-100 transition-colors">
+                  <i className="ri-pencil-line ri-2x text-green-600"></i>
+                </div>
+              </Link>
               <h3 className="font-medium text-gray-900">Lápices</h3>
             </div>
             {/* Producto 3 */}
             <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-4 bg-yellow-50 rounded-full flex items-center justify-center group-hover:bg-yellow-100 transition-colors">
-                <i className="ri-folder-line ri-2x text-yellow-600"></i>
-              </div>
+              <Link href="/productos?categoria=carpetas">
+                <div className="w-20 h-20 mx-auto mb-4 bg-yellow-50 rounded-full flex items-center justify-center group-hover:bg-yellow-100 transition-colors">
+                  <i className="ri-folder-line ri-2x text-yellow-600"></i>
+                </div>
+              </Link>
               <h3 className="font-medium text-gray-900">Carpetas</h3>
             </div>
             {/* Producto 4 */}
             <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-4 bg-red-50 rounded-full flex items-center justify-center group-hover:bg-red-100 transition-colors">
-                <i className="ri-paint-brush-line ri-2x text-red-600"></i>
-              </div>
+              <Link href="/productos?categoria=pinturas">
+                <div className="w-20 h-20 mx-auto mb-4 bg-red-50 rounded-full flex items-center justify-center group-hover:bg-red-100 transition-colors">
+                  <i className="ri-paint-brush-line ri-2x text-red-600"></i>
+                </div>
+              </Link>
               <h3 className="font-medium text-gray-900">Pinturas</h3>
             </div>
             {/* Producto 5 */}
             <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-4 bg-purple-50 rounded-full flex items-center justify-center group-hover:bg-purple-100 transition-colors">
-                <i className="ri-scissors-line ri-2x text-purple-600"></i>
-              </div>
+              <Link href="/productos?categoria=tijeras">
+                <div className="w-20 h-20 mx-auto mb-4 bg-purple-50 rounded-full flex items-center justify-center group-hover:bg-purple-100 transition-colors">
+                  <i className="ri-scissors-line ri-2x text-purple-600"></i>
+                </div>
+              </Link>
               <h3 className="font-medium text-gray-900">Tijeras</h3>
             </div>
             {/* Producto 6 */}
             <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-4 bg-pink-50 rounded-full flex items-center justify-center group-hover:bg-pink-100 transition-colors">
-                <i className="ri-sticky-note-line ri-2x text-pink-600"></i>
-              </div>
+              <Link href="/productos?categoria=notas-adhesivas">
+                <div className="w-20 h-20 mx-auto mb-4 bg-pink-50 rounded-full flex items-center justify-center group-hover:bg-pink-100 transition-colors">
+                  <i className="ri-sticky-note-line ri-2x text-pink-600"></i>
+                </div>
+              </Link>
               <h3 className="font-medium text-gray-900">Notas Adhesivas</h3>
             </div>
             {/* Producto 7 */}
             <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-4 bg-indigo-50 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
-                <i className="ri-ruler-line ri-2x text-indigo-600"></i>
-              </div>
+              <Link href="/productos?categoria=reglas">
+                <div className="w-20 h-20 mx-auto mb-4 bg-indigo-50 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                  <i className="ri-ruler-line ri-2x text-indigo-600"></i>
+                </div>
+              </Link>
               <h3 className="font-medium text-gray-900">Reglas</h3>
             </div>
             {/* Producto 8 */}
             <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-4 bg-teal-50 rounded-full flex items-center justify-center group-hover:bg-teal-100 transition-colors">
-                <i className="ri-calculator-line ri-2x text-teal-600"></i>
-              </div>
+              <Link href="/productos?categoria=calculadoras">
+                <div className="w-20 h-20 mx-auto mb-4 bg-teal-50 rounded-full flex items-center justify-center group-hover:bg-teal-100 transition-colors">
+                  <i className="ri-calculator-line ri-2x text-teal-600"></i>
+                </div>
+              </Link>
               <h3 className="font-medium text-gray-900">Calculadoras</h3>
             </div>
           </div>
           <div className="text-center mt-10">
-            <button className="bg-white text-primary border border-primary px-6 py-3 !rounded-button font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">
+            <button className=" border-indigo-600 px-6 py-3 !rounded-button hover:bg-gray-50 transition-colors text-indigo-600 font-medium whitespace-nowrap">
               Ver todos los productos
             </button>
           </div>

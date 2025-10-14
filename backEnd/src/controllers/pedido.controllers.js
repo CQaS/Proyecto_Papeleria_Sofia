@@ -39,7 +39,7 @@
   */
  export const pedido_estado = async (req, res) => {
      try {
-         const id = parseInt(req.params.id)
+         const id = req.params.id
          const pedido = await PEDIDOS_SERVICES.listarPedidoPorId(id)
 
          if (!pedido) {
@@ -114,7 +114,7 @@
 
  export const pedido_actualizar_estado = async (req, res) => {
      try {
-         const id = parseInt(req.params.id)
+         const id = req.params.id
          const nuevoEstado = req.body.estado
 
          const elPedido = await PEDIDOS_SERVICES.listarPedidoPorId(id)
@@ -163,7 +163,7 @@
 
  export const notasInternas = async (req, res) => {
      try {
-         const id = parseInt(req.params.id)
+         const id = req.params.id
          const notas = req.body;
 
          if (!id || !notas) {

@@ -2,9 +2,10 @@ import { getPromociones } from "../app/routes/promos.routes";
 import PromocionCard from "./PromoCard";
 
 export default async function PromocionSeccion() {
-  let promociones = [];
   const promoResponse = await getPromociones();
-  promociones = promoResponse.data || [];
+  const promociones = promoResponse.success
+    ? promoResponse.data.sort(() => Math.random() - 0.5).slice(0, 3)
+    : [];
 
   if (!promoResponse.success) {
     return (

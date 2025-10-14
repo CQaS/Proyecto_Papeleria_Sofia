@@ -1,381 +1,397 @@
-Papelería Sofía - Backend
+# 🛍️ Papelería Sofía
+
+Sistema completo de gestión y e-commerce para papelería, desarrollado con tecnologías modernas y escalables.
+
+## 📋 Tabla de Contenidos
+
+- [Características Principales](#-características-principales)
+- [Stack Tecnológico](#-stack-tecnológico)
+- [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
+- [Instalación](#-instalación)
+- [Configuración](#-configuración)
+- [Uso](#-uso)
+- [API Reference](#-api-reference)
+- [Roadmap](#-roadmap)
+
+---
+
+## ✨ Características Principales
+
+### Backend
+
+- 🔐 **Autenticación y autorización** con JWT y roles (Admin, Cliente, Empleado)
+- 📦 **Gestión completa de productos** con categorías y múltiples imágenes
+- 🎁 **Sistema de promociones** con productos asociados y vencimiento automático
+- 🚚 **Gestión de pedidos** con historial de estados
+- 📨 **Sistema de consultas** públicas con panel de administración
+- 🖼️ **Optimización de imágenes** automática con generación de thumbnails
+- 📊 **Logging estructurado** con rotación de archivos
+- 🤖 **Tareas automatizadas** con cron jobs
+- ♻️ **Limpieza automática** de archivos huérfanos y promociones vencidas
+
+### Frontend
+
+- 🎨 **Interfaz moderna y responsiva** con Tailwind CSS
+- ⚡ **Rendimiento optimizado** con Next.js App Router
+- 🔍 **Filtrado dinámico** por categorías
+- 🖼️ **Optimización de imágenes** con next/image
+- 📱 **Diseño mobile-first** completamente responsive
+- 🎯 **Estados de carga** y manejo de errores elegante
+
+---
+
+## 🛠️ Stack Tecnológico
+
+### Backend
+
+| Tecnología            | Propósito                         |
+| --------------------- | --------------------------------- |
+| **Node.js + Express** | Servidor HTTP y API REST          |
+| **Prisma ORM**        | Acceso y gestión de base de datos |
+| **PostgreSQL**        | Base de datos relacional          |
+| **Zod**               | Validación de esquemas y tipos    |
+| **JWT + bcrypt**      | Autenticación y seguridad         |
+| **Multer + Sharp**    | Procesamiento de imágenes         |
+| **Pino**              | Sistema de logging                |
+| **node-cron**         | Tareas programadas                |
+| **Helmet + CORS**     | Seguridad HTTP                    |
+
+### Frontend
+
+| Tecnología         | Propósito                      |
+| ------------------ | ------------------------------ |
+| **Next.js 14**     | Framework React con App Router |
+| **Tailwind CSS**   | Estilos y diseño responsivo    |
+| **Axios**          | Cliente HTTP                   |
+| **React Suspense** | Estados de carga               |
+
+---
+
+## 📁 Arquitectura del Proyecto
+
+### Backend (`/backend`)
+
+```
+backend/
+├── controllers/      # Lógica de negocio por recurso
+├── routes/          # Definición de endpoints
+├── services/        # Capa de acceso a datos (Prisma)
+├── schemas/         # Validaciones Zod
+├── middlewares/     # Auth, validación, imágenes
+├── libs/            # Prisma, JWT, mailer
+├── utils/           # Funciones auxiliares
+├── scripts/         # Tareas automáticas
+├── public/
+│   ├── imgs/        # Imágenes originales
+│   └── thumbs/      # Miniaturas optimizadas
+└── logs/            # Archivos de registro
+```
+
+### Frontend (`/frontend`)
+
+```
+frontend/
+├── app/
+│   ├── page.js              # Página principal
+│   ├── productos/           # Catálogo y detalles
+│   ├── loading.jsx          # Estado de carga global
+│   └── components/          # Componentes reutilizables
+├── lib/
+│   └── api.js              # Cliente HTTP configurado
+└── public/
+    └── images/             # Recursos estáticos
+```
 
-Este es el backend del proyecto Papelería Sofía, una app web desarrollada en Node.js con Express, Prisma ORM y Zod, con almacenamiento de imágenes, autenticación JWT y utilidades de administración como logging y limpieza automática de archivos/promociones.
+---
 
-🚀 Tecnologías principales
+## 🚀 Instalación
 
-Node.js + Express → Servidor HTTP
+### Prerrequisitos
 
-Prisma ORM → Acceso a base de datos MySQL
+- Node.js >= 18.x
+- PostgreSQL >= 14.x
+- npm o yarn
 
-Zod → Validación de datos robusta
+### Pasos
 
-JWT → Autenticación de usuarios
+1. **Clonar el repositorio**
 
-Multer + Sharp → Subida y optimización de imágenes
-
-Pino → Logging estructurado con salida en consola y archivo rotado
-
-node-cron → Tareas automáticas (ej: limpieza de promociones vencidas)
-
-🗂️ Estructura de carpetas
-
-/controllers → Lógica de cada recurso (usuarios, productos, etc.)
-
-/routes → Definición de endpoints Express
-
-/services → Acceso a datos Prisma
-
-/schemas → Esquemas de validación Zod
-
-/middlewares → Autenticación, validación, manejo de imágenes
-
-/libs → Prisma, JWT, mailer
-
-/utils → Funciones reutilizables (manejarError, generarToken, logger, etc.)
-
-/scripts → Tareas automáticas (ej: limpieza de promociones vencidas, limpieza de archivos huérfanos)
-
-/public/imgs → Imágenes originales
-
-/public/thumbs → Miniaturas generadas con Sharp
-
-🔐 Autenticación
-
-Registro y login con JWT
-
-Contraseñas encriptadas con bcrypt
-
-Middleware verificarToken y soloAdmin
-
-Login devuelve token para usar en el frontend o REST Client
-
-👤 Usuarios
-
-CRUD completo
-
-Roles: ADMIN, CLIENTE, EMPLEADO
-
-Registro automático si un cliente realiza un pedido y no existe
-
-Validación con Zod + Prisma
-
-📂 Productos
-
-Alta de productos con imágenes
-
-Validación estricta con Zod
-
-Subida de múltiples imágenes
-
-Modelo ImagenProducto relacionado
-
-Actualización parcial con imagen opcional
-
-Enum CategoriaProducto definido en Prisma y consultado por el frontend
-
-Eliminación lógica (estado), con limpieza automática de imágenes huérfanas en segundo plano
-
-🚚 Pedidos
-
-Crear pedidos junto con el usuario
-
-Si el usuario no existe, se crea
-
-Validación completa con Zod
-
-Historial automático de cambios de estado (HistorialEstadoPedido)
-
-Middleware $extends() intercepta updates y registra historial
-
-📨 Consultas
-
-Enviadas públicamente desde el frontend
-
-Admin puede:
-
-Marcar como leída
-
-Marcar como resuelta
-
-Responder
-
-Validaciones con Zod y actualizaciones individuales
-
-🎁 Promociones
-
-Creación con múltiples imágenes y productos asociados
-
-Tablas: Promocion, PromoProducto, ImagenPromocion
-
-Validación de existencia, stock y estado de productos antes de asociar
-
-Script programado con cron para eliminar automáticamente promociones vencidas
-
-🔍 Endpoints de prueba (REST Client)
-
-usuario.http, auth.http, consulta.http, pedido.http, producto.http
-
-Formularios HTML (producto-crear.html, producto-editar.html, etc.) para crear y editar productos/promociones con imágenes
-
-📄 Formularios HTML
-
-producto-crear.html → Alta de productos (1 o varias imágenes)
-
-producto-editar.html → Selección de producto + formulario precargado
-
-✨ Extras
-
-Validación de extensión y tamaño de imagen
-
-Generación automática de thumbnails
-
-Manejo centralizado de errores (manejarError())
-
-Slug validado por expresión regular
-
-Logs estructurados con Pino, salida en consola y archivo logs/app.log con rotación diaria
-
-Scripts automáticos en /scripts para:
-
-Eliminar archivos huérfanos no asociados a productos/promos
-
-Eliminar promociones vencidas en horarios programados
-
-📊 Modelos principales en Prisma
-
-Usuario → con roles y autenticación
-
-Producto + ImagenProducto
-
-Promocion + ImagenPromocion + PromoProducto
-
-Pedido + HistorialEstadoPedido
-
-Consulta
-
-⚙️ Configuración de entorno
-
-Este proyecto utiliza variables de entorno para su configuración.
-Antes de iniciar, copiá el archivo .env.example a .env y completá tus valores:
-
-cp .env.example .env
-
-Variables principales:
-
-DATABASE_URL → conexión a MySQL
-
-PORT → puerto donde corre Express
-
-SALT → rounds de bcrypt
-
-JWT_SECRET → clave para firmar tokens
-
-CORS_ALLOWED_ORIGINS → orígenes permitidos para CORS
-
-🔧 Desarrollo y Testing
-
-REST Client en VSCode → archivos .http incluidos para probar endpoints fácilmente
-
-Formularios HTML → mock frontend para pruebas de subida de imágenes y validaciones
-
-Pruebas manuales con tokens → login devuelve JWT que se puede pegar en los headers
-
-🚀 Despliegue
-
-Configuración en .env para development y production
-
-Logs rotados (logs/app.log) seguros para entornos productivos
-
-Seguridad extra con Helmet y CORS configurados
-
-💡 Buenas prácticas aplicadas
-
-Código modular → controladores, servicios y capas bien separadas
-
-Validaciones robustas → Zod en entrada/salida
-
-Manejo de errores centralizado → manejarError()
-
-Scripts automatizados → cero basura en la BD y sistema de archivos
-
-Logs claros y estructurados con rotación automática
-
-🚦 Roadmap
-
-Implementar pruebas automatizadas (Jest/Vitest)
-
-Subida de archivos PDF para pedidos personalizados de impresión
-
-Migración futura del frontend a Next.js
-
-Opciones de despliegue en Render/Heroku/Vercel con MySQL en la nube
-
-Notificaciones por email con Nodemailer para pedidos/consultas
-
-📦 Instalación
+```bash
 git clone https://github.com/CQaS/Proyecto_Papeleria_Sofia
 cd Proyecto_Papeleria_Sofia
-npm i
+```
 
-🛠️ Migraciones y base de datos
+2. **Instalar dependencias del backend**
 
-Para crear las tablas en tu base de datos MySQL:
+```bash
+cd backend
+npm install
+```
 
+3. **Instalar dependencias del frontend**
+
+```bash
+cd ../frontend
+npm install
+```
+
+---
+
+## ⚙️ Configuración
+
+### Backend
+
+1. Copiar el archivo de ejemplo:
+
+```bash
+cp .env.example .env
+```
+
+2. Configurar variables de entorno en `.env`:
+
+```env
+# Base de datos
+DATABASE_URL="postgresql://usuario:password@localhost:5432/papeleria_sofia"
+
+# Servidor
+PORT=5000
+NODE_ENV=development
+
+# Seguridad
+JWT_SECRET=tu_clave_secreta_muy_segura
+SALT=10
+
+# CORS
+CORS_ALLOWED_ORIGINS=http://localhost:3000,https://papeleria-sofia.com
+
+# Email (opcional)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=tu-email@gmail.com
+SMTP_PASS=tu-password
+```
+
+3. Ejecutar migraciones:
+
+```bash
 npx prisma migrate dev
+```
 
-Si solo querés sincronizar sin historial de migraciones:
+O sincronizar sin historial:
 
+```bash
 npx prisma db push
+```
 
-▶️ Ejecución
-npm run devmon # Desarrollo con nodemon
-npm start # Producción
+### Frontend
 
-<!-- Front-end -->
+1. Crear archivo `.env.local`:
 
-🛍️ Papelería SOFÍA — Frontend
-
-El frontend de Papelería SOFÍA es una aplicación web moderna para una tienda en línea de papelería.
-Está desarrollada con Next.js (App Router) y Tailwind CSS, y se conecta a un backend REST en:
-
-Desarrollo: http://localhost:5000/api
-
-Producción: https://api.papeleria-sofia.com/api
-
-Las solicitudes HTTP se realizan con Axios, y la interfaz ofrece una experiencia visual alegre y responsiva, con colores vibrantes y la fuente Pacifico, evocando el ambiente de una papelería.
-
-🚧 Estado Actual
-
-El proyecto incluye varias páginas y componentes ya funcionales, con conexión real al backend y manejo de errores/estados de carga.
-
-📄 Páginas y Componentes
-🏠 Página Principal (app/page.js)
-
-Muestra un banner con una imagen de fondo (public/images/stationery-store.jpg).
-
-Incluye enlaces a:
-
-Todos los productos (/productos)
-
-Categorías específicas (/productos?categoria=LAPICES, /productos?categoria=CUADERNOS)
-
-Usa la fuente Pacifico y el color primario #2563eb.
-
-🛒 Página de Productos (app/productos/page.js)
-
-Server Component con múltiples vistas dinámicas:
-
-/productos: lista general de productos y promociones.
-
-/productos?categoria=X: filtrado por categoría.
-
-/productos?id=X: detalle de producto.
-
-/productos?idPromo=X: detalle de promoción.
-
-Características:
-
-Muestra imágenes, nombre, precio, descripción, stock y categoría.
-
-En promociones: título, descripción, fecha de vencimiento (📅 dd/mm/aaaa), productos incluidos y enlace a detalle.
-
-Usa Suspense con loading.jsx y manejo de errores de API.
-
-🧷 Sección de Categorías (app/ProductosCategoriasSection.jsx)
-
-Server Component que:
-
-Muestra productos filtrados por categoría (?categoria=ÚTILES_ESCOLARES) o, si no hay categoría:
-
-Renderiza tres secciones:
-
-Útiles Escolares
-
-Papelería General
-
-Artículos de Oficina
-
-Con un máximo de 4 productos por sección.
-
-Incluye manejo de errores y estados vacíos.
-
-Usa Suspense para loading.jsx.
-
-🎁 Sección de Promociones (app/PromocionSeccion.jsx)
-
-Server Component que:
-
-Lista promociones activas desde /promocion/lista_promociones.
-
-Muestra mensaje cuando no hay promociones.
-
-Maneja errores de conexión y estados vacíos.
-
-🧩 Componentes principales
-
-ProductCard.js → Muestra imagen (optimizada con next/image), nombre, precio y enlace al detalle.
-Estilo: borde, sombra y transición suave.
-
-PromoCard.js → Imagen, título, descripción, fecha (dd/mm/aaaa), productos incluidos y enlace.
-
-BackButton.js → Client Component con useRouter para volver a /productos.
-
-loading.jsx → Animación temática con lápiz girando, colores pastel (yellow-200, pink-200) y texto “Preparando tu papelería...” ✏️
-
-🔌 API (lib/api.js)
-
-Funciones para interactuar con el backend:
-
-Método Endpoint Descripción
-GET /productos Lista todos los productos
-GET /producto/categorias/:categoria Filtra por categoría
-GET /producto_id/:id Detalle de producto
-GET /promocion/lista_promociones Lista promociones
-GET /promocion_id/:id Detalle de promoción
-POST /auth/login Autenticación
-POST /productos Crear producto (multipart/form-data)
-
-Configuración:
-
-Usa NEXT_PUBLIC_API_URL y soporte para tokens de autenticación.
-
-⚙️ Configuración del Proyecto
-next.config.js
-
-Permite imágenes remotas desde /imgs/** y /promos/**.
-
-.env.local
+```env
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
 NEXT_PUBLIC_API_PROTOCOL=http
 NEXT_PUBLIC_API_HOST=localhost
 NEXT_PUBLIC_API_PORT=5000
+```
 
-🧩 Problemas Resueltos
+2. Agregar imagen de banner:
 
-✅ Evitado bucle infinito en renderizados con Server Components
-✅ Manejo seguro de searchParams (validación con typeof)
-✅ Formato de fechas dd/mm/aaaa
-✅ Soporte de imágenes remotas configurado
-✅ Botón “Iniciar sesión” visible y con transición
-✅ Color primario definido y aplicado globalmente
+Coloca `stationery-store.jpg` en `public/images/`
 
-🚀 Instrucciones de Ejecución
+---
 
-Instalar dependencias:
+## 💻 Uso
 
-npm install
+### Iniciar Backend
 
-Configurar entorno:
+**Desarrollo:**
 
-Crear archivo .env.local
+```bash
+npm run devmon
+```
 
-Guardar stationery-store.jpg en public/images/
+**Producción:**
 
-Ejecutar en modo desarrollo:
+```bash
+npm start
+```
 
+El servidor estará disponible en `http://localhost:5000`
+
+### Iniciar Frontend
+
+```bash
 npm run dev
+```
 
-Abrir en el navegador:
+La aplicación estará disponible en `http://localhost:3000`
 
-http://localhost:3000
+### Testing con REST Client
+
+El proyecto incluye archivos `.http` para testing:
+
+- `usuario.http` - Operaciones CRUD de usuarios
+- `auth.http` - Login y autenticación
+- `producto.http` - Gestión de productos
+- `pedido.http` - Creación y gestión de pedidos
+- `consulta.http` - Sistema de consultas
+
+### Formularios HTML de Prueba
+
+Disponibles en `/public/html/`:
+
+- `producto-crear.html` - Alta de productos con imágenes
+- `producto-editar.html` - Edición de productos existentes
+- `promocion-crear.html` - Creación de promociones
+
+---
+
+## 📡 API Reference
+
+### Autenticación
+
+```http
+POST /api/auth/register
+POST /api/auth/login
+```
+
+### Productos
+
+```http
+GET    /api/productos
+GET    /api/producto_id/:id
+GET    /api/producto/categorias/:categoria
+POST   /api/productos          # Requiere: Admin
+PUT    /api/productos/:id      # Requiere: Admin
+DELETE /api/productos/:id      # Requiere: Admin (soft delete)
+```
+
+### Promociones
+
+```http
+GET    /api/promocion/lista_promociones
+GET    /api/promocion_id/:id
+POST   /api/promociones        # Requiere: Admin
+PUT    /api/promociones/:id    # Requiere: Admin
+DELETE /api/promociones/:id    # Requiere: Admin
+```
+
+### Pedidos
+
+```http
+GET    /api/pedidos            # Requiere: Auth
+GET    /api/pedidos/:id        # Requiere: Auth
+POST   /api/pedidos
+PUT    /api/pedidos/:id        # Requiere: Admin
+```
+
+### Consultas
+
+```http
+GET    /api/consultas          # Requiere: Admin
+POST   /api/consultas          # Público
+PUT    /api/consultas/:id      # Requiere: Admin
+```
+
+---
+
+## 🗄️ Modelos de Base de Datos
+
+### Usuario
+
+- Sistema de roles (ADMIN, CLIENTE, EMPLEADO)
+- Autenticación con bcrypt
+- Creación automática en primer pedido
+
+### Producto
+
+- Categorías predefinidas (enum)
+- Múltiples imágenes por producto
+- Soft delete con limpieza automática
+
+### Promoción
+
+- Asociación con múltiples productos
+- Validación de stock y estado
+- Eliminación automática al vencer
+
+### Pedido
+
+- Historial automático de estados
+- Creación de usuario si no existe
+- Validación completa de datos
+
+### Consulta
+
+- Envío público desde frontend
+- Estados: leída, resuelta
+- Sistema de respuestas
+
+---
+
+## 🔒 Seguridad
+
+- ✅ Contraseñas encriptadas con bcrypt
+- ✅ Tokens JWT con expiración
+- ✅ Middleware de autenticación y autorización
+- ✅ Validación estricta con Zod
+- ✅ Helmet para headers seguros
+- ✅ CORS configurado por origen
+- ✅ Sanitización de inputs
+- ✅ Rate limiting en archivos
+
+---
+
+## 🤖 Tareas Automatizadas
+
+El sistema ejecuta automáticamente:
+
+- **Limpieza de promociones vencidas** - Diaria a las 2:00 AM
+- **Eliminación de archivos huérfanos** - Semanal los domingos
+- **Rotación de logs** - Diaria automática
+- **Actualización de estado de pedidos** - En tiempo real
+
+---
+
+## 🎯 Roadmap
+
+### Corto Plazo
+
+- [ ] Implementar tests automatizados (Jest/Vitest)
+- [ ] Sistema de notificaciones por email
+- [ ] Panel de administración completo
+
+### Mediano Plazo
+
+- [ ] Búsqueda avanzada con filtros
+
+---
+
+## 📝 Licencia
+
+Este proyecto es privado y pertenece a Papelería Sofía.
+
+---
+
+## 👥 Contribución
+
+Para contribuir al proyecto:
+
+1. Fork el repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add: Amazing Feature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+---
+
+## 📞 Contacto
+
+**Equipo de Desarrollo**
+
+- GitHub: [@CQaS](https://github.com/CQaS)
+- Email: cqasss@gmail.com
+
+---
+
+**Última actualización:** Octubre 2025
