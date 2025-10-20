@@ -6,7 +6,7 @@ import Loading from "../loading";
 
 import ProductosCategoriasSection from "@/components/productos-categoria-section";
 import PromocionSeccion from "@/components/promos-section";
-import Image from "next/image";
+import ProductoDetallado from "@/components/producto_detalles";
 
 export default async function ProductosPage({ searchParams }) {
   const categoria =
@@ -41,7 +41,7 @@ export default async function ProductosPage({ searchParams }) {
             <ProductoDetalles id={id} />
           ) : idPromo ? (
             // Vista de detalle: Promoción
-            <PromoDetalle idPromo={idPromo} />
+            <PromoDetalles idPromo={idPromo} />
           ) : categoria ? (
             // Vista de lista: Productos por categoría
             <ProductoCategoria porcategoria={categoria} />
@@ -67,39 +67,13 @@ async function ProductoDetalles({ id }) {
 
   const product = productResponse.data;
   return (
-    <div>
-      <BackButton />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          {product.imagenes?.map((img, idx) => (
-            <Image
-              key={idx}
-              width={200}
-              height={200}
-              src={img.url}
-              alt={product.nombre}
-              className="w-full h-64 object-cover mb-4 rounded-md"
-            />
-          ))}
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold font-['Pacifico'] text-primary">
-            {product.nombre}
-          </h1>
-          <p className="text-xl text-gray-600">${product.precio}</p>
-          <p>{product.descripcion}</p>
-          <p className="text-green-600">Stock: {product.stock}</p>
-          <p>Categoría: {product.categoria}</p>
-          <button className="bg-primary text-white px-4 py-2 rounded-md font-medium hover:bg-primary/90 transition-colors duration-500 mt-4">
-            Agregar al carrito
-          </button>
-        </div>
-      </div>
-    </div>
+    <Suspense fallback={<Loading />}>
+      <ProductoDetallado detallado={product} />
+    </Suspense>
   );
 }
 
-async function PromoDetalle({ idPromo }) {
+async function PromoDetalles({ idPromo }) {
   return (
     <div>
       <BackButton />
@@ -113,12 +87,7 @@ async function PromoDetalle({ idPromo }) {
 async function ProductoCategoria({ porcategoria }) {
   return (
     <div>
-      {/* Sección de productos por categoría */}
-
       <ProductosCategoriasSection porcategoria={porcategoria} />
-
-      {/* Sección de promociones */}
-
       <PromocionSeccion />
     </div>
   );

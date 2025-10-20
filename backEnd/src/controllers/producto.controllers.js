@@ -216,11 +216,21 @@ export const producto_crear = async (req, res) => {
             })
         }
 
+        let caracteristicasArray = []
+        if (req.body.caracteristicas) {
+            if (Array.isArray(req.body.caracteristicas)) {
+                caracteristicasArray = req.body.caracteristicas
+            } else if (typeof req.body.caracteristicas === 'string' && req.body.caracteristicas.trim() !== '') {
+                caracteristicasArray = [req.body.caracteristicas]
+            }
+        }
+
         const _crear_P = await PRODUCTOS_SERVICES.crearProducto({
             ...req.body,
             precio: parseFloat(req.body.precio),
             stock: parseInt(req.body.stock),
-            slug: generarSlug(req.body.nombre)
+            slug: generarSlug(req.body.nombre),
+            caracteristicas: caracteristicasArray
         })
 
         const imagenUrls = await procesarImagenes(imagenes, "imgs", _crear_P.slug, req)

@@ -2,31 +2,7 @@
 "use client";
 
 import Image from "next/image";
-
-/* import Image from "next/image";
 import Link from "next/link";
-
-export default function ProductCard({ product }) {
-  return (
-    <div className="border rounded-lg p-4 shadow-md">
-      {product.imagenes[0] && (
-        <Image
-          src={product.imagenes[0].url}
-          alt={product.nombre}
-          width={200}
-          height={200}
-          className="w-full h-48 object-cover"
-        />
-      )}
-      <h2 className="text-xl font-semibold">{product.nombre}</h2>
-      <p className="text-gray-600">${product.precio}</p>
-      <Link href={`/productos/${product.id}`} className="text-blue-500">
-        Ver detalles
-      </Link>
-    </div>
-  );
-}
- */
 
 export default function ProductCard({ product }) {
   return (
@@ -58,9 +34,11 @@ export default function ProductCard({ product }) {
             </li>
           </ul>
         </div>
-        <button className="mt-4 w-full bg-amber-500 text-white py-2 rounded-lg font-medium hover:bg-amber-400 transition-colors whitespace-nowrap">
-          Agregar al carrito
-        </button>
+        <Link href={`/productos?id=${product.id}`}>
+          <button className="mt-4 w-full bg-amber-500 text-white py-2 rounded-lg font-medium hover:bg-amber-400 transition-colors whitespace-nowrap">
+            Ver más detalles
+          </button>
+        </Link>
       </div>
     </div>
   );

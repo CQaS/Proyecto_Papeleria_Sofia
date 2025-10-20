@@ -30,6 +30,9 @@ export const ProductoSchema = z.object({
             message: "El slug debe tener solo minúsculas, números y guiones",
         }).optional(),
     descripcion: z.string().max(1000).optional(),
+    caracteristicas: z
+        .array(z.string().min(2, "Cada característica debe tener al menos 2 caracteres"))
+        .optional(),
     categoria: CategoriaProductoEnum.optional(),
     precio: z.number().positive("El precio debe ser mayor a 0"),
     stock: z.number().int().min(0),

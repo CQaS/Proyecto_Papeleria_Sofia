@@ -37,6 +37,11 @@ export const getProductById = async (id) => {
     return response.data;
 };
 
+export const getRelacionados = async (relacionadosCategoria) => {
+    const response = await api.get(`/producto/categorias/${relacionadosCategoria}`);
+    return response.data;
+};
+
 export const createProduct = async (formData) => {
     const response = await api.post('/productos', formData, {
         headers: {

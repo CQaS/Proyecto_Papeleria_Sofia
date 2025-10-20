@@ -104,6 +104,7 @@ model Producto {
   nombre          String            @db.VarChar(100)
   slug            String            @unique
   descripcion     String?           @db.Text
+  caracteristicas Json?             @db.Json
   categoria       CategoriaProducto @default(OTROS)
   precio          Float
   stock           Int               @default(0)

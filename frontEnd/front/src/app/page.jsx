@@ -53,81 +53,83 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {/* Producto 1 */}
             <div className="text-center group">
-              <Link href="/productos?categoria=cuadernos">
-                <div className="w-20 h-20 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+              <div className="w-20 h-20 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                <Link href="/productos?categoria=cuadernos">
                   <i className="ri-book-line ri-2x text-primary"></i>
-                </div>
-              </Link>
+                </Link>
+              </div>
               <h3 className="font-medium text-gray-900">Cuadernos</h3>
             </div>
             {/* Producto 2 */}
             <div className="text-center group">
-              <Link href="/productos?categoria=lapices">
-                <div className="w-20 h-20 mx-auto mb-4 bg-green-50 rounded-full flex items-center justify-center group-hover:bg-green-100 transition-colors">
+              <div className="w-20 h-20 mx-auto mb-4 bg-green-50 rounded-full flex items-center justify-center group-hover:bg-green-100 transition-colors">
+                <Link href="/productos?categoria=lapices">
                   <i className="ri-pencil-line ri-2x text-green-600"></i>
-                </div>
-              </Link>
+                </Link>
+              </div>
               <h3 className="font-medium text-gray-900">Lápices</h3>
             </div>
             {/* Producto 3 */}
             <div className="text-center group">
-              <Link href="/productos?categoria=carpetas">
-                <div className="w-20 h-20 mx-auto mb-4 bg-yellow-50 rounded-full flex items-center justify-center group-hover:bg-yellow-100 transition-colors">
+              <div className="w-20 h-20 mx-auto mb-4 bg-yellow-50 rounded-full flex items-center justify-center group-hover:bg-yellow-100 transition-colors">
+                <Link href="/productos?categoria=carpetas">
                   <i className="ri-folder-line ri-2x text-yellow-600"></i>
-                </div>
-              </Link>
+                </Link>
+              </div>
               <h3 className="font-medium text-gray-900">Carpetas</h3>
             </div>
             {/* Producto 4 */}
             <div className="text-center group">
-              <Link href="/productos?categoria=pinturas">
-                <div className="w-20 h-20 mx-auto mb-4 bg-red-50 rounded-full flex items-center justify-center group-hover:bg-red-100 transition-colors">
+              <div className="w-20 h-20 mx-auto mb-4 bg-red-50 rounded-full flex items-center justify-center group-hover:bg-red-100 transition-colors">
+                <Link href="/productos?categoria=pinturas">
                   <i className="ri-paint-brush-line ri-2x text-red-600"></i>
-                </div>
-              </Link>
+                </Link>
+              </div>
               <h3 className="font-medium text-gray-900">Pinturas</h3>
             </div>
             {/* Producto 5 */}
             <div className="text-center group">
-              <Link href="/productos?categoria=tijeras">
-                <div className="w-20 h-20 mx-auto mb-4 bg-purple-50 rounded-full flex items-center justify-center group-hover:bg-purple-100 transition-colors">
+              <div className="w-20 h-20 mx-auto mb-4 bg-purple-50 rounded-full flex items-center justify-center group-hover:bg-purple-100 transition-colors">
+                <Link href="/productos?categoria=tijeras">
                   <i className="ri-scissors-line ri-2x text-purple-600"></i>
-                </div>
-              </Link>
+                </Link>
+              </div>
               <h3 className="font-medium text-gray-900">Tijeras</h3>
             </div>
             {/* Producto 6 */}
             <div className="text-center group">
-              <Link href="/productos?categoria=notas-adhesivas">
-                <div className="w-20 h-20 mx-auto mb-4 bg-pink-50 rounded-full flex items-center justify-center group-hover:bg-pink-100 transition-colors">
+              <div className="w-20 h-20 mx-auto mb-4 bg-pink-50 rounded-full flex items-center justify-center group-hover:bg-pink-100 transition-colors">
+                <Link href="/productos?categoria=notas-adhesivas">
                   <i className="ri-sticky-note-line ri-2x text-pink-600"></i>
-                </div>
-              </Link>
+                </Link>
+              </div>
               <h3 className="font-medium text-gray-900">Notas Adhesivas</h3>
             </div>
             {/* Producto 7 */}
             <div className="text-center group">
-              <Link href="/productos?categoria=reglas">
-                <div className="w-20 h-20 mx-auto mb-4 bg-indigo-50 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+              <div className="w-20 h-20 mx-auto mb-4 bg-indigo-50 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                <Link href="/productos?categoria=reglas">
                   <i className="ri-ruler-line ri-2x text-indigo-600"></i>
-                </div>
-              </Link>
+                </Link>
+              </div>
               <h3 className="font-medium text-gray-900">Reglas</h3>
             </div>
             {/* Producto 8 */}
             <div className="text-center group">
-              <Link href="/productos?categoria=calculadoras">
-                <div className="w-20 h-20 mx-auto mb-4 bg-teal-50 rounded-full flex items-center justify-center group-hover:bg-teal-100 transition-colors">
+              <div className="w-20 h-20 mx-auto mb-4 bg-teal-50 rounded-full flex items-center justify-center group-hover:bg-teal-100 transition-colors">
+                <Link href="/productos?categoria=calculadoras">
                   <i className="ri-calculator-line ri-2x text-teal-600"></i>
-                </div>
-              </Link>
+                </Link>
+              </div>
               <h3 className="font-medium text-gray-900">Calculadoras</h3>
             </div>
           </div>
           <div className="text-center mt-10">
-            <button className=" border-indigo-600 px-6 py-3 !rounded-button hover:bg-gray-50 transition-colors text-indigo-600 font-medium whitespace-nowrap">
-              Ver todos los productos
-            </button>
+            <Link href="/productos">
+              <button className=" border-indigo-600 px-6 py-3 !rounded-button hover:bg-gray-50 transition-colors text-indigo-600 font-medium whitespace-nowrap">
+                Ver todos los productos
+              </button>
+            </Link>
           </div>
         </div>
       </section>
