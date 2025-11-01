@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 import Headers from "../components/header";
 import Footer from "../components/footer";
 
@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es">
+    <html lang="es" className="dark">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Papelería SOFIA - Tu espacio para útiles escolares</title>

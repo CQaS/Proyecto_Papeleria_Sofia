@@ -4,6 +4,7 @@ import PromosActivasSeccion from "./promos-activas-section";
 import ProductosRelacionadosSeccion from "./productos-relacionados-section";
 
 export default function ProductoDetallado({ detallado }) {
+  console.log("Detalle del producto recibido:", detallado);
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -16,14 +17,7 @@ export default function ProductoDetallado({ detallado }) {
             href="/productos?categoria=CUADERNOS"
             className="hover:underline"
           >
-            Cuadernos
-          </Link>
-          <span className="mx-2">/</span>
-          <Link
-            href="/productos?categoria=UNIVERSITARIOS"
-            className="hover:underline"
-          >
-            Universitarios
+            {detallado.categoria}
           </Link>
           <span className="mx-2">/</span>
           <span className="text-gray-900">{detallado?.nombre}</span>
@@ -81,7 +75,7 @@ export default function ProductoDetallado({ detallado }) {
                 </div>
 
                 <div>
-                  <h1 className="text-3xl font-bold font-['Pacifico'] text-primary mb-4">
+                  <h1 className="text-3xl font-bold text-gray-900 mb-4">
                     {detallado.nombre}
                   </h1>
 
@@ -156,7 +150,7 @@ export default function ProductoDetallado({ detallado }) {
                   </div>
 
                   <div className="space-y-3 mb-6">
-                    <button className="w-full bg-primary text-white py-3 px-6 rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">
+                    <button className="w-full bg-[#4f46e5] text-white py-3 px-6 rounded-b-md font-medium hover:bg-blue-800 transition-colors whitespace-nowrap">
                       Agregar al Carrito
                     </button>
                     <button className="w-full bg-gray-900 text-white py-3 px-6 rounded-button font-medium hover:bg-gray-800 transition-colors whitespace-nowrap">

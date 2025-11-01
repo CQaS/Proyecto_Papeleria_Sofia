@@ -174,7 +174,7 @@ export default function Home() {
                 <p className="text-sm text-gray-700">Confirma y paga</p>
               </div>
             </div>
-            <button className="bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">
+            <button className="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">
               Hacer pedido
             </button>
           </div>

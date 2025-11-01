@@ -19,6 +19,14 @@ export default async function ProductosPage({ searchParams }) {
       ? searchParams.idPromo
       : undefined;
 
+  // Título dinámico
+  const getTituloDinamico = () => {
+    if (id) return `Detalles del producto #${id}`;
+    if (idPromo) return `Detalles de la promoción #${idPromo}`;
+    if (categoria) return `Productos de ${formatCategoria(categoria)}`;
+    return "Todos los productos y promociones";
+  };
+
   return (
     <Suspense fallback={<Loading />}>
       <div className="container mx-auto p-4">
@@ -26,27 +34,19 @@ export default async function ProductosPage({ searchParams }) {
           <section className="py-10 bg-gray-50">
             <div className="container mx-auto px-4">
               <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900">
-                {id
-                  ? `Detalles del producto N:${id}`
-                  : idPromo
-                  ? `Detalles de la promoción N:${idPromo}`
-                  : categoria
-                  ? `Productos de ${categoria}`
-                  : "Todos los productos y promociones"}
+                {getTituloDinamico()}
               </h1>
             </div>
           </section>
+
+          {/* Renderizado condicional limpio */}
           {id ? (
-            // Vista de detalle: Producto
             <ProductoDetalles id={id} />
           ) : idPromo ? (
-            // Vista de detalle: Promoción
             <PromoDetalles idPromo={idPromo} />
           ) : categoria ? (
-            // Vista de lista: Productos por categoría
-            <ProductoCategoria porcategoria={categoria} />
+            <ProductoCategoria categoria={categoria} />
           ) : (
-            // Vista de lista: Todos los productos y promociones
             <ProductosLista />
           )}
         </div>
@@ -55,8 +55,10 @@ export default async function ProductosPage({ searchParams }) {
   );
 }
 
+// === Detalle de producto ===
 async function ProductoDetalles({ id }) {
   const productResponse = await getProductById(id);
+
   if (!productResponse.success) {
     return (
       <div className="text-center text-red-600">
@@ -65,14 +67,14 @@ async function ProductoDetalles({ id }) {
     );
   }
 
-  const product = productResponse.data;
   return (
     <Suspense fallback={<Loading />}>
-      <ProductoDetallado detallado={product} />
+      <ProductoDetallado detallado={productResponse.data} />
     </Suspense>
   );
 }
 
+// === Detalle de promoción ===
 async function PromoDetalles({ idPromo }) {
   return (
     <div>
@@ -84,15 +86,17 @@ async function PromoDetalles({ idPromo }) {
   );
 }
 
-async function ProductoCategoria({ porcategoria }) {
+// === Productos por categoría ===
+async function ProductoCategoria({ categoria }) {
   return (
     <div>
-      <ProductosCategoriasSection porcategoria={porcategoria} />
+      <ProductosCategoriasSection porcategoria={categoria} />
       <PromocionSeccion />
     </div>
   );
 }
 
+// === Lista general (todos los productos y promociones) ===
 async function ProductosLista() {
   return (
     <>
@@ -100,4 +104,12 @@ async function ProductosLista() {
       <ProductosCategoriasSection />
     </>
   );
+}
+
+// === Formatear categoría ===
+function formatCategoria(categoria) {
+  return categoria
+    .toLowerCase()
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 }

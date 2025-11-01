@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { getPromoById } from "../app/routes/promos.routes";
 import BackButton from "./BackBtn";
 
@@ -66,7 +67,7 @@ export default async function PromocionCard({ promocionid }) {
           </p>
         </div>
         <button className="mt-auto bg-orange-400 text-white py-3 rounded-lg font-medium hover:bg-orange-500 transition-colors whitespace-nowrap w-full">
-          Aprovechar promoción
+          <Link href={`/productos?idPromo=${promocion.id}`}>Ver promoción</Link>
         </button>
       </div>
     </div>
