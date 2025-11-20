@@ -22,15 +22,6 @@ enum RolUsuario {
   CLIENTE
 }
 
-enum EstadoPedido {
-  PENDIENTE
-  EN_PROCESO
-  LISTO_PARA_RETIRO 
-  EN_CAMINO
-  ENTREGADO
-  CANCELADO
-}
-
 enum EstadoProducto {
   ACTIVO
   INACTIVO
@@ -55,6 +46,49 @@ enum CategoriaProducto {
   REGLAS
   OTROS
 }
+
+enum TamanoPapel {
+  A4
+  A5
+  A3
+  Carta
+  Oficio
+}
+
+enum TipoPapel {
+  Bond
+  Opalina
+  Couche
+  Reciclado
+}
+
+enum AcabadoPapel {
+  Mate
+  Brillante
+  Satinado
+  Texturizado
+}
+
+enum CalidadPapel {
+  Económica
+  Estándar
+  Alta_Calidad
+  Premium
+}
+
+enum Orientacion {
+  VERTICAL
+  HORIZONTAL
+}
+
+enum EstadoPedido {
+  PENDIENTE
+  EN_PROCESO
+  LISTO
+  ENTREGADO
+  CANCELADO
+}
+
 
 // -------------------------------------------------------------------------
 // Modelos
@@ -173,23 +207,35 @@ model ImagenPromocion {
 
 // MODELO: Pedido
 model Pedido {
-  // CAMBIO: ID primario a String con cuid()
-  id             String         @id @default(cuid())
-  
-  // CAMBIO: Clave foránea a String
-  usuarioId      String 
-  archivoUrl     String
-  detalles       String?        @db.Text
-  estado         EstadoPedido   @default(PENDIENTE)
-  total          Float          @default(0.0)
-  direccionEnvio String?        @db.VarChar(255)
-  notasInternas  String?        @db.Text
-  creadoEn       DateTime       @default(now())
-  actualizadoEn  DateTime       @updatedAt
-
-  usuario                 Usuario                 @relation(fields: [usuarioId], references: [id])
-  HistorialEstadoPedido   HistorialEstadoPedido[]
+  id             String     @id @default(cuid())
+  usuarioId      String
+  usuario        Usuario    @relation(fields: [usuarioId], references: [id])
+  archivo        String?    @db.VarChar(255)
+  tamano         TamanoPapel
+  tipoPapel      TipoPapel
+  acabado        AcabadoPapel
+  calidad        CalidadPapel
+  cantidad       Int
+  orientacion    Orientacion         @default(VERTICAL)
+  dobleFaz       Boolean             @default(false)
+  encuadernado   Boolean             @default(false)
+  perforado      Boolean             @default(false)
+  grapado        Boolean             @default(false)
+  delivery       Boolean             @default(false)
+  fechaEntrega   DateTime?
+  horaEntrega    String?             @db.VarChar(20)
+  subtotal       Float
+  iva            Float
+  total          Float               @default(0.0)
+  comentarios    String?             @db.Text
+  direccionEnvio String?             @db.VarChar(255)
+  estado         EstadoPedido        @default(PENDIENTE)
+  notasInternas  String?             @db.Text
+  creadoEn       DateTime            @default(now())
+  actualizadoEn  DateTime            @updatedAt
+  HistorialEstadoPedido HistorialEstadoPedido[]
 }
+
 
 // MODELO: HistorialEstadoPedido
 model HistorialEstadoPedido {

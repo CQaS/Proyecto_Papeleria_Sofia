@@ -47,7 +47,7 @@ export default function Header() {
             Productos y Promociones
           </Link>
           <Link
-            href="#"
+            href="/pedidos"
             className="font-medium text-gray-600 hover:text-primary transition-colors py-2 md:py-0"
           >
             Pedidos de impresión

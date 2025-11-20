@@ -11,12 +11,13 @@ import {
 import {
     authAdmin
 } from "../middlewares/auth.js";
+import { subirArchivoPedido } from "../middlewares/multer_ArchivoPedido.js";
 
 const routesPedido = Router();
 
 routesPedido.get('/admin/pedido_lista', authAdmin, pedido_lista)
 routesPedido.get('/pedido_estado/:id', pedido_estado)
-routesPedido.post('/pedido_crear', pedido_crear)
+routesPedido.post('/pedido_crear', subirArchivoPedido, pedido_crear)
 routesPedido.put('/admin/pedido_notasInternas/:id', authAdmin, notasInternas)
 routesPedido.put('/admin/pedido_estado/:id', authAdmin, pedido_actualizar_estado)
 

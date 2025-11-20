@@ -171,12 +171,15 @@ export default function Home() {
                 <div className="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center mb-3">
                   <i className="ri-check-line ri-xl text-primary"></i>
                 </div>
-                <p className="text-sm text-gray-700">Confirma y paga</p>
+                <p className="text-sm text-gray-700">Confirma</p>
               </div>
             </div>
-            <button className="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">
+            <a
+              href="/pedidos"
+              className="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+            >
               Hacer pedido
-            </button>
+            </a>
           </div>
         </div>
       </section>

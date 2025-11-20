@@ -53,7 +53,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/"
+                  href="/pedidos"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Pedidos de impresión

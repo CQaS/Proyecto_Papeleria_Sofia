@@ -46,17 +46,42 @@ const listarPedidoPorId = async (id) => {
  * @returns {Promise<Object>} Pedido creado.
  */
 
-const crearPedido = async (pedido, ID_Usuario_delPedido) => {
+const crearPedido = async (pedido, usuarioId) => {
     return await prisma.pedido.create({
         data: {
-            archivoUrl: pedido.archivoUrl,
-            detalles: pedido.detalles,
+            usuarioId,
+
+            archivo: pedido.archivo,
+
+            tamano: pedido.tamano,
+            tipoPapel: pedido.tipoPapel,
+            acabado: pedido.acabado,
+            calidad: pedido.calidad,
+
+            cantidad: pedido.cantidad,
+            orientacion: pedido.orientacion,
+
+            dobleFaz: pedido.dobleFaz,
+            encuadernado: pedido.encuadernado,
+            perforado: pedido.perforado,
+            grapado: pedido.grapado,
+
+            delivery: pedido.delivery,
+
+            fechaEntrega: pedido.fechaEntrega ? new Date(pedido.fechaEntrega + 'T00:00:00') : null,
+            horaEntrega: horaEntrega || null,
+            
+            subtotal: pedido.subtotal,
+            iva: pedido.iva,
             total: pedido.total,
-            direccionEnvio: pedido.direccionEnvio,
-            usuarioId: ID_Usuario_delPedido,
+
+            comentarios: pedido.comentarios || null,
+            direccionEnvio: pedido.direccionEnvio || null,
+            estado: "PENDIENTE",
         }
-    })
-}
+    });
+};
+
 
 /** * Servicio para actualizar el estado de un pedido.
  * @param {string} id - ID del pedido a actualizar.

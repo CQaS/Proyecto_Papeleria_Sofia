@@ -4,6 +4,9 @@
  import {
      transicionesValidas
  } from "../helpers/estadoPedidos.js"
+ import {
+     guardarArchivoPedido
+ } from "../middlewares/multer_ArchivoPedido.js"
 
  /** * Controlador para listar todos los pedidos.
   * @param {Object} req - La solicitud HTTP.
@@ -76,25 +79,48 @@
 
  export const pedido_crear = async (req, res) => {
      try {
+         const pedidoJSON = JSON.parse(req.body.pedido)
+         const usuarioJSON = JSON.parse(req.body.usuario)
+
+         /* { ESTOS DATOS LLEGAN DESDE EL FRONT (por ejemplo)
+             pedido: '{"tamano":"A5","cantidad":6,"tipoPapel":"Couche","acabado":"Satinado","calidad":"Alta Calidad","orientacion":"horizontal","dobleFaz":true,"encuadernado":false,"perforado":false,"grapado":true,"delivery":false,"subtotal":1.5,"iva":0.32,"total":1.81,"archivo":"comprobante.pdf","comentarios":"que sea lindo!","fecha":"2025-11-20","hora":"18:00"}',
+             usuario: '{"nombre":"Fiammas","email":"cqasss@gmail.com","telefono":"+542664562066","direccion":"Barrio 140, Manzana 401 Casa 4"}',
+             archivo: {}
+         }
+          */
          let ID_Usuario_delPedido = null
 
-         const usuario = await USUARIOS_SERVICES.UsuarioPorEmailTelefono(req.body.usuario.email, req.body.usuario.telefono)
+         const usuario = await USUARIOS_SERVICES.UsuarioPorEmailTelefono(usuarioJSON.email, usuarioJSON.telefono)
          if (!usuario) {
 
-             ID_Usuario_delPedido = (await USUARIOS_SERVICES.UsuarioCrear(req.body.usuario)).id
+             ID_Usuario_delPedido = (await USUARIOS_SERVICES.UsuarioCrear(usuarioJSON)).id
 
          } else {
 
              ID_Usuario_delPedido = usuario.id
          }
 
+         if (req.file) {
 
-         const _crear_P = await PEDIDOS_SERVICES.crearPedido(req.body.pedido, ID_Usuario_delPedido)
-         res.status(201).json({
-             success: true,
-             message: "Pedido creado exitosamente",
-             data: _crear_P
-         })
+             const archivoUrl = await guardarArchivoPedido(req.file, req);
+
+             const _crear_P = await PEDIDOS_SERVICES.crearPedido({
+                 ...pedidoJSON,
+                 archivo: archivoUrl
+             }, ID_Usuario_delPedido)
+
+             res.status(201).json({
+                 success: true,
+                 message: "Pedido creado exitosamente",
+                 data: _crear_P
+             })
+         } else {
+             res.status(404).json({
+                 success: false,
+                 message: "Pedido NO creado exitosamente, falta ARCHIVO",
+                 data: null
+             })
+         }
 
      } catch (error) {
          console.error(error)
