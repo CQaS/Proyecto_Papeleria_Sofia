@@ -1,3 +1,4 @@
+import { getProducts } from "@/app/routes/productos.routes";
 import { ShoppingBag, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,7 +30,18 @@ const stationeryItems = [
   },
 ];
 
-export default function ProductosSeccionPedidos() {
+export default async function ProductosSeccionPedidos() {
+  const listaDeProductos = await getProducts();
+  let productosAleatorios;
+
+  listaDeProductos.data.length < 5
+    ? (productosAleatorios = listaDeProductos.data)
+    : (productosAleatorios = listaDeProductos.data
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 4));
+
+  console.log(productosAleatorios);
+
   return (
     <div className="bg-white rounded-lg shadow-sm border p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
@@ -38,21 +50,21 @@ export default function ProductosSeccionPedidos() {
       </h2>
 
       <div className="space-y-4">
-        {stationeryItems.map((item, index) => (
+        {productosAleatorios.map((item, index) => (
           <div
             key={index}
             className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
           >
             <Image
-              src={item.image || "/placeholder.svg"}
-              alt={item.name}
+              src={item.imagenes[0].url || "/placeholder.svg"}
+              alt={item.nombre}
               width={48}
               height={48}
               className="rounded object-cover"
             />
             <div className="flex-1">
-              <h3 className="font-medium text-gray-900">{item.name}</h3>
-              <p className="text-sm text-gray-600">{item.price}</p>
+              <h3 className="font-medium text-gray-900">{item.nombre}</h3>
+              <p className="text-sm text-gray-600">Desde ${item.precio}</p>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
           </div>

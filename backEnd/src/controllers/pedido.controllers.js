@@ -17,7 +17,7 @@
  export const pedido_lista = async (req, res) => {
      try {
          const _listar_P = await PEDIDOS_SERVICES.listarPedidos()
-         logger.info(_listar_P)
+         Logger.info(_listar_P)
          res.status(200).json({
              success: true,
              message: "Pedidos listados exitosamente",

@@ -487,6 +487,7 @@ export default function PedidosForm() {
               </label>
               <input
                 type="text"
+                id="nombreCompleto"
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="María González Rodríguez"
               />
@@ -498,6 +499,7 @@ export default function PedidosForm() {
               </label>
               <input
                 type="tel"
+                id="telefono"
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="+34 612 345 678"
               />
@@ -509,6 +511,7 @@ export default function PedidosForm() {
               </label>
               <input
                 type="email"
+                id="email"
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="maria.gonzalez@email.com"
               />
@@ -521,6 +524,7 @@ export default function PedidosForm() {
               <textarea
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 rows={3}
+                id="direccion"
                 placeholder="Calle Mayor 123, 2º A, 28001 Madrid"
               />
             </div>
@@ -531,6 +535,7 @@ export default function PedidosForm() {
               </label>
               <input
                 type="date"
+                id="fecha"
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -541,6 +546,7 @@ export default function PedidosForm() {
               </label>
               <input
                 type="time"
+                id="hora"
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -552,6 +558,7 @@ export default function PedidosForm() {
               <textarea
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 rows={3}
+                id="comentarios"
                 placeholder="Instrucciones adicionales para la entrega..."
               />
             </div>

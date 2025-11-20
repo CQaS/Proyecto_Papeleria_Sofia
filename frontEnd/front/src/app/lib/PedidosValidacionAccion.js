@@ -21,13 +21,13 @@ export const handleRealizarPedido = async ({
     const archivoInput = document.querySelector('input[type="file"]');
     const archivo = archivoInput?.files?.[0];
 
-    const nombre = document.querySelector('input[placeholder="María González Rodríguez"]')?.value?.trim() || '';
-    const telefono = document.querySelector('input[placeholder="+34 612 345 678"]')?.value?.trim() || '';
-    const email = document.querySelector('input[placeholder="maria.gonzalez@email.com"]')?.value?.trim() || '';
-    const direccion = document.querySelector('textarea[placeholder="Calle Mayor 123, 2º A, 28001 Madrid"]')?.value?.trim() || '';
-    const fecha = document.querySelector('input[type="date"]')?.value || '';
-    const hora = document.querySelector('input[type="time"]')?.value || '';
-    const comentarios = document.querySelector('textarea[placeholder="Instrucciones adicionales para la entrega..."]')?.value?.trim() || '';
+    const nombre = document.getElementById('nombreCompleto')?.value?.trim() || '';
+    const telefono = document.getElementById('telefono')?.value?.trim() || '';
+    const email = document.getElementById('email')?.value?.trim() || '';
+    const direccion = document.getElementById('direccion')?.value?.trim() || '';
+    const fecha = document.getElementById('fecha')?.value || '';
+    const hora = document.getElementById('hora')?.value || '';
+    const comentarios = document.getElementById('comentario')?.value?.trim() || '';
 
     // === VALIDACIONES ===
     const errores = [];
