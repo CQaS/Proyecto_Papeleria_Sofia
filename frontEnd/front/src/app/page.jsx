@@ -1,4 +1,6 @@
+import ContactoSection from "@/components/contactoSection";
 import PromosDestacadas from "@/components/promos-destacadas";
+import ToastContainer from "@/components/ToastContainer";
 import Link from "next/link";
 
 export default function Home() {
@@ -25,12 +27,18 @@ export default function Home() {
                 servicios de impresión y encuadernación.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">
+                <Link
+                  href="/productos"
+                  className="text-blue-500 border-blue-500 px-4 py-2 !rounded-button font-medium hover:bg-blue-100 transition-colors duration-500 whitespace-nowrap rounded-lg bg-white hidden md:block"
+                >
                   Ver productos
-                </button>
-                <button className="text-white px-4 py-2 !rounded-button font-medium hover:bg-blue-400 transition-colors duration-500 whitespace-nowrap rounded-lg bg-indigo-600 hidden md:block">
+                </Link>
+                <Link
+                  href="#contacto"
+                  className="text-blue-500 border-blue-500 px-4 py-2 !rounded-button font-medium hover:bg-blue-100 transition-colors duration-500 whitespace-nowrap rounded-lg bg-white hidden md:block"
+                >
                   Contactar
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -133,6 +141,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* Pedidos de Impresión */}
       <section className="py-16 bg-gradient-to-r from-blue-50 to-indigo-50">
         <div className="container mx-auto px-4">
@@ -183,6 +192,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Contacto */}
+      <ContactoSection />
+      <ToastContainer />
     </>
   );
 }
