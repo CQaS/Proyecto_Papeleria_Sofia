@@ -35,6 +35,27 @@
      }
  }
 
+ export const length = async (req, res) => {
+     try {
+         const len = await PEDIDOS_SERVICES._length()
+         Logger.info(len)
+         res.status(200).json({
+             success: true,
+             message: "Cantidad de pedidos",
+             len
+         })
+
+     } catch (error) {
+         console.error(error)
+         res.status(500).json({
+             success: false,
+             message: "Ocurrió un error inesperado en el servidor.",
+             error: error.message || "Error interno del servidor"
+         })
+
+     }
+ }
+
  /** * Controlador para obtener el estado de un pedido por ID.
   * @param {Object} req - La solicitud HTTP.
   * @param {Object} res - La respuesta HTTP.

@@ -29,13 +29,13 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/productos"
-                  className="text-blue-500 border-blue-500 px-4 py-2 !rounded-button font-medium hover:bg-blue-100 transition-colors duration-500 whitespace-nowrap rounded-lg bg-white hidden md:block"
+                  className="text-blue-950 bg-green-400 px-4 py-2 !rounded-button font-medium hover:bg-blue-100 transition-colors duration-500 whitespace-nowrap rounded-lg hidden md:block"
                 >
                   Ver productos
                 </Link>
                 <Link
                   href="#contacto"
-                  className="text-blue-500 border-blue-500 px-4 py-2 !rounded-button font-medium hover:bg-blue-100 transition-colors duration-500 whitespace-nowrap rounded-lg bg-white hidden md:block"
+                  className="text-blue-950 bg-green-400 px-4 py-2 !rounded-button font-medium hover:bg-blue-100 transition-colors duration-500 whitespace-nowrap rounded-lg hidden md:block"
                 >
                   Contactar
                 </Link>

@@ -3,6 +3,7 @@ import {
 } from "express";
 import {
     pedido_lista,
+    length,
     pedido_estado,
     pedido_crear,
     pedido_actualizar_estado,
@@ -18,6 +19,7 @@ import {
 const routesPedido = Router();
 
 routesPedido.get('/admin/pedido_lista', pedido_lista)
+routesPedido.get('/admin/pedido_length', length)
 routesPedido.get('/pedido_estado/:id', pedido_estado)
 routesPedido.post('/pedido_crear', subirArchivoPedido, pedido_crear)
 routesPedido.put('/admin/pedido_notasInternas/:id', authAdmin, notasInternas)

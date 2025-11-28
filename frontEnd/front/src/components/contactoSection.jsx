@@ -71,10 +71,14 @@ export default function ContactoSection() {
       if (respuesta.success) {
         toast(
           "success",
-          "¡Pedido Enviado!",
-          "Te llegará un email con la confirmación."
+          "Consulta Enviada!",
+          "Te respondemos lo antes posible. Gracias!"
         );
         setCharCount(0);
+        nombre.value = "";
+        email.value = "";
+        telefono.value = "";
+        mensaje.value = "";
       } else {
         toast("error", "Error", "No se pudo enviar la consulta.");
       }
@@ -108,7 +112,7 @@ export default function ContactoSection() {
           <form
             id="contactForm"
             onSubmit={handleSubmit}
-            className="bg-gray-50 p-8 rounded-lg shadow-sm"
+            className="bg-gray-50 p-8 rounded-lg shadow-2xl"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>

@@ -3,6 +3,7 @@ import {
 } from "express"
 import {
     login,
+    logout,
     registro,
     refresh
 } from "../controllers/auth.controllers.js"
@@ -16,6 +17,7 @@ import {
 const routesAuth = Router()
 
 routesAuth.post("/login", loginLimiter, login)
+routesAuth.post("/logout", logout)
 routesAuth.post("/registro", loginLimiter, authAdmin, registro)
 routesAuth.post("/refresh", refresh)
 

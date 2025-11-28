@@ -34,11 +34,11 @@ export const login = async (req, res) => {
         message: "Credenciales inválidas o usuario inactivo",
       })
     }
-    logger.info("Usuario encontrado:", usuario)
+    logger.info("Usuario encontrado ID:", usuario)
 
     const passwordValido = await bcrypt.compare(password, usuario.password)
     if (!passwordValido) {
-      return res.status(401).json({
+      return res.status(200).json({
         success: false,
         message: "Email o contraseña incorrectos",
       })
@@ -64,8 +64,9 @@ export const login = async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/"
     })
 
     // No enviamos la contraseña
@@ -78,11 +79,35 @@ export const login = async (req, res) => {
       success: true,
       message: "Login exitoso",
       accessToken,
-      data: usuarioSinPassword,
+      user: usuarioSinPassword,
     })
 
   } catch (error) {
     console.error("Error en login:", error)
+    return res.status(500).json({
+      success: false,
+      message: "Error interno del servidor",
+      error: error.message,
+    })
+  }
+}
+
+export const logout = async (req, res) => {
+  try {
+    res.cookie('refreshToken', 'logged_out', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: 'strict',
+      expires: new Date(0), // Establece la fecha de expiración en el pasado
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Sesión cerrada con éxito"
+    });
+
+  } catch (error) {
+    console.error("Error en logout:", error)
     return res.status(500).json({
       success: false,
       message: "Error interno del servidor",

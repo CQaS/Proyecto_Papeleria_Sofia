@@ -2,22 +2,6 @@ import {
     api
 } from "../lib/api";
 
-export const setAuthToken = (token) => {
-    if (token) {
-        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    } else {
-        delete api.defaults.headers.common['Authorization'];
-    }
-};
-
-export const login = async (email, password) => {
-    const response = await api.post('/auth/login', {
-        email,
-        password
-    });
-    return response.data; // { token, user }
-};
-
 export const getProducts = async (filters = {}) => {
     let url = '/producto/producto_lista';
     if (filters.categoria) {

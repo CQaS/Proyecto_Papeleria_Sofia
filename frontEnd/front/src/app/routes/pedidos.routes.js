@@ -2,6 +2,17 @@
 import { api } from "../lib/api";
 import Swal from 'sweetalert2';
 
+export const getPedidosLength = async () => {
+  try {
+    const response = await api.get('/pedido/admin/pedido_length');
+    console.log(response);
+    return response.data.len;
+  } catch (error) {
+    console.error(error);
+    return 0;
+  }  
+}
+
 export const postPedidos = async (pedidoData) => {
   const url = '/pedido/pedido_crear';
 

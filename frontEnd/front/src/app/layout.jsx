@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "@/app/globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 import Headers from "../components/header";
 import Footer from "../components/footer";
 
@@ -34,13 +35,15 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <div className="bg-white">
-          {/* Header */}
-          <Headers />
-          {children}
-          {/* Footer */}
-          <Footer />
-        </div>
+        <AuthProvider>
+          <div className="bg-white">
+            {/* Header */}
+            <Headers />
+            {children}
+            {/* Footer */}
+            <Footer />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

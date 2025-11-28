@@ -70,7 +70,7 @@ const crearPedido = async (pedido, usuarioId) => {
 
             fechaEntrega: pedido.fechaEntrega ? new Date(pedido.fechaEntrega + 'T00:00:00') : null,
             horaEntrega: horaEntrega || null,
-            
+
             subtotal: pedido.subtotal,
             iva: pedido.iva,
             total: pedido.total,
@@ -115,8 +115,13 @@ const agregarNotasInternas = async (id, data) => {
     })
 }
 
+const _length = async () => {
+    return await prisma.pedido.count()
+}
+
 const PEDIDOS_SERVICES = {
     listarPedidos,
+    _length,
     listarPedidoPorId,
     crearPedido,
     actualizarEstadoPedido,

@@ -2,13 +2,21 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import LoginModal from "./loginModal";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { user, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,9 +61,33 @@ export default function Header() {
             Pedidos de impresión
           </Link>
         </nav>
-        <button className="text-white px-4 py-2 !rounded-button font-medium hover:bg-blue-400 transition-colors duration-500 whitespace-nowrap rounded-lg bg-indigo-600 hidden md:block">
-          Iniciar sesión
-        </button>
+        {user ? (
+          <div className="hidden md:flex items-center gap-4">
+            <div className="flex flex-col items-end">
+              <span className="text-sm font-bold text-gray-800">
+                Hola, {user.nombre}
+              </span>
+              {user.rol === "ADMIN" && (
+                <span className="text-xs text-blue-600 font-semibold">
+                  Admin
+                </span>
+              )}
+            </div>
+            <button
+              onClick={logout}
+              className="text-white px-4 py-2 !rounded-button font-medium hover:bg-red-500 transition-colors duration-500 whitespace-nowrap rounded-lg bg-red-600"
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={openModal}
+            className="text-white px-4 py-2 !rounded-button font-medium hover:bg-blue-400 transition-colors duration-500 whitespace-nowrap rounded-lg bg-indigo-600 hidden md:block"
+          >
+            Iniciar sesión
+          </button>
+        )}
         <button
           className="md:hidden w-10 h-10 flex items-center justify-center"
           onClick={toggleMenu}
@@ -63,6 +95,8 @@ export default function Header() {
           <i className="ri-menu-line ri-lg"></i>
         </button>
       </div>
+
+      <LoginModal isOpen={isModalOpen} onClose={closeModal} />
     </header>
   );
 }

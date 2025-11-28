@@ -1,5 +1,6 @@
 import { Flame, AlertTriangle } from "lucide-react";
 import { getPromociones } from "@/app/routes/promos.routes";
+import Link from "next/link";
 
 export default async function PromoSeccionPedidos() {
   const promoResponse = await getPromociones();
@@ -50,9 +51,12 @@ export default async function PromoSeccionPedidos() {
                   {new Date(promo.fechaFin).toLocaleDateString("es-ES")}
                 </span>
               </div>
-              <button className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600 transition-colors">
+              <Link
+                href={`/productos?idPromo=${promo.id}`}
+                className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600 transition-colors"
+              >
                 Aprovechar
-              </button>
+              </Link>
             </div>
           </div>
         ))}

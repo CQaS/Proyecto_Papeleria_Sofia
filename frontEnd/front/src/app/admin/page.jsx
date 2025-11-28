@@ -1,7 +1,9 @@
 import { DashboardCard } from "@/components/dashboard-card";
 import { RecentActivity } from "@/components/reciente-activity";
+import { getPedidosLength } from "../routes/pedidos.routes";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const length_Pedidos = await getPedidosLength();
   const dashboardCards = [
     {
       icon: "ri-dashboard-3-line",
@@ -11,7 +13,7 @@ export default function DashboardPage() {
       title: "Formulario de Pedidos",
       link: "/pedidos",
       description: "Vista general de estadísticas y métricas de pedidos",
-      metric: "247",
+      metric: "0",
       metricColor: "text-blue-600",
     },
     {
@@ -22,7 +24,7 @@ export default function DashboardPage() {
       title: "Lista de Pedidos",
       link: "/admin/pedidos",
       description: "Gestiona todos los pedidos del sistema",
-      metric: "89",
+      metric: `${length_Pedidos}`,
       metricColor: "text-green-600",
     },
     {

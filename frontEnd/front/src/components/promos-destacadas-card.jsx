@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function PromosDestacadasCard({ promo }) {
-  console.log(promo);
-
   return (
     <div className="bg-white rounded shadow-md overflow-hidden transition-transform hover:translate-y-[-5px]">
       <div className="h-48 overflow-hidden">
