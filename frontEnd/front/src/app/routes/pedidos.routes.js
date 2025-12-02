@@ -2,6 +2,16 @@
 import { api } from "../lib/api";
 import Swal from 'sweetalert2';
 
+export const getPedidos = async () => {
+  try {
+    const response = await api.get('/pedido/admin/pedido_lista');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
 export const getPedidosLength = async () => {
   try {
     const response = await api.get('/pedido/admin/pedido_length');

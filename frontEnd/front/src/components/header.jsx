@@ -68,9 +68,11 @@ export default function Header() {
                 Hola, {user.nombre}
               </span>
               {user.rol === "ADMIN" && (
-                <span className="text-xs text-blue-600 font-semibold">
-                  Admin
-                </span>
+                <Link href="/admin">
+                  <span className="text-sm text-blue-600 font-semibold">
+                    Admin
+                  </span>
+                </Link>
               )}
             </div>
             <button

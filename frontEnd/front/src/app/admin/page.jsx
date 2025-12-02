@@ -22,7 +22,7 @@ export default async function DashboardPage() {
       hoverBgColor: "group-hover:bg-green-200",
       iconColor: "text-green-600",
       title: "Lista de Pedidos",
-      link: "/admin/pedidos",
+      link: "/admin/admin_pedidos",
       description: "Gestiona todos los pedidos del sistema",
       metric: `${length_Pedidos}`,
       metricColor: "text-green-600",

@@ -10,8 +10,6 @@ export function middleware(request) {
       console.log("no token");
       return NextResponse.redirect(new URL("/", request.url));
     }
-  } else {
-    console.log("middle", token);
   }
 
   return NextResponse.next();

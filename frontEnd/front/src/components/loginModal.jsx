@@ -4,9 +4,12 @@ import { login as loginApi } from "@/app/routes/login.routes";
 import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function LoginModal({ isOpen, onClose }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const router = useRouter();
 
   const { login } = useAuth();
 
@@ -14,6 +17,8 @@ export default function LoginModal({ isOpen, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
     setErrors({});
 
     const formData = new FormData(e.currentTarget);
@@ -34,17 +39,24 @@ export default function LoginModal({ isOpen, onClose }) {
       return;
     }
 
-    const response = await loginApi(data.email, data.password);
-    console.log(response);
+    try {
+      const response = await loginApi(data.email, data.password);
+      console.log(response);
 
-    if (response.success) {
-      login(response.user, response.accessToken);
+      if (response.success) {
+        login(response.user, response.accessToken);
 
-      console.log("Session iniciada con exito");
-      onClose();
-    } else {
-      console.log("Session NO iniciada con exito");
-      setErrors({ message: response.message });
+        console.log("Session iniciada con exito");
+        onClose();
+        router.push("/admin");
+      } else {
+        console.log("Session NO iniciada con exito");
+        setErrors({ message: response.message });
+      }
+    } catch (error) {
+      setErrors({ message: "Error de conexión con el servidor." });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -107,10 +119,23 @@ export default function LoginModal({ isOpen, onClose }) {
             )}
           </div>
           <button
+            disabled={isLoading}
             type="submit"
-            className="w-full bg-blue-700 text-white px-6 py-3 !rounded-button font-medium hover:bg-blue-900 transition-colors whitespace-nowrap"
+            className={`w-full bg-blue-700 text-white px-6 py-3 !rounded-button font-medium hover:bg-blue-900 transition-colors whitespace-nowrap
+              ${
+                isLoading
+                  ? "bg-gray-400 cursor-not-allowed" // Estilo si está cargando
+                  : "bg-blue-600 hover:bg-blue-700" // Estilo normal
+              }`}
           >
-            Iniciar sesión
+            {isLoading ? (
+              <>
+                <i className="ri-loader-4-line animate-spin mr-2"></i>
+                Ingresando...
+              </>
+            ) : (
+              "Iniciar sesión"
+            )}
           </button>
           <div
             className={`p-2 rounded mt-2 text-center text-red-700 bg-red-100 ${

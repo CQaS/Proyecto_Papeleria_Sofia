@@ -1,0 +1,10 @@
+import { getPedidos } from "@/app/routes/pedidos.routes";
+import AdminPedidosTable from "@/components/admin_pedidos_table";
+
+export default async function OrdersPage() {
+    const pedidos_lista = await getPedidos();
+    return (
+        <>
+            <AdminPedidosTable pedidosData={pedidos_lista.data} />
+        </>
+    )}
