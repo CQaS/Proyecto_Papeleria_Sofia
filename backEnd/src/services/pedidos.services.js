@@ -8,9 +8,9 @@ import {
 
 const listarPedidos = async () => {
     return await prisma.pedido.findMany({
-        where: {
+        /* where: {
             estado: "PENDIENTE",
-        },
+        }, */
         orderBy: {
             creadoEn: "desc",
         },

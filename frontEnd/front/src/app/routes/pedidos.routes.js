@@ -51,3 +51,28 @@ export const postPedidos = async (pedidoData) => {
     return { success: false, error: mensaje };
   }
 };
+
+export const actualizarEstadoPedido = async (id, nuevoEstado, token) => {
+
+  if (!token) {
+    console.log("Error: Token de administrador no disponible.");
+    return {
+      success: false,
+      message: "Token no disponible."
+    };
+  }
+
+  try {
+    const response = await api.put(`/pedido/admin/pedido_actualizar_estado/${id}`, {
+      estado: nuevoEstado
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};

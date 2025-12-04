@@ -167,7 +167,7 @@
          const elPedido = await PEDIDOS_SERVICES.listarPedidoPorId(id)
 
          if (!elPedido) {
-             return res.status(404).json({
+             return res.status(200).json({
                  success: false,
                  message: `Pedido n:${id} no encontrado`
              })
@@ -178,7 +178,7 @@
          const posibles = transicionesValidas[estadoActual]
 
          if (!posibles.includes(nuevoEstado)) {
-             return res.status(400).json({
+             return res.status(200).json({
                  success: false,
                  message: `No se puede cambiar de ${estadoActual} a ${nuevoEstado}`
              })
@@ -211,10 +211,10 @@
  export const notasInternas = async (req, res) => {
      try {
          const id = req.params.id
-         const notas = req.body;
+         const notas = req.body.notasInternas;
 
          if (!id || !notas) {
-             return res.status(400).json({
+             return res.status(200).json({
                  success: false,
                  message: "ID del pedido y notas son requeridos"
              });
@@ -223,7 +223,7 @@
          const pedido = await PEDIDOS_SERVICES.listarPedidoPorId(id);
 
          if (!pedido) {
-             return res.status(404).json({
+             return res.status(200).json({
                  success: false,
                  message: `Pedido n:${id} no encontrado`
              });

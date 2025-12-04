@@ -2,6 +2,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import { useAuth } from "@/context/AuthContext";
+import { actualizarEstadoPedido } from "@/app/routes/pedidos.routes";
+import { toast } from "./ToastContainer";
 
 const ESTODOS_OPCION = [
   "PENDIENTE",
@@ -26,9 +29,15 @@ const getStatusClass = (estado) => {
   }
 };
 
-export default function PedidoDetalleModal({ isOpen, onClose, pedido }) {
+export default function PedidoDetalleModal({
+  isOpen,
+  onClose,
+  pedido,
+  unEstadoActualizado,
+}) {
   if (!isOpen || !pedido) return null;
 
+  const { accessToken } = useAuth();
   const [nuevoEstado, setNuevoEstado] = useState(pedido.estado);
 
   useEffect(() => {
@@ -37,21 +46,67 @@ export default function PedidoDetalleModal({ isOpen, onClose, pedido }) {
     }
   }, [pedido]);
 
-  const handleActualizarEstado = () => {
+  const transicionesValidas = {
+    PENDIENTE: ["EN_PROCESO", "CANCELADO"],
+    EN_PROCESO: ["LISTO_PARA_RETIRO", "EN_CAMINO", "CANCELADO"],
+    LISTO_PARA_RETIRO: ["ENTREGADO", "CANCELADO"],
+    EN_CAMINO: ["ENTREGADO", "CANCELADO"],
+    ENTREGADO: [],
+    CANCELADO: [],
+  };
+
+  const handleActualizarEstado = async () => {
+    const estadoActual = pedido.estado.toUpperCase();
+    const estadoNuevo = nuevoEstado.toUpperCase();
+
     if (nuevoEstado === pedido.estado) {
-      console.log(
-        `El pedido #${pedido.id} ya está en estado "${nuevoEstado}". No hay cambios.`
+      toast(
+        "warning",
+        "Sin Cambios",
+        `El pedido #${pedido.id} ya está en estado "${estadoNuevo}".`
       );
       onClose();
       return;
     }
 
-    console.log("--- ¡ACTUALIZACIÓN INICIADA! ---");
-    console.log(`Pedido ID: ${pedido.id}`);
-    console.log(`Estado ANTERIOR: ${pedido.estado}`);
-    console.log(`Estado NUEVO seleccionado: ${nuevoEstado}`);
+    const posiblesTransiciones = transicionesValidas[estadoActual];
 
-    console.log("Simulación de llamada a la API exitosa.");
+    if (posiblesTransiciones && !posiblesTransiciones.includes(estadoNuevo)) {
+      const validos =
+        posiblesTransiciones.length > 0
+          ? posiblesTransiciones.join(", ")
+          : "Ninguno";
+
+      toast(
+        "error",
+        "Transición Inválida",
+        `No se puede pasar de "${estadoActual}" a "${estadoNuevo}". Transiciones válidas: ${validos}.`
+      );
+      onClose();
+      return;
+    }
+
+    const pedidoActualizadoRespuesta = await actualizarEstadoPedido(
+      pedido.id,
+      nuevoEstado,
+      accessToken
+    );
+
+    if (!pedidoActualizadoRespuesta.success) {
+      toast("error", "Error al Actualizar", pedidoActualizadoRespuesta.message);
+      onClose();
+      return;
+    }
+
+    if (unEstadoActualizado) {
+      unEstadoActualizado(pedido.id, nuevoEstado);
+    }
+
+    toast(
+      "success",
+      "Actualización Exitosa",
+      `Pedido #${pedido.id} actualizado a ${estadoNuevo}.`
+    );
 
     onClose();
   };
@@ -195,6 +250,20 @@ export default function PedidoDetalleModal({ isOpen, onClose, pedido }) {
               <span className="font-semibold">Total:</span>
               <span className="font-semibold text-lg">
                 $ {pedido.total?.toFixed(2) || "0.00"}
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 p-4 rounded mb-6">
+            <div className="flex justify-between mb-2">
+              <span className="font-semibold">Notas:</span>
+              <span className="font-normal">
+                <input
+                  type="text"
+                  name="notasInternas"
+                  id="notasInternas"
+                  placeholder={pedido.notasInternas || "N/A"}
+                />
               </span>
             </div>
           </div>

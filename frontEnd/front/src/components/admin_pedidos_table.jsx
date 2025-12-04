@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/sidebar";
-import { OrdersTable } from "@/components/pedidos-table";
+import { PedidosTable } from "@/components/pedidos-table";
 import { OrdersFilters } from "@/components/pedidos-filtro";
 
 export default function AdminPedidosTable({ pedidosData }) {
@@ -99,7 +99,7 @@ export default function AdminPedidosTable({ pedidosData }) {
             setSelectedStatuses={setSelectedStatuses}
           />
 
-          <OrdersTable pedidos={filteredOrders} />
+          <PedidosTable pedidosIniciales={filteredOrders} />
         </main>
       </div>
     </div>

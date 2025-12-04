@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import PedidoDetalleModal from "./pedido-detalle-modal";
 import dayjs from "dayjs";
+import {
+  actualizarEstadoPedido,
+  EliminarUnPedido,
+} from "@/app/routes/pedidos.routes";
+import { toast } from "./ToastContainer";
+import { useAuth } from "@/context/AuthContext";
 
 function getStatusClass(estado) {
   switch (estado) {
@@ -19,7 +25,9 @@ function getStatusClass(estado) {
   }
 }
 
-export function OrdersTable({ pedidos }) {
+export function PedidosTable({ pedidosIniciales }) {
+  const [pedidos, setPedidos] = useState(pedidosIniciales);
+  const { accessToken } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [selectedPedido, setSelectedPedido] = useState(null);
@@ -27,6 +35,37 @@ export function OrdersTable({ pedidos }) {
   const verDetalles = (pedido) => {
     setSelectedPedido(pedido);
     setIsModalOpen(true);
+  };
+
+  const CancelarPedido = async (id) => {
+    const response = await actualizarEstadoPedido(id, "CANCELADO", accessToken);
+
+    if (!response.success) {
+      toast(
+        "error",
+        "Error",
+        `Error al cancelar el pedido: ${response.message}`
+      );
+      return;
+    }
+
+    toast("success", "Pedido Cancelado", response.message);
+    return;
+  };
+
+  const handleEstadoNuevo = (PedidoId, nuevoEstado) => {
+    setPedidos((prevPedidos) =>
+      prevPedidos.map((pedido) => {
+        if (pedido.id === PedidoId) {
+          return {
+            ...pedido,
+            estado: nuevoEstado,
+            actualizadoEn: new Date().toISOString(),
+          };
+        }
+        return pedido;
+      })
+    );
   };
 
   const handleCloseModal = () => {
@@ -124,7 +163,11 @@ export function OrdersTable({ pedidos }) {
                         >
                           <i className="ri-eye-line" />
                         </button>
-                        <button className="text-red-600 hover:text-red-800 transition-colors">
+                        <button
+                          title="Eliminar pedido"
+                          onClick={() => CancelarPedido(pedido.id)}
+                          className="text-red-600 hover:text-red-800 transition-colors"
+                        >
                           <i className="ri-delete-bin-line" />
                         </button>
                       </div>
@@ -146,11 +189,14 @@ export function OrdersTable({ pedidos }) {
         </div>
       </div>
 
-      <PedidoDetalleModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        pedido={selectedPedido} // Pasa los datos
-      />
+      {isModalOpen && (
+        <PedidoDetalleModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          pedido={selectedPedido}
+          unEstadoActualizado={handleEstadoNuevo}
+        />
+      )}
     </>
   );
 }

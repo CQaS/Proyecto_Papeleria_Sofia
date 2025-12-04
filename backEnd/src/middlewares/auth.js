@@ -6,7 +6,7 @@ export const authAdmin = (req, res, next) => {
     const token = authHeader && authHeader.split(" ")[1]
 
     if (!token) {
-        return res.status(401).json({
+        return res.status(200).json({
             success: false,
             message: "Token no proporcionado"
         })
@@ -16,7 +16,7 @@ export const authAdmin = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         if (decoded.rol !== "ADMIN") {
-            return res.status(403).json({
+            return res.status(200).json({
                 success: false,
                 message: "Acceso denegado: se requiere rol ADMIN",
             })
@@ -26,9 +26,9 @@ export const authAdmin = (req, res, next) => {
         next()
 
     } catch (error) {
-        return res.status(403).json({
+        return res.status(200).json({
             success: false,
-            message: "Token inválido o expirado"
+            message: `Token inválido o expirado ${error}`
         })
     }
 }

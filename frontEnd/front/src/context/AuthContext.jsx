@@ -8,6 +8,7 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -17,12 +18,14 @@ export function AuthProvider({ children }) {
 
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
+      setAccessToken(storedToken);
     }
     setLoading(false);
   }, []);
 
   const login = (userData, token) => {
     setUser(userData);
+    setAccessToken(token);
 
     localStorage.setItem("user_sofia", JSON.stringify(userData));
     localStorage.setItem("token_sofia", token);
@@ -33,6 +36,7 @@ export function AuthProvider({ children }) {
       await logout_api();
 
       setUser(null);
+      setAccessToken(null);
       localStorage.removeItem("user_sofia");
       localStorage.removeItem("token_sofia");
 
@@ -42,6 +46,7 @@ export function AuthProvider({ children }) {
       console.error("Error al cerrar sesión", error);
 
       setUser(null);
+      setAccessToken(null);
       localStorage.removeItem("user_sofia");
       localStorage.removeItem("token_sofia");
       router.push("/");
@@ -49,7 +54,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, accessToken }}>
       {children}
     </AuthContext.Provider>
   );
