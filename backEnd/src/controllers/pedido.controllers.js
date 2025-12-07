@@ -229,7 +229,7 @@
              });
          }
 
-         const updatedPedido = await PEDIDOS_SERVICES.agregarNotasInternas(id, notas);
+         const updatedPedido = await PEDIDOS_SERVICES.agregarNotasInternas(id, req.body);
 
          res.status(200).json({
              success: true,
@@ -239,7 +239,7 @@
 
      } catch (error) {
          console.error(error);
-         res.status(500).json({
+         res.status(200).json({
              success: false,
              message: "Ocurrió un error inesperado en el servidor.",
              error: error.message || "Error interno del servidor"

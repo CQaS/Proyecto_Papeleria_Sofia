@@ -3,7 +3,10 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { useAuth } from "@/context/AuthContext";
-import { actualizarEstadoPedido } from "@/app/routes/pedidos.routes";
+import {
+  actualizarEstadoPedido,
+  agregarNotasInternas,
+} from "@/app/routes/pedidos.routes";
 import { toast } from "./ToastContainer";
 
 const ESTODOS_OPCION = [
@@ -39,10 +42,14 @@ export default function PedidoDetalleModal({
 
   const { accessToken } = useAuth();
   const [nuevoEstado, setNuevoEstado] = useState(pedido.estado);
+  const [nuevaNotaInterna, setNuevaNotaInterna] = useState(
+    pedido.notasInternas || ""
+  );
 
   useEffect(() => {
     if (pedido) {
       setNuevoEstado(pedido.estado);
+      setNuevaNotaInterna(pedido.notasInternas || "");
     }
   }, [pedido]);
 
@@ -58,6 +65,52 @@ export default function PedidoDetalleModal({
   const handleActualizarEstado = async () => {
     const estadoActual = pedido.estado.toUpperCase();
     const estadoNuevo = nuevoEstado.toUpperCase();
+    const notaOriginal = pedido.notasInternas || "";
+    const notaNueva = nuevaNotaInterna.trim();
+
+    const notaCambio = notaNueva !== notaOriginal;
+
+    const CARACTERES_PERMITIDOS_REGEX = /^[a-zA-Z0-9\s.,ñÑáÁéÉíÍóÓúÚüÜ!-]*$/;
+
+    if (notaCambio) {
+      if (notaNueva.length < 5 || notaNueva.length > 500) {
+        toast(
+          "error",
+          "Error de Notas",
+          "Las notas internas deben tener entre 5 y 500 caracteres."
+        );
+        return;
+      }
+
+      if (!CARACTERES_PERMITIDOS_REGEX.test(notaNueva)) {
+        toast(
+          "error",
+          "Error de Formato",
+          "Las notas solo pueden contener letras, números, espacios y signos de puntuación básicos (., -)."
+        );
+        return;
+      }
+
+      const notaActualizada = await agregarNotasInternas(
+        pedido.id,
+        notaNueva,
+        accessToken
+      );
+
+      console.log(pedido.id, notaActualizada);
+
+      if (!notaActualizada.success) {
+        toast("error", "Error al Actualizar", notaActualizada.message);
+        onClose();
+        return;
+      }
+
+      toast(
+        "success",
+        "Notas Internas Actualizadas",
+        "Las notas internas del pedido fueron actualizadas con exito."
+      );
+    }
 
     if (nuevoEstado === pedido.estado) {
       toast(
@@ -262,7 +315,11 @@ export default function PedidoDetalleModal({
                   type="text"
                   name="notasInternas"
                   id="notasInternas"
-                  placeholder={pedido.notasInternas || "N/A"}
+                  placeholder={
+                    pedido.notasInternas || "Deja una nota al pedido!"
+                  }
+                  value={nuevaNotaInterna}
+                  onChange={(e) => setNuevaNotaInterna(e.target.value)}
                 />
               </span>
             </div>

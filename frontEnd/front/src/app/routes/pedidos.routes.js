@@ -76,3 +76,29 @@ export const actualizarEstadoPedido = async (id, nuevoEstado, token) => {
     return null;
   }
 };
+
+export const agregarNotasInternas = async (id, notas, token) => {
+
+  if (!token) {
+    console.log("Error: Token de administrador no disponible.");
+    return {
+      success: false,
+      message: "Token no disponible."
+    };
+  }
+
+  try {
+    const response = await api.put(`/pedido/admin/pedido_notasInternas/${id}`, {
+      notasInternas: notas
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}

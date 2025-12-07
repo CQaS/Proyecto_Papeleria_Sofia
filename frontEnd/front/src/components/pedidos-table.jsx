@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import PedidoDetalleModal from "./pedido-detalle-modal";
 import dayjs from "dayjs";
-import {
-  actualizarEstadoPedido,
-  EliminarUnPedido,
-} from "@/app/routes/pedidos.routes";
+import { actualizarEstadoPedido } from "@/app/routes/pedidos.routes";
 import { toast } from "./ToastContainer";
 import { useAuth } from "@/context/AuthContext";
 
