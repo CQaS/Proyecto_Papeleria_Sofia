@@ -315,9 +315,7 @@ export default function PedidoDetalleModal({
                   type="text"
                   name="notasInternas"
                   id="notasInternas"
-                  placeholder={
-                    pedido.notasInternas || "Deja una nota al pedido!"
-                  }
+                  placeholder={nuevaNotaInterna || "Deja una nota al pedido!"}
                   value={nuevaNotaInterna}
                   onChange={(e) => setNuevaNotaInterna(e.target.value)}
                 />

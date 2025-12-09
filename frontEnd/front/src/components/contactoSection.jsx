@@ -53,8 +53,6 @@ export default function ContactoSection() {
       return;
     }
 
-    console.log(data);
-
     const consulta = {
       nombre: data.nombre,
       email: data.email,

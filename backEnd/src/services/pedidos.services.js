@@ -115,6 +115,9 @@ const agregarNotasInternas = async (id, data) => {
     })
 }
 
+/** * Servicio para contar la cantidad de pedidos.
+ * @returns {Promise<number>} Cantidad de pedidos.
+ */
 const _length = async () => {
     return await prisma.pedido.count()
 }
