@@ -89,12 +89,26 @@ const responderConsulta = async (id, respuesta) => {
     })
 }
 
+/** * Servicio para eliminar una consulta.
+ * @param {number} id - ID de la consulta a eliminar.
+ * @returns {Promise<Object>} Consulta eliminada.
+ */
+
+const eliminarConsulta = async (id) => {
+    return await prisma.consulta.delete({
+        where: {
+            id: id
+        }
+    })
+}
+
 const CONSULTAS_SERVICES = {
     listarConsultas,
     crearConsulta,
     marcarConsultaLeida,
     marcarConsultaResuelta,
-    responderConsulta
+    responderConsulta,
+    eliminarConsulta
 }
 
 export default CONSULTAS_SERVICES

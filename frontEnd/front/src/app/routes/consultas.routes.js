@@ -43,3 +43,59 @@ export const getConsultas = async (token) => {
         };
     }
 };
+
+export const delConsulta = async (id, token) => {
+
+    if (!token) {
+        console.log("Error: Token de administrador no disponible.");
+        return {
+            success: false,
+            message: "Token no disponible."
+        };
+    }
+
+    try {
+        const response = await api.delete(`/consulta/admin/consulta_eliminar/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        const mensaje = error.response?.data?.message || 'Error al eliminar la consulta. Intenta de nuevo.';
+        console.error(error);
+        return {
+            success: false,
+            message: mensaje
+        };
+    }
+}
+
+export const putResuelta = async (id, token) => {
+
+    if (!token) {
+        console.log("Error: Token de administrador no disponible.");
+        return {
+            success: false,
+            message: "Token no disponible."
+        };
+    }
+
+    try {
+        const response = await api.put(`/consulta/admin/consulta_resuelta/${id}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        const mensaje = error.response?.data?.message || 'Error al marcar la consulta como resuelta. Intenta de nuevo.';
+        console.error(error);
+        return {
+            success: false,
+            message: mensaje
+        };
+    }
+}

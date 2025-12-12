@@ -4,9 +4,8 @@ import { AlertCircle, X } from "lucide-react";
 
 export default function ConsultaEliminarModal({
   consulta,
-  contrasena,
-  setContrasena,
   onCerrar,
+  onConfirmar,
 }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -31,19 +30,6 @@ export default function ConsultaEliminarModal({
           toda la información asociada.
         </p>
 
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Confirme su contraseña para continuar
-          </label>
-          <input
-            type="password"
-            value={contrasena}
-            onChange={(e) => setContrasena(e.target.value)}
-            placeholder="Ingrese su contraseña"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-          />
-        </div>
-
         <div className="flex gap-3">
           <button
             onClick={onCerrar}
@@ -51,7 +37,10 @@ export default function ConsultaEliminarModal({
           >
             Cancelar
           </button>
-          <button className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+          <button
+            onClick={onConfirmar}
+            className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+          >
             Eliminar Consulta
           </button>
         </div>

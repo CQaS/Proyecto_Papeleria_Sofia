@@ -52,58 +52,6 @@ const formatearHora = (isoString) => {
   }
 };
 
-/* const consultasIniciales = [
-  {
-    id: "#C-2024-0156",
-    fecha: "07 Dic",
-    hora: "09:32",
-    nombreCliente: "Ana Rodríguez",
-    emailCliente: "ana.rodriguez@email.com",
-    telefonoCliente: "+34 612 345 678",
-    type: "Producto",
-    asunto: "Disponibilidad de cuadernos A4",
-    estado: "Pendiente",
-    mensaje:
-      "Hola, me gustaría saber si tienen disponibles cuadernos A4 de 100 hojas con espiral. Necesito aproximadamente 25 unidades para mi oficina. También me interesa conocer los precios y si manejan descuentos por cantidad.",
-  },
-  {
-    id: "#C-2024-0155",
-    fecha: "07 Dic",
-    hora: "08:15",
-    nombreCliente: "Carlos Mendoza",
-    emailCliente: "carlos.mendoza@empresa.com",
-    telefonoCliente: "+34 611 234 567",
-    type: "Servicio",
-    asunto: "Horarios de atención especial",
-    estado: "Respondida",
-    mensaje: "Consulta sobre horarios de atención especial para empresas.",
-  },
-  {
-    id: "#C-2024-0154",
-    fecha: "06 Dic",
-    hora: "16:45",
-    nombreCliente: "Laura Fernández",
-    emailCliente: "laura.fernandez@gmail.com",
-    telefonoCliente: "+34 610 123 456",
-    type: "Producto",
-    asunto: "Precio de impresoras multifunción",
-    estado: "Pendiente",
-    mensaje: "Pregunta sobre precios de impresoras multifunción.",
-  },
-  {
-    id: "#C-2024-0153",
-    fecha: "06 Dic",
-    hora: "14:20",
-    nombreCliente: "Roberto Silva",
-    emailCliente: "roberto.silva@colegio.edu",
-    telefonoCliente: "+34 609 012 345",
-    type: "Servicio",
-    asunto: "Descuentos para instituciones educativas",
-    estado: "Respondida",
-    mensaje: "Consulta sobre descuentos para instituciones educativas.",
-  },
-]; */
-
 export default function TablaConsultas({
   consultasIniciales,
   filtroActual,

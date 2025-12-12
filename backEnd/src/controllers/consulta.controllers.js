@@ -165,3 +165,28 @@ export const consulta_respuesta = async (req, res) => {
         })
     }
 }
+
+/** * Controlador para eliminar una consulta.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con la consulta eliminada o un error.
+ */
+
+export const consulta_eliminar = async (req, res) => {
+    try {
+        const id = req.params.id
+        const _eliminar_C = await CONSULTAS_SERVICES.eliminarConsulta(id)
+        res.status(200).json({
+            success: true,
+            message: "Consulta eliminada exitosamente",
+            data: _eliminar_C
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(200).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+    }
+}

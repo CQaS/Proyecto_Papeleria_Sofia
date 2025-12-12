@@ -35,9 +35,15 @@ export default function ConsultaDetalleModal({
   consulta,
   respuesta,
   setRespuesta,
+  onMarcarResuelta,
   onCerrar,
   onEliminar,
 }) {
+
+  const handleSeraResuelta = () => {
+    onMarcarResuelta(consulta);
+  };
+
   const estadoInfo = deducirEstadoConsulta(consulta);
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -87,7 +93,7 @@ export default function ConsultaDetalleModal({
                 <button className="px-6 py-2 bg-[#57b5e7] text-white rounded-lg hover:bg-[#57b5e7]/90">
                   Enviar Respuesta
                 </button>
-                <button className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                <button onClick={handleSeraResuelta} className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                   Marcar como Resuelta
                 </button>
                 <button
