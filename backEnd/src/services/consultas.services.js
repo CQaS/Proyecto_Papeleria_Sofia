@@ -26,6 +26,19 @@ const listarConsultas = async () => {
     })
 }
 
+/** * Servicio para obtener una consulta por su ID.
+ * @param {number} id - ID de la consulta a obtener.
+ * @returns {Promise<Object>} Consulta obtenida.
+ */
+
+const obtenerConsultaPorId = async (id) => {
+    return await prisma.consulta.findUnique({
+        where: {
+            id: id
+        }
+    })
+}
+
 /** * Servicio para crear una nueva consulta.
  * @param {Object} data - Datos de la consulta a crear.
  * @returns {Promise<Object>} Consulta creada.
@@ -84,6 +97,7 @@ const responderConsulta = async (id, respuesta) => {
         },
         data: {
             respuesta: respuesta,
+            leido: true,
             resuelto: true
         }
     })
@@ -104,6 +118,7 @@ const eliminarConsulta = async (id) => {
 
 const CONSULTAS_SERVICES = {
     listarConsultas,
+    obtenerConsultaPorId,
     crearConsulta,
     marcarConsultaLeida,
     marcarConsultaResuelta,

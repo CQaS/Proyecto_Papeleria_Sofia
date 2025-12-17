@@ -1,5 +1,8 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { esquemaRespuestaAdministrador } from "@/app/validaciones/consulta.validacion";
 import { deducirEstadoConsulta } from "@/app/lib/utils";
 import { X } from "lucide-react";
 
@@ -33,12 +36,25 @@ const formatearHora = (isoString) => {
 
 export default function ConsultaDetalleModal({
   consulta,
-  respuesta,
-  setRespuesta,
   onMarcarResuelta,
+  onResponder,
   onCerrar,
   onEliminar,
 }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(esquemaRespuestaAdministrador),
+    defaultValues: {
+      mensajeRespuesta: consulta.respuesta || "",
+    },
+  });
+
+  const alEnviarRespuesta = (datos) => {
+    onResponder(datos.mensajeRespuesta);
+  };
 
   const handleSeraResuelta = () => {
     onMarcarResuelta(consulta);
@@ -77,32 +93,52 @@ export default function ConsultaDetalleModal({
                 </div>
               </div>
 
-              <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-2">
-                  RESPONDER
-                </h4>
-                <textarea
-                  value={respuesta}
-                  onChange={(e) => setRespuesta(e.target.value)}
-                  className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#57b5e7]"
-                  placeholder="Escriba su respuesta aquí..."
-                />
-              </div>
+              <form onSubmit={handleSubmit(alEnviarRespuesta)}>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-2">
+                    RESPONDER
+                  </h4>
+                  <textarea
+                    {...register("mensajeRespuesta")}
+                    placeholder={
+                      consulta.respuesta ?? "Escriba su respuesta aquí..."
+                    }
+                    className={`w-full h-32 p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 ${
+                      errors.mensajeRespuesta
+                        ? "border-red-500 focus:ring-red-200"
+                        : "border-gray-300 focus:ring-[#57b5e7]"
+                    }`}
+                  />
+                  {errors.mensajeRespuesta && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.mensajeRespuesta.message}
+                    </p>
+                  )}
+                </div>
 
-              <div className="flex gap-3">
-                <button className="px-6 py-2 bg-[#57b5e7] text-white rounded-lg hover:bg-[#57b5e7]/90">
-                  Enviar Respuesta
-                </button>
-                <button onClick={handleSeraResuelta} className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                  Marcar como Resuelta
-                </button>
-                <button
-                  onClick={onEliminar}
-                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                >
-                  Eliminar Consulta
-                </button>
-              </div>
+                <div className="flex gap-3">
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-[#57b5e7] text-white rounded-lg hover:bg-[#57b5e7]/90"
+                  >
+                    Enviar Respuesta
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSeraResuelta}
+                    className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  >
+                    Marcar como Resuelta
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onEliminar}
+                    className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                  >
+                    Eliminar Consulta
+                  </button>
+                </div>
+              </form>
             </div>
 
             {/* Columna derecha: info cliente */}

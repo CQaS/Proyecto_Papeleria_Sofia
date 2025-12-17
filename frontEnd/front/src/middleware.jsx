@@ -5,6 +5,10 @@ export function middleware(request) {
 
   const path = request.nextUrl.pathname;
 
+  /*
+   * Si la ruta de solicitud coincide con /admin o comienza con /admin,
+   * y no hay token en las cookies, redirigir al inicio.
+   */
   if (path == "/admin" || path.startsWith("/admin")) {
     if (!token) {
       console.log("no token");

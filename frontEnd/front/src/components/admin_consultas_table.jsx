@@ -8,7 +8,11 @@ import ConsultaEliminarModal from "@/components/ConsultaEliminarModal-Consultas"
 
 import { useState } from "react";
 import { toast } from "./ToastContainer";
-import { delConsulta, putResuelta } from "@/app/routes/consultas.routes";
+import {
+  delConsulta,
+  putRespuesta,
+  putResuelta,
+} from "@/app/routes/consultas.routes";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
@@ -19,11 +23,46 @@ export default function AdminConsultasTable({ data }) {
   const [consultaAEliminar, setConsultaAEliminar] = useState(null);
   const [filtroActual, setFiltroActual] = useState("Todas");
   const [terminoBusqueda, setTerminoBusqueda] = useState("");
-  const [respuesta, setRespuesta] = useState("");
   const totalConsultas = consultasVisibles.length;
 
   const router = useRouter();
   const { accessToken } = useAuth();
+
+  const handlerRespuesta = async (idConsulta, mensajeTexto) => {
+    if (!accessToken) {
+      toast("error", "Sesión Expirada", "Su sesión ha expirado. Redirigiendo.");
+      router.push("/");
+      return;
+    }
+
+    try {
+      const laRespuesta = await putRespuesta(
+        idConsulta,
+        mensajeTexto,
+        accessToken
+      );
+
+      if (laRespuesta.success) {
+        const nuevasConsultas = consultasVisibles.map((c) => {
+          if (c.id === idConsulta) {
+            return { ...c, respuesta: mensajeTexto, leido: true };
+          }
+          return c;
+        });
+
+        setConsultasVisibles(nuevasConsultas);
+        setConsultaSeleccionada(null);
+        toast("success", "Éxito", "Respuesta actualizada.");
+      } else {
+        console.log("Error al actualizar la respuesta:", laRespuesta);
+        toast("error", "Error", "No se pudo actualizar la respuesta.");
+        setConsultaSeleccionada(null);
+      }
+    } catch (error) {
+      console.error("Error al actualizar la respuesta:", error);
+      toast("error", "Error", "No se pudo actualizar la respuesta.");
+    }
+  };
 
   const handleMarcarResuelta = async (consultaAActualizar) => {
     if (!accessToken) {
@@ -33,9 +72,9 @@ export default function AdminConsultasTable({ data }) {
     }
 
     try {
-      const respuesta = await putResuelta(consultaAActualizar.id, accessToken);
+      const esResuelta = await putResuelta(consultaAActualizar.id, accessToken);
 
-      if (respuesta.success) {
+      if (esResuelta.success) {
         const nuevasConsultas = consultasVisibles.map((c) => {
           if (c.id === consultaAActualizar.id) {
             return { ...c, resuelto: true };
@@ -123,9 +162,10 @@ export default function AdminConsultasTable({ data }) {
       {consultaSeleccionada && (
         <ConsultaDetalleModal
           consulta={consultaSeleccionada}
-          respuesta={respuesta}
-          setRespuesta={setRespuesta}
           onMarcarResuelta={handleMarcarResuelta}
+          onResponder={(texto) =>
+            handlerRespuesta(consultaSeleccionada.id, texto)
+          }
           onCerrar={() => setConsultaSeleccionada(null)}
           onEliminar={() => {
             setConsultaAEliminar(consultaSeleccionada);

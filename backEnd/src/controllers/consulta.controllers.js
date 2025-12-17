@@ -66,6 +66,22 @@ export const consulta_crear = async (req, res) => {
 export const consulta_leida = async (req, res) => {
     try {
         const id = req.params.id
+
+        if (!id) {
+            return res.status(200).json({
+                success: false,
+                message: "ID de la consulta es requerido"
+            })
+        }
+
+        const laConsulta = await CONSULTAS_SERVICES.obtenerConsultaPorId(id)
+        if (!laConsulta) {
+            return res.status(404).json({
+                success: false,
+                message: "No se encontró la consulta"
+            })
+        }
+
         const _marcar_leida = await CONSULTAS_SERVICES.marcarConsultaLeida(id)
 
         res.status(200).json({
@@ -101,6 +117,22 @@ export const consulta_leida = async (req, res) => {
 export const consulta_resuelta = async (req, res) => {
     try {
         const id = req.params.id
+
+        if (!id) {
+            return res.status(200).json({
+                success: false,
+                message: "ID de la consulta es requerido"
+            })
+        }
+
+        const laConsulta = await CONSULTAS_SERVICES.obtenerConsultaPorId(id)
+        if (!laConsulta) {
+            return res.status(200).json({
+                success: false,
+                message: "No se encontró la consulta"
+            })
+        }
+
         const _marcar_resuelta = await CONSULTAS_SERVICES.marcarConsultaResuelta(id)
 
         res.status(200).json({
@@ -136,6 +168,22 @@ export const consulta_resuelta = async (req, res) => {
 export const consulta_respuesta = async (req, res) => {
     try {
         const id = req.params.id
+
+        if (!id) {
+            return res.status(200).json({
+                success: false,
+                message: "ID de la consulta es requerido"
+            })
+        }
+
+        const laConsulta = await CONSULTAS_SERVICES.obtenerConsultaPorId(id)
+        if (!laConsulta) {
+            return res.status(200).json({
+                success: false,
+                message: "No se encontró la consulta"
+            })
+        }
+
         const {
             respuesta
         } = req.body

@@ -99,3 +99,34 @@ export const putResuelta = async (id, token) => {
         };
     }
 }
+
+export const putRespuesta = async (id, respuesta, token) => {
+
+    if (!token) {
+        console.log("Error: Token de administrador no disponible.");
+        return {
+            success: false,
+            message: "Token no disponible."
+        };
+    }
+
+    try {
+        const response = await api.put(`/consulta/admin/consulta_respuesta/${id}`, {
+                    respuesta: respuesta
+                },
+                    {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        const mensaje = error.response?.data?.message || 'Error al marcar la consulta como resuelta. Intenta de nuevo.';
+        console.error(error);
+        return {
+            success: false,
+            message: mensaje
+        };
+    }
+}
