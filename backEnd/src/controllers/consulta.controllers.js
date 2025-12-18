@@ -238,3 +238,21 @@ export const consulta_eliminar = async (req, res) => {
         })
     }
 }
+
+export const consulta_eliminar_todas = async (req, res) => {
+    try {
+        const _eliminar_C = await CONSULTAS_SERVICES.eliminarTodasLasConsultas()
+        res.status(200).json({
+            success: true,
+            message: "Todas las consultas eliminadas exitosamente",
+            data: _eliminar_C
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(200).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+    }
+}

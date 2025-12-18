@@ -66,12 +66,6 @@ export default function TablaConsultas({
   );
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">
-          Lista de Consultas
-        </h2>
-      </div>
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50">
@@ -180,6 +174,5 @@ export default function TablaConsultas({
           </tbody>
         </table>
       </div>
-    </div>
   );
 }

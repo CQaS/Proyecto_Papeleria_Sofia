@@ -1,5 +1,6 @@
 "use client";
 
+import Swal from "sweetalert2";
 import FiltrosYBusqueda from "@/components/FiltrosYBusqueda-Consultas";
 import TarjetasEstadisticas from "@/components/TarjetasEstadisticas-Consultas";
 import TablaConsultas from "@/components/TablaConsultas-Consultas";
@@ -10,6 +11,7 @@ import { useState } from "react";
 import { toast } from "./ToastContainer";
 import {
   delConsulta,
+  delConsultasTodas,
   putRespuesta,
   putResuelta,
 } from "@/app/routes/consultas.routes";
@@ -138,6 +140,43 @@ export default function AdminConsultasTable({ data }) {
     }
   };
 
+  const handleConsultasEliminarTodas = async () => {
+    const resultadoConfirmacion = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción eliminará permanentemente todas las consultas. ¡No podrás deshacer esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar todo",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+    });
+
+    if (resultadoConfirmacion.isConfirmed) {
+      if (!accessToken) {
+        toast("error", "Error", "Sesión no válida.");
+        return;
+      }
+
+      try {
+        Swal.showLoading();
+        const resultado = await delConsultasTodas(accessToken);
+
+        if (resultado.success) {
+          setConsultasVisibles([]);
+        }
+        toast("success", "Tabla Vaciada", "Se eliminaron todas las consultas.");
+      } catch (error) {
+        toast(
+          "error",
+          "Error",
+          "Hubo un problema al intentar vaciar la tabla."
+        );
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50" style={{ marginTop: 6 + "em" }}>
       <main className="px-6 py-6 max-w-7xl mx-auto">
@@ -150,13 +189,26 @@ export default function AdminConsultasTable({ data }) {
 
         <TarjetasEstadisticas totales={totalConsultas} />
 
-        <TablaConsultas
-          consultasIniciales={consultasVisibles}
-          filtroActual={filtroActual}
-          terminoBusqueda={terminoBusqueda}
-          onVerDetalle={setConsultaSeleccionada}
-          onEliminar={setConsultaAEliminar}
-        />
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Lista de Consultas
+            </h2>
+            <button
+              onClick={handleConsultasEliminarTodas}
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+            >
+              Eliminar Todas
+            </button>
+          </div>
+          <TablaConsultas
+            consultasIniciales={consultasVisibles}
+            filtroActual={filtroActual}
+            terminoBusqueda={terminoBusqueda}
+            onVerDetalle={setConsultaSeleccionada}
+            onEliminar={setConsultaAEliminar}
+          />
+        </div>
       </main>
 
       {consultaSeleccionada && (

@@ -116,6 +116,14 @@ const eliminarConsulta = async (id) => {
     })
 }
 
+/** * Servicio para eliminar todas las consultas.
+ * @returns {Promise<void>}
+ */
+
+const eliminarTodasLasConsultas = async () => {
+    return await prisma.consulta.deleteMany()
+}
+
 const CONSULTAS_SERVICES = {
     listarConsultas,
     obtenerConsultaPorId,
@@ -123,7 +131,8 @@ const CONSULTAS_SERVICES = {
     marcarConsultaLeida,
     marcarConsultaResuelta,
     responderConsulta,
-    eliminarConsulta
+    eliminarConsulta,
+    eliminarTodasLasConsultas
 }
 
 export default CONSULTAS_SERVICES
