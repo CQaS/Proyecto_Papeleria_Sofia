@@ -3,6 +3,7 @@ import {
 } from "express"
 import {
     usuarios_lista,
+    length,
     usuarios_PorId,
     usuarios_crear,
     usuarios_actualizar,
@@ -18,6 +19,7 @@ const routesUsuarios = Router()
  * @module router/usuario.routes
  */
 routesUsuarios.get('/admin/usuarios_lista', authAdmin, usuarios_lista)
+routesUsuarios.get('/admin/usuarios_length', length)
 routesUsuarios.get('/admin/usuarios_unico/:id', authAdmin, usuarios_PorId)
 routesUsuarios.post('/admin/usuarios_crear', authAdmin, usuarios_crear)
 routesUsuarios.put('/admin/usuarios_actualizar/:id', authAdmin, usuarios_actualizar)

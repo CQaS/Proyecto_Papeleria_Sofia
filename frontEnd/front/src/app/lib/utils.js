@@ -38,6 +38,10 @@ export const deducirEstadoConsulta = (consulta) => {
         return estados.RESUELTA;
     }
 
+    if (!consulta.resuelto) {
+        return estados.PENDIENTE;
+    }
+
     if (consulta.respuesta !== null && consulta.respuesta.trim() !== "") {
         return estados.RESPONDIDA;
     }

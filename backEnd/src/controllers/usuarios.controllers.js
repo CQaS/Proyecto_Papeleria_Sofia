@@ -35,6 +35,33 @@ export const usuarios_lista = async (req, res) => {
     }
 }
 
+/** * Controlador para obtener la cantidad de usuarios.
+ * @param {Object} req - La solicitud HTTP.
+ * @param {Object} res - La respuesta HTTP.
+ * @returns {Promise<void>} Respuesta con la cantidad de usuarios o un error.
+ */
+
+export const length = async (req, res) => {
+    try {
+        const len = await USUARIOS_SERVICES._length()
+        logger.info(len)
+        res.status(200).json({
+            success: true,
+            message: "Cantidad de usuarios",
+            len
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Ocurrió un error inesperado en el servidor.",
+            error: error.message || "Error interno del servidor"
+        })
+
+    }
+}
+
 /** * Controlador para crear un nuevo usuario.
  * @param {Object} req - La solicitud HTTP.
  * @param {Object} res - La respuesta HTTP.

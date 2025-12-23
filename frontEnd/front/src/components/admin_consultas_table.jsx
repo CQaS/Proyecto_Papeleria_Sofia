@@ -26,6 +26,15 @@ export default function AdminConsultasTable({ data }) {
   const [filtroActual, setFiltroActual] = useState("Todas");
   const [terminoBusqueda, setTerminoBusqueda] = useState("");
   const totalConsultas = consultasVisibles.length;
+  const totalPendientes = consultasVisibles.filter(
+    (consulta) => !consulta.resuelto
+  ).length;
+  const totalResueltas = consultasVisibles.filter(
+    (consulta) => consulta.resuelto
+  ).length;
+  const totalSinLeer = consultasVisibles.filter(
+    (consulta) => !consulta.leido
+  ).length;
 
   const router = useRouter();
   const { accessToken } = useAuth();
@@ -156,6 +165,7 @@ export default function AdminConsultasTable({ data }) {
     if (resultadoConfirmacion.isConfirmed) {
       if (!accessToken) {
         toast("error", "Error", "Sesión no válida.");
+        router.push("/");
         return;
       }
 
@@ -187,10 +197,15 @@ export default function AdminConsultasTable({ data }) {
           setTerminoBusqueda={setTerminoBusqueda}
         />
 
-        <TarjetasEstadisticas totales={totalConsultas} />
+        <TarjetasEstadisticas
+          totales={totalConsultas}
+          totalPendientes={totalPendientes}
+          totalResueltas={totalResueltas}
+          totalSinleer={totalSinLeer}
+        />
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+          <div className="px-6 py-4 border-xl border-gray-200 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">
               Lista de Consultas
             </h2>

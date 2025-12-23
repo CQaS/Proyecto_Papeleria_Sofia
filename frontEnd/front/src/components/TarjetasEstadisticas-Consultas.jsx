@@ -1,7 +1,11 @@
 "use client";
 
-export default function TarjetasEstadisticas({totales}) {
-
+export default function TarjetasEstadisticas({
+  totales,
+  totalPendientes,
+  totalResueltas,
+  totalSinleer,
+}) {
   const estadisticas = [
     {
       titulo: "Total Consultas",
@@ -11,19 +15,19 @@ export default function TarjetasEstadisticas({totales}) {
     },
     {
       titulo: "Pendientes",
-      valor: "18",
+      valor: `${totalPendientes}`,
       color: "orange",
       icons: "ri-time-line",
     },
     {
-      titulo: "Respondidas Hoy",
-      valor: "12",
+      titulo: "Respondidas",
+      valor: `${totalResueltas}`,
       color: "green",
       icons: "ri-check-line",
     },
     {
-      titulo: "Tiempo Promedio",
-      valor: "2.4h",
+      titulo: "Sin Leer",
+      valor: `${totalSinleer}`,
       color: "purple",
       icons: "ri-timer-line",
     },

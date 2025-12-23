@@ -1,9 +1,12 @@
 import { DashboardCard } from "@/components/dashboard-card";
 import { RecentActivity } from "@/components/reciente-activity";
 import { getPedidosLength } from "../routes/pedidos.routes";
+import { getUsuariosLength } from "../routes/usuarios.routes";
 
 export default async function DashboardPage() {
   const length_Pedidos = await getPedidosLength();
+  const length_Usuarios = await getUsuariosLength();
+
   const dashboardCards = [
     {
       icon: "ri-dashboard-3-line",
@@ -13,7 +16,7 @@ export default async function DashboardPage() {
       title: "Formulario de Pedidos",
       link: "/pedidos",
       description: "Vista general de estadísticas y métricas de pedidos",
-      metric: "0",
+      metric: "Ir...",
       metricColor: "text-blue-600",
     },
     {
@@ -57,9 +60,9 @@ export default async function DashboardPage() {
       hoverBgColor: "group-hover:bg-red-200",
       iconColor: "text-red-600",
       title: "Gestión de Usuarios",
-      link: "admin/usuarios",
-      description: "Administra cuentas y permisos de usuarios",
-      metric: "456",
+      link: "admin/admin_usuarios",
+      description: "Administra usuarios/clientes",
+      metric: `${length_Usuarios}`,
       metricColor: "text-red-600",
     },
     {

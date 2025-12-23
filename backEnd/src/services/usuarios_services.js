@@ -25,6 +25,10 @@ const listarUsuarios = async () => {
     })
 }
 
+const _length = async () => {
+    return await prisma.usuario.count()
+}
+
 /** * Servicio para obtener un usuario por su ID.
  * @param {number} id - ID del usuario a buscar.
  * @returns {Promise<Object>} Usuario encontrado o null si no existe.
@@ -148,6 +152,7 @@ const refreshToken = async () => {
 
 const USUARIOS_SERVICES = {
     listarUsuarios,
+    _length,
     UsuarioPorId,
     UsuarioPorEmailTelefono,
     UsuarioCrear,
