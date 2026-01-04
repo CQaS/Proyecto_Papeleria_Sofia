@@ -1,11 +1,14 @@
-import ClientAccessToken from "@/app/auth/ClienteAccessToken";
+import GestorDeConsultasAutenticadas from "@/app/auth/GestorDeConsultasAutenticadas";
 import AdminConsultasTable from "@/components/admin_consultas_table";
 import ToastContainer from "@/components/ToastContainer";
 
-export default async function PaginaConsultas() {
+export default async function ConsultasPage() {
   return (
     <>
-      <ClientAccessToken TablaComponente={AdminConsultasTable} />
+      <GestorDeConsultasAutenticadas
+        TablaComponente={AdminConsultasTable}
+        servicio="getConsultas"
+      />
       <ToastContainer />
     </>
   );

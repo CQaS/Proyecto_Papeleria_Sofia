@@ -1,6 +1,6 @@
 "use client";
 
-export default function TarjetasEstadisticas({
+export default function TarjetasEstadisticas_Consultas({
   totales,
   totalPendientes,
   totalResueltas,

@@ -34,8 +34,7 @@ export const login = async (req, res) => {
         message: "Credenciales inválidas o usuario inactivo",
       })
     }
-    logger.info("Usuario encontrado ID:", usuario)
-
+    
     const passwordValido = await bcrypt.compare(password, usuario.password)
     if (!passwordValido) {
       return res.status(200).json({
@@ -43,7 +42,8 @@ export const login = async (req, res) => {
         message: "Email o contraseña incorrectos",
       })
     }
-
+    
+    logger.info("Usuario encontrado ID:" + usuario.id)
     const accessToken = jwt.sign({
         id: usuario.id,
         rol: usuario.rol,

@@ -1,6 +1,7 @@
 // lib/pedidos.js  (o donde prefieras)
-import { api } from "../lib/api";
-import Swal from 'sweetalert2';
+import {
+  api
+} from "../lib/api";
 
 export const getPedidos = async () => {
   try {
@@ -13,43 +14,19 @@ export const getPedidos = async () => {
 }
 
 export const getPedidosLength = async () => {
-  try {
-    const response = await api.get('/pedido/admin/pedido_length');
-    console.log(response);
-    return response.data.len;
-  } catch (error) {
-    console.error(error);
-    return 0;
-  }  
+  const response = await api.get('/pedido/admin/pedido_length');
+  return response.success ? response.len : 0;
 }
 
 export const postPedidos = async (pedidoData) => {
-  const url = '/pedido/pedido_crear';
+  const respuesta = await api.post('/pedido/pedido_crear', pedidoData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    timeout: 60000, // Mantenemos el timeout para archivos grandes
+  });
 
-  try {
-    const response = await api.post(url, pedidoData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      timeout: 60000, // 60 segundos por si el archivo es grande
-    });
-
-    return response.data ;
-
-  } catch (error) {
-    // Error
-    const mensaje = error.response?.data?.message || 'Error al enviar el pedido. Intenta de nuevo.';
-
-    Swal.fire({
-      title: 'Error',
-      text: mensaje,
-      icon: 'error',
-      confirmButtonText: 'Cerrar',
-      confirmButtonColor: '#ef4444'
-    });
-
-    return { success: false, error: mensaje };
-  }
+  return respuesta;
 };
 
 export const actualizarEstadoPedido = async (id, nuevoEstado, token) => {
@@ -62,19 +39,14 @@ export const actualizarEstadoPedido = async (id, nuevoEstado, token) => {
     };
   }
 
-  try {
-    const response = await api.put(`/pedido/admin/pedido_actualizar_estado/${id}`, {
-      estado: nuevoEstado
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  const response = await api.put(`/pedido/admin/pedido_actualizar_estado/${id}`, {
+    estado: nuevoEstado
+  }, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  return response;
 };
 
 export const agregarNotasInternas = async (id, notas, token) => {
@@ -87,18 +59,13 @@ export const agregarNotasInternas = async (id, notas, token) => {
     };
   }
 
-  try {
-    const response = await api.put(`/pedido/admin/pedido_notasInternas/${id}`, {
-      notasInternas: notas
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  const response = await api.put(`/pedido/admin/pedido_notasInternas/${id}`, {
+    notasInternas: notas
+  }, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+  return response;
 }

@@ -1,8 +1,18 @@
+import nodemailer from 'nodemailer';
 import {
     Prisma
 } from "@prisma/client"
 import logger from "../utils/logger.js"
 import CONSULTAS_SERVICES from "../services/consultas.services.js";
+
+/* Configuración del transportador de nodemailer */
+const transportador = nodemailer.createTransport({
+    service: 'gmail', // O tu proveedor
+    auth: {
+        user: process.env.CORREO_EMPRESA,
+        pass: process.env.CLAVE_APLICACION,
+    },
+});
 
 /** * Controlador para listar todas las consultas.
  * @param {Object} req - La solicitud HTTP
@@ -189,6 +199,26 @@ export const consulta_respuesta = async (req, res) => {
         } = req.body
 
         const _respuesta = await CONSULTAS_SERVICES.responderConsulta(id, respuesta)
+
+        const opcionesCorreo = {
+            from: `"Papelería Sofía" <${process.env.CORREO_EMPRESA}>`,
+            to: laConsulta.email,
+            subject: `Respuesta a tu consulta - Papelería Sofía`,
+            html: `
+                <div style="font-family: sans-serif; color: #333; max-width: 600px; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
+                    <h2 style="color: #57b5e7;">¡Hola ${laConsulta.nombre}!</h2>
+                    <p>Hemos respondido a tu consulta:</p>
+                    <div style="background: #f4f4f4; padding: 15px; border-left: 4px solid #57b5e7; font-style: italic; margin: 20px 0;">
+                        "${respuesta}"
+                    </div>
+                    <p>Gracias por confiar en nosotros.<br><strong>Equipo de Papelería Sofía</strong></p>
+                </div>
+            `,
+        };
+
+        transportador.sendMail(opcionesCorreo).catch(error => {
+            console.error("Error al enviar email:", error);
+        });
 
         res.status(200).json({
             success: true,

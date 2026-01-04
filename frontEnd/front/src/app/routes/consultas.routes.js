@@ -3,17 +3,8 @@ import {
 } from "../lib/api";
 
 export const postConsulta = async (formData) => {
-    try {
-        const response = await api.post('/consulta/consulta_crear', formData);
-        return response.data;
-    } catch (error) {
-        const mensaje = error.response?.data?.message || 'Error al enviar la consulta. Intenta de nuevo.';
-        console.error(error);
-        return {
-            success: false,
-            message: mensaje
-        };
-    }
+    const response = await api.post('/consulta/consulta_crear', formData);
+    return response;
 };
 
 export const getConsultas = async (token) => {
@@ -26,22 +17,13 @@ export const getConsultas = async (token) => {
         };
     }
 
-    try {
-        const response = await api.get('/consulta/admin/consulta_lista', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+    const response = await api.get('/consulta/admin/consulta_lista', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
-        return response.data;
-    } catch (error) {
-        const mensaje = error.response?.data?.message || 'Error al obtener las consultas. Intenta de nuevo.';
-        console.error(error);
-        return {
-            success: false,
-            message: mensaje
-        };
-    }
+    return response;
 };
 
 export const putResuelta = async (id, token) => {
@@ -54,22 +36,13 @@ export const putResuelta = async (id, token) => {
         };
     }
 
-    try {
-        const response = await api.put(`/consulta/admin/consulta_resuelta/${id}`, {}, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+    const response = await api.put(`/consulta/admin/consulta_resuelta/${id}`, {}, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
-        return response.data;
-    } catch (error) {
-        const mensaje = error.response?.data?.message || 'Error al marcar la consulta como resuelta. Intenta de nuevo.';
-        console.error(error);
-        return {
-            success: false,
-            message: mensaje
-        };
-    }
+    return response;
 }
 
 export const putRespuesta = async (id, respuesta, token) => {
@@ -82,25 +55,15 @@ export const putRespuesta = async (id, respuesta, token) => {
         };
     }
 
-    try {
-        const response = await api.put(`/consulta/admin/consulta_respuesta/${id}`, {
-                    respuesta: respuesta
-                },
-                    {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+    const response = await api.put(`/consulta/admin/consulta_respuesta/${id}`, {
+        respuesta: respuesta
+    }, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
-        return response.data;
-    } catch (error) {
-        const mensaje = error.response?.data?.message || 'Error al marcar la consulta como resuelta. Intenta de nuevo.';
-        console.error(error);
-        return {
-            success: false,
-            message: mensaje
-        };
-    }
+    return response;
 }
 
 export const delConsulta = async (id, token) => {
@@ -113,22 +76,13 @@ export const delConsulta = async (id, token) => {
         };
     }
 
-    try {
-        const response = await api.delete(`/consulta/admin/consulta_eliminar/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+    const response = await api.delete(`/consulta/admin/consulta_eliminar/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
-        return response.data;
-    } catch (error) {
-        const mensaje = error.response?.data?.message || 'Error al eliminar la consulta. Intenta de nuevo.';
-        console.error(error);
-        return {
-            success: false,
-            message: mensaje
-        };
-    }
+    return response;
 }
 
 export const delConsultasTodas = async (token) => {
@@ -141,20 +95,11 @@ export const delConsultasTodas = async (token) => {
         };
     }
 
-    try {
-        const response = await api.delete(`/consulta/admin/consulta_eliminar_todas`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });  
+    const response = await api.delete(`/consulta/admin/consulta_eliminar_todas`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
-        return response.data;
-    } catch (error) {
-        const mensaje = error.response?.data?.message || 'Error al eliminar las consultas. Intenta de nuevo.';
-        console.error(error);
-        return {
-            success: false,
-            message: mensaje
-        };
-    }
+    return response;
 }

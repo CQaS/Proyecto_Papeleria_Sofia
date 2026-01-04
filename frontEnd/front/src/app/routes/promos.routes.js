@@ -4,10 +4,10 @@ import {
 
 export const getPromociones = async () => {
     const response = await api.get('/promocion/lista_promociones');
-    return response.data;
+    return response;
 };
 
 export const getPromoById = async (id) => {
     const response = await api.get(`/promocion/promocion_id/${id}`);
-    return response.data;
+    return response;
 };

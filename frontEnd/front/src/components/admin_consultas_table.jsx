@@ -2,7 +2,7 @@
 
 import Swal from "sweetalert2";
 import FiltrosYBusqueda from "@/components/FiltrosYBusqueda-Consultas";
-import TarjetasEstadisticas from "@/components/TarjetasEstadisticas-Consultas";
+import TarjetasEstadisticas_Consultas from "./TarjetasEstadisticas-Consultas";
 import TablaConsultas from "@/components/TablaConsultas-Consultas";
 import ConsultaDetalleModal from "@/components/ConsultaDetalleModal-Consultas";
 import ConsultaEliminarModal from "@/components/ConsultaEliminarModal-Consultas";
@@ -197,7 +197,7 @@ export default function AdminConsultasTable({ data }) {
           setTerminoBusqueda={setTerminoBusqueda}
         />
 
-        <TarjetasEstadisticas
+        <TarjetasEstadisticas_Consultas
           totales={totalConsultas}
           totalPendientes={totalPendientes}
           totalResueltas={totalResueltas}

@@ -5,7 +5,7 @@ import Loading from "@/app/loading";
 
 export default async function PromosDestacadas() {
   const promoResponse = await getPromociones();
-  const promos = promoResponse.success
+  const promos = (promoResponse.success&& Array.isArray(promoResponse.data))
     ? promoResponse.data.sort(() => Math.random() - 0.5).slice(0, 3)
     : [];
 

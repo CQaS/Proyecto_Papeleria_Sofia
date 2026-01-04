@@ -10,35 +10,17 @@ export const setAuthToken = (token) => {
     }
 };
 
+// login.routes.js
 export const login = async (email, password) => {
-    try {
-        const response = await api.post('/auth/login', {
-            email,
-            password
-        });
-        return response.data;
-    } catch (error) {
-        if (error.response && error.response.data) {
-            return error.response.data;
-        }
-        return {
-            success: false,
-            message: "Error de conexión con el servidor"
-        };
-    }
+    const respuesta = await api.post('/auth/login', {
+        email,
+        password
+    });
+
+    return respuesta;
 };
 
 export const logout = async () => {
-    try {
         const response = await api.post('/auth/logout');
-        return response.data;
-    } catch (error) {
-        if (error.response && error.response.data) {
-            return error.response.data;
-        }
-        return {
-            success: false,
-            message: "Error de conexión con el servidor"
-        };
-    }
+        return response;
 };

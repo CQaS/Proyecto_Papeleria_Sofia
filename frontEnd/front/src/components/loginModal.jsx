@@ -54,6 +54,7 @@ export default function LoginModal({ isOpen, onClose }) {
         setErrors({ message: response.message });
       }
     } catch (error) {
+      console.log(error);
       setErrors({ message: "Error de conexión con el servidor." });
     } finally {
       setIsLoading(false);

@@ -3,14 +3,17 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { getConsultas } from "../routes/consultas.routes";
+import { MAPA_DE_SERVICIOS } from "../lib/servicios_registros";
 import Loading from "../loading";
 
 /**
  * @description Wrapper de Cliente genérico para manejar la autenticación, el loading y el fetch.
  * @param {component} TablaComponente - El componente que debe renderizarse con los datos.
  */
-export default function ClientAccessToken({ TablaComponente }) {
+export default function GestorDeConsultasAutenticadas({
+  TablaComponente,
+  servicio,
+}) {
   const { accessToken, loading: authLoading } = useAuth();
 
   const [data, setData] = useState(null);
@@ -22,11 +25,18 @@ export default function ClientAccessToken({ TablaComponente }) {
         return <Loading />;
       }
 
+      const funcionServicio = MAPA_DE_SERVICIOS[servicio];
+
+      if (!funcionServicio) {
+        setError("Servicio no disponible");
+        return;
+      }
+
       if (!authLoading && accessToken) {
         try {
           setError(null);
 
-          const response = await getConsultas(accessToken);
+          const response = await funcionServicio(accessToken);
 
           setData(response.data);
         } catch (err) {

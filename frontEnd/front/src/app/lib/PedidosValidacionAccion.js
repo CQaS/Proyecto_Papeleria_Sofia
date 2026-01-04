@@ -1,4 +1,3 @@
-// lib/pedidoActions.js
 import Swal from 'sweetalert2';
 import { postPedidos } from '../routes/pedidos.routes';
 import { toast } from '@/components/ToastContainer';
@@ -195,7 +194,13 @@ export const handleRealizarPedido = async ({
       resetearFormulario(actualizar, setEnviando);
 
     }else{
-      toast("error", "Error", "No se pudo enviar el pedido. Revisa los datos.");
+      Swal.fire({
+        title: 'Error',
+        text: respuesta.message,
+        icon: 'error',
+        confirmButtonText: 'Cerrar',
+        confirmButtonColor: '#ef4444'
+      });
     }
 
   } catch (error) {

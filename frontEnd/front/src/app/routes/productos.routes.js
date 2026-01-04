@@ -8,22 +8,22 @@ export const getProducts = async (filters = {}) => {
         url = `/producto/categorias/${filters.categoria}`;
     }
     const response = await api.get(url);
-    return response.data;
+    return response;
 };
 
 export const getCategorias = async () => {
     const response = await api.get('/producto/categoriasLista');
-    return response.data;
+    return response;
 }
 
 export const getProductById = async (id) => {
     const response = await api.get(`/producto/producto_id/${id}`);
-    return response.data;
+    return response;
 };
 
 export const getRelacionados = async (relacionadosCategoria) => {
     const response = await api.get(`/producto/categorias/${relacionadosCategoria}`);
-    return response.data;
+    return response;
 };
 
 export const createProduct = async (formData) => {
@@ -32,5 +32,5 @@ export const createProduct = async (formData) => {
             'Content-Type': 'multipart/form-data'
         },
     });
-    return response.data;
+    return response;
 };
